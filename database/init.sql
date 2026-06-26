@@ -49,11 +49,11 @@ CREATE TABLE `sys_config` (
 -- 种子数据
 -- ========================================
 
--- 默认管理员（密码：admin123，需 BCrypt 加密后使用）
+-- 默认管理员（密码：1978738217）
 -- ⚠️ 安全警告：首次部署后必须修改默认管理员密码！
---    执行 SQL: UPDATE `user` SET `password` = '{新密码的BCrypt哈希}' WHERE `username` = 'admin';
+--    执行 SQL: UPDATE `user` SET `password` = '{新密码的BCrypt哈希}' WHERE `username` = 'zferry';
 INSERT INTO `user` (`username`, `password`, `email`, `phone`, `role`, `status`, `create_time`, `update_time`)
-VALUES ('admin', '$2a$10$m690QFGMdrfMeu3c3Zvdsea/0shqlnf/52xr12opeljyo53Php7yy', 'admin@aicode.com', '13800000000', 'ADMIN', 1, NOW(), NOW());
+VALUES ('zferry', '$2b$10$hKDTK/0ncXWKdl0nHTm4A.eN0p5cc2HiAs3KIZntFDIO0w3bDUAOy', 'admin@aicode.com', '13800000000', 'ADMIN', 1, NOW(), NOW());
 
 -- 默认系统配置
 INSERT INTO `sys_config` (`config_key`, `config_value`, `description`, `create_time`, `update_time`) VALUES
