@@ -31,7 +31,9 @@
               </el-select>
             </el-form-item>
             <el-form-item label="代码">
-              <code-editor v-model="form.codeContent" :language="form.language" />
+              <el-input type="textarea" v-model="form.codeContent" :rows="15"
+                placeholder="粘贴你的代码到这里..."
+                class="cr-code-input" />
             </el-form-item>
             <el-form-item>
               <el-button type="primary" :loading="submitting" class="cr-submit-btn" @click="handleSubmit">
@@ -119,14 +121,13 @@
 </template>
 
 <script>
-import CodeEditor from '../components/CodeEditor.vue';
 import WaitingIndicator from '../components/WaitingIndicator.vue';
 import { codeReviewApi } from '../api';
 import { mockReviews, fallbackArray } from '../mock';
 
 export default {
   name: 'CodeReview',
-  components: { CodeEditor, WaitingIndicator },
+  components: { WaitingIndicator },
   data() {
     return {
       form: { title: '', language: 'java', codeContent: '' },
@@ -316,6 +317,16 @@ export default {
 
 .cr-select { width: 100%; }
 .cr-select >>> .el-input__inner { border-radius: 8px; height: 40px; border: 1.5px solid var(--border, #e2e8f0); }
+.cr-code-input >>> .el-textarea__inner {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 350px;
+  border-radius: 8px;
+  background: #1e293b;
+  color: #e2e8f0;
+  border: 1px solid #334155;
+}
 
 .cr-submit-btn {
   background: var(--primary-gradient) !important;
