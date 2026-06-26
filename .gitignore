@@ -3,12 +3,22 @@ backend/target/
 *.class
 *.jar
 *.war
-*.log
 
 # IDE
 .idea/
 .vscode/
+.codebuddy/
 *.iml
+
+# Claude
+.claude/
+
+# Playwright / E2E test artifacts
+.playwright-mcp/
+
+# Logs
+logs/
+*.log
 
 # OS
 Thumbs.db
@@ -23,3 +33,6 @@ frontend/dist/
 
 # Uploads
 uploads/
+
+# Design screenshots (don't belong in code repo)
+*.png
