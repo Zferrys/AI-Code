@@ -1,0 +1,114 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 代码审查" [ref=e15] [cursor=pointer]:
+          - /url: /code-review
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 代码审查
+        - link " 智能问答" [ref=e18] [cursor=pointer]:
+          - /url: /qa
+          - generic [ref=e19]: 
+          - generic [ref=e20]: 智能问答
+        - link " 学习路径" [ref=e21] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e22]: 
+          - generic [ref=e23]: 学习路径
+        - link " AI 排行" [ref=e24] [cursor=pointer]:
+          - /url: /rankings
+          - generic [ref=e25]: 
+          - generic [ref=e26]: AI 排行
+      - generic [ref=e27]:
+        - generic [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: T
+          - generic [ref=e30]: testuser
+        - button "" [ref=e31] [cursor=pointer]:
+          - generic [ref=e33]: 
+  - main [ref=e34]:
+    - generic [ref=e36]:
+      - generic [ref=e37]:
+        - heading "🤖 AI 模型排行榜" [level=2] [ref=e38]
+        - paragraph [ref=e39]: 基于 Chatbot Arena ELO 评分的大语言模型综合排名，数据不定期更新
+      - button " 刷新" [ref=e41] [cursor=pointer]:
+        - generic [ref=e42]: 
+        - text: 刷新
+  - contentinfo [ref=e56]:
+    - img [ref=e58]
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]: </>
+          - generic [ref=e65]: AI-Code
+        - paragraph [ref=e66]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e67]:
+          - generic [ref=e68]: Spring Boot
+          - generic [ref=e69]: MyBatis
+          - generic [ref=e70]: MySQL
+          - generic [ref=e71]: Redis
+          - generic [ref=e72]: Vue.js
+          - generic [ref=e73]: Element UI
+          - generic [ref=e74]: Docker
+      - generic [ref=e75]:
+        - heading "快速导航" [level=4] [ref=e76]
+        - list [ref=e77]:
+          - listitem [ref=e78]:
+            - link "首页" [ref=e79] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e80]:
+            - link "代码审查" [ref=e81] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e82]:
+            - link "智能问答" [ref=e83] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e84]:
+            - link "学习路径" [ref=e85] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e86]:
+        - heading "学习资源" [level=4] [ref=e87]
+        - list [ref=e88]:
+          - listitem [ref=e89]:
+            - link "Java 基础教程" [ref=e90] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e91]:
+            - link "Spring 系列" [ref=e92] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e93]:
+            - link "数据库专题" [ref=e94] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e95]:
+            - link "算法与数据结构" [ref=e96] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e97]:
+        - heading "关于" [level=4] [ref=e98]
+        - list [ref=e99]:
+          - listitem [ref=e100]:
+            - link "平台介绍" [ref=e101] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e102]:
+            - link "使用帮助" [ref=e103] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e104]:
+            - link "意见反馈" [ref=e105] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e106]:
+            - link "隐私政策" [ref=e107] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e109]:
+      - paragraph [ref=e110]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e111]:
+        - generic [ref=e112]:
+          - generic [ref=e113]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e114]:
+          - generic [ref=e115]: 
+          - text: v1.0.0

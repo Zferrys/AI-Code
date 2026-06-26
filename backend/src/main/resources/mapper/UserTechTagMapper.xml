@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aicode.mapper.UserTechTagMapper">
+
+    <resultMap id="BaseResultMap" type="com.aicode.entity.UserTechTag">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="tag_id" property="tagId"/>
+    </resultMap>
+
+    <resultMap id="TagResultMap" type="com.aicode.entity.Tag">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category" property="category"/>
+        <result column="color" property="color"/>
+        <result column="icon" property="icon"/>
+        <result column="sort_order" property="sortOrder"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, user_id, tag_id
+    </sql>
+
+    <select id="selectByUserAndTag" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM user_tech_tag
+        WHERE user_id = #{userId} AND tag_id = #{tagId}
+    </select>
+
+    <select id="selectTagsByUserId" resultMap="TagResultMap">
+        SELECT t.id, t.`name`, t.category, t.color, t.icon, t.sort_order
+        FROM user_tech_tag utt
+        JOIN tag t ON utt.tag_id = t.id
+        WHERE utt.user_id = #{userId}
+        ORDER BY t.sort_order ASC
+    </select>
+
+    <select id="selectTagIdsByUserId" resultType="long">
+        SELECT tag_id FROM user_tech_tag WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_tech_tag (user_id, tag_id) VALUES (#{userId}, #{tagId})
+    </insert>
+
+    <delete id="deleteByUserAndTag">
+        DELETE FROM user_tech_tag WHERE user_id = #{userId} AND tag_id = #{tagId}
+    </delete>
+
+    <delete id="deleteByUserId">
+        DELETE FROM user_tech_tag WHERE user_id = #{userId}
+    </delete>
+
+    <select id="countByUserId" resultType="int">
+        SELECT COUNT(*) FROM user_tech_tag WHERE user_id = #{userId}
+    </select>
+</mapper>

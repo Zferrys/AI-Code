@@ -1,0 +1,282 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 代码审查" [ref=e394] [cursor=pointer]:
+          - /url: /code-review
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 代码审查
+        - link " 智能问答" [ref=e395] [cursor=pointer]:
+          - /url: /qa
+          - generic [ref=e396]: 
+          - generic [ref=e397]: 智能问答
+        - link " 学习路径" [active] [ref=e398] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e399]: 
+          - generic [ref=e400]: 学习路径
+        - link " 管理" [ref=e401] [cursor=pointer]:
+          - /url: /admin
+          - generic [ref=e402]: 
+          - generic [ref=e403]: 管理
+      - generic [ref=e18]:
+        - generic [ref=e404] [cursor=pointer]:
+          - generic [ref=e405]: A
+          - generic [ref=e406]: admin
+        - button "" [ref=e407] [cursor=pointer]:
+          - generic [ref=e409]: 
+  - main [ref=e21]:
+    - generic [ref=e680]:
+      - generic [ref=e681]:
+        - generic [ref=e682]:
+          - heading "学习路径" [level=2] [ref=e683]
+          - paragraph [ref=e684]: 系统化学习路线，覆盖主流技术栈
+        - generic [ref=e685]:
+          - generic [ref=e687]:
+            - textbox "难度" [ref=e688] [cursor=pointer]: 全部
+            - generic [ref=e690] [cursor=pointer]: 
+          - generic [ref=e692]:
+            - textbox "排序" [ref=e693] [cursor=pointer]: 默认排序
+            - generic [ref=e695] [cursor=pointer]: 
+      - generic [ref=e696]:
+        - generic [ref=e697]:
+          - generic [ref=e698]: 🌟
+          - heading "为你推荐" [level=3] [ref=e699]
+        - generic [ref=e700]:
+          - generic [ref=e701] [cursor=pointer]:
+            - generic [ref=e702]:
+              - generic [ref=e703]: 入门
+              - generic [ref=e704]: 24 课程
+            - generic [ref=e705]:
+              - heading "Java 后端开发从零到精通" [level=3] [ref=e706]
+              - paragraph [ref=e707]: 从 Java 基础语法到 Spring Boot 企业级开发，覆盖集合、多线程、JVM、MySQL、MyBatis、Spring 全家桶，配合 20+ 实战项目循序渐进。
+              - generic [ref=e708]:
+                - generic [ref=e709]: Java
+                - generic [ref=e710]: Spring Boot
+                - generic [ref=e711]: MySQL
+                - generic [ref=e712]: MyBatis
+              - generic [ref=e713]:
+                - generic [ref=e714]:
+                  - generic [ref=e715]: 
+                  - text: 90 天
+                - generic [ref=e716]: 更新于 2026/6/20
+          - generic [ref=e717] [cursor=pointer]:
+            - generic [ref=e718]:
+              - generic [ref=e719]: 高级
+              - generic [ref=e720]: 16 课程
+            - generic [ref=e721]:
+              - heading "Spring Boot 微服务架构实战" [level=3] [ref=e722]
+              - paragraph [ref=e723]: 深入微服务架构设计，学习服务注册发现、配置中心、网关、熔断降级、分布式事务等核心能力，掌握生产级微服务解决方案。
+              - generic [ref=e724]:
+                - generic [ref=e725]: Spring Boot
+                - generic [ref=e726]: 微服务
+                - generic [ref=e727]: Docker
+                - generic [ref=e728]: Spring Cloud
+              - generic [ref=e729]:
+                - generic [ref=e730]:
+                  - generic [ref=e731]: 
+                  - text: 50 天
+                - generic [ref=e732]: 更新于 2026/6/18
+          - generic [ref=e733] [cursor=pointer]:
+            - generic [ref=e734]:
+              - generic [ref=e735]: 入门
+              - generic [ref=e736]: 20 课程
+            - generic [ref=e737]:
+              - heading "Python 全栈开发从入门到项目" [level=3] [ref=e738]
+              - paragraph [ref=e739]: Python 语法基础 → Web 开发（Flask/Django）→ 数据分析 → AI 应用，适合零基础入门但希望直达实战的开发者。
+              - generic [ref=e740]:
+                - generic [ref=e741]: Python
+                - generic [ref=e742]: Django
+                - generic [ref=e743]: Flask
+                - generic [ref=e744]: 数据分析
+              - generic [ref=e745]:
+                - generic [ref=e746]:
+                  - generic [ref=e747]: 
+                  - text: 60 天
+                - generic [ref=e748]: 更新于 2026/6/15
+      - generic [ref=e749]:
+        - generic [ref=e750]:
+          - generic [ref=e751]: 📚
+          - heading "全部路径 (6)" [level=3] [ref=e752]
+        - generic [ref=e753]:
+          - generic [ref=e754] [cursor=pointer]:
+            - generic [ref=e755]:
+              - generic [ref=e756]: 入门
+              - generic [ref=e757]: 24 课程
+            - generic [ref=e758]:
+              - heading "Java 后端开发从零到精通" [level=3] [ref=e759]
+              - paragraph [ref=e760]: 从 Java 基础语法到 Spring Boot 企业级开发，覆盖集合、多线程、JVM、MySQL、MyBatis、Spring 全家桶，配合 20+ 实战项目循序渐进。
+              - generic [ref=e761]:
+                - generic [ref=e762]: Java
+                - generic [ref=e763]: Spring Boot
+                - generic [ref=e764]: MySQL
+                - generic [ref=e765]: MyBatis
+              - generic [ref=e766]:
+                - generic [ref=e767]:
+                  - generic [ref=e768]: 
+                  - text: 90 天
+                - generic [ref=e769]: 更新于 2026/6/20
+          - generic [ref=e770] [cursor=pointer]:
+            - generic [ref=e771]:
+              - generic [ref=e772]: 高级
+              - generic [ref=e773]: 16 课程
+            - generic [ref=e774]:
+              - heading "Spring Boot 微服务架构实战" [level=3] [ref=e775]
+              - paragraph [ref=e776]: 深入微服务架构设计，学习服务注册发现、配置中心、网关、熔断降级、分布式事务等核心能力，掌握生产级微服务解决方案。
+              - generic [ref=e777]:
+                - generic [ref=e778]: Spring Boot
+                - generic [ref=e779]: 微服务
+                - generic [ref=e780]: Docker
+                - generic [ref=e781]: Spring Cloud
+              - generic [ref=e782]:
+                - generic [ref=e783]:
+                  - generic [ref=e784]: 
+                  - text: 50 天
+                - generic [ref=e785]: 更新于 2026/6/18
+          - generic [ref=e786] [cursor=pointer]:
+            - generic [ref=e787]:
+              - generic [ref=e788]: 入门
+              - generic [ref=e789]: 20 课程
+            - generic [ref=e790]:
+              - heading "Python 全栈开发从入门到项目" [level=3] [ref=e791]
+              - paragraph [ref=e792]: Python 语法基础 → Web 开发（Flask/Django）→ 数据分析 → AI 应用，适合零基础入门但希望直达实战的开发者。
+              - generic [ref=e793]:
+                - generic [ref=e794]: Python
+                - generic [ref=e795]: Django
+                - generic [ref=e796]: Flask
+                - generic [ref=e797]: 数据分析
+              - generic [ref=e798]:
+                - generic [ref=e799]:
+                  - generic [ref=e800]: 
+                  - text: 60 天
+                - generic [ref=e801]: 更新于 2026/6/15
+          - generic [ref=e802] [cursor=pointer]:
+            - generic [ref=e803]:
+              - generic [ref=e804]: 进阶
+              - generic [ref=e805]: 15 课程
+            - generic [ref=e806]:
+              - heading "前端工程化与架构演进" [level=3] [ref=e807]
+              - paragraph [ref=e808]: 从 jQuery 到 Vue/React，再到工程化体系。覆盖组件化、状态管理、打包优化、微前端等现代前端核心技术。
+              - generic [ref=e809]:
+                - generic [ref=e810]: JavaScript
+                - generic [ref=e811]: Vue.js
+                - generic [ref=e812]: React
+                - generic [ref=e813]: TypeScript
+              - generic [ref=e814]:
+                - generic [ref=e815]:
+                  - generic [ref=e816]: 
+                  - text: 40 天
+                - generic [ref=e817]: 更新于 2026/6/10
+          - generic [ref=e818] [cursor=pointer]:
+            - generic [ref=e819]:
+              - generic [ref=e820]: 进阶
+              - generic [ref=e821]: 10 课程
+            - generic [ref=e822]:
+              - heading "数据库核心与高性能架构" [level=3] [ref=e823]
+              - paragraph [ref=e824]: MySQL + Redis + MongoDB 三库精通，覆盖 SQL 优化、索引设计、分布式缓存、集群管理、高可用方案。
+              - generic [ref=e825]:
+                - generic [ref=e826]: MySQL
+                - generic [ref=e827]: Redis
+                - generic [ref=e828]: MongoDB
+                - generic [ref=e829]: 数据库
+              - generic [ref=e830]:
+                - generic [ref=e831]:
+                  - generic [ref=e832]: 
+                  - text: 30 天
+                - generic [ref=e833]: 更新于 2026/6/5
+          - generic [ref=e834] [cursor=pointer]:
+            - generic [ref=e835]:
+              - generic [ref=e836]: 高级
+              - generic [ref=e837]: 14 课程
+            - generic [ref=e838]:
+              - heading "数据结构与算法面试通关" [level=3] [ref=e839]
+              - paragraph [ref=e840]: 系统梳理大厂面试常考的数据结构与算法题型，配合 50+ LeetCode 高频题精讲，覆盖数组、链表、树、图、动态规划。
+              - generic [ref=e841]:
+                - generic [ref=e842]: 数据结构
+                - generic [ref=e843]: 算法
+                - generic [ref=e844]: 设计模式
+                - generic [ref=e845]: 多线程
+              - generic [ref=e846]:
+                - generic [ref=e847]:
+                  - generic [ref=e848]: 
+                  - text: 45 天
+                - generic [ref=e849]: 更新于 2026/6/12
+  - contentinfo [ref=e289]:
+    - img [ref=e291]
+    - generic [ref=e294]:
+      - generic [ref=e295]:
+        - generic [ref=e296]:
+          - generic [ref=e297]: </>
+          - generic [ref=e298]: AI-Code
+        - paragraph [ref=e299]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e300]:
+          - generic [ref=e301]: Spring Boot
+          - generic [ref=e302]: MyBatis
+          - generic [ref=e303]: MySQL
+          - generic [ref=e304]: Redis
+          - generic [ref=e305]: Vue.js
+          - generic [ref=e306]: Element UI
+          - generic [ref=e307]: Docker
+      - generic [ref=e308]:
+        - heading "快速导航" [level=4] [ref=e309]
+        - list [ref=e310]:
+          - listitem [ref=e311]:
+            - link "首页" [ref=e312] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e313]:
+            - link "代码审查" [ref=e314] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e315]:
+            - link "智能问答" [ref=e316] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e317]:
+            - link "学习路径" [ref=e318] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e319]:
+        - heading "学习资源" [level=4] [ref=e320]
+        - list [ref=e321]:
+          - listitem [ref=e322]:
+            - link "Java 基础教程" [ref=e323] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e324]:
+            - link "Spring 系列" [ref=e325] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e326]:
+            - link "数据库专题" [ref=e327] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e328]:
+            - link "算法与数据结构" [ref=e329] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e330]:
+        - heading "关于" [level=4] [ref=e331]
+        - list [ref=e332]:
+          - listitem [ref=e333]:
+            - link "平台介绍" [ref=e334] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e335]:
+            - link "使用帮助" [ref=e336] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e337]:
+            - link "意见反馈" [ref=e338] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e339]:
+            - link "隐私政策" [ref=e340] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e342]:
+      - paragraph [ref=e343]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e344]:
+        - generic [ref=e345]:
+          - generic [ref=e346]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e347]:
+          - generic [ref=e348]: 
+          - text: v1.0.0

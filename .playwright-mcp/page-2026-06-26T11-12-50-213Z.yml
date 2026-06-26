@@ -1,0 +1,449 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 学习路径" [ref=e16] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e17]: 
+          - generic [ref=e18]: 学习路径
+        - link " AI 排行" [ref=e19] [cursor=pointer]:
+          - /url: /rankings
+          - generic [ref=e20]: 
+          - generic [ref=e21]: AI 排行
+      - generic [ref=e23]:
+        - button "登录" [ref=e24] [cursor=pointer]
+        - button "免费注册" [ref=e25] [cursor=pointer]
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - heading "🤖 AI 模型排行榜" [level=2] [ref=e31]
+          - paragraph [ref=e32]: 基于 Chatbot Arena ELO 评分的大语言模型综合排名，数据不定期更新
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - generic [ref=e35]: 
+            - text: 更新于 2026-06-26
+          - button " 刷新" [ref=e36] [cursor=pointer]:
+            - generic [ref=e37]: 
+            - text: 刷新
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - generic [ref=e41]: "26"
+            - text: 模型数量
+          - generic [ref=e43]:
+            - generic [ref=e44]: "1423"
+            - text: 最高 ELO
+          - generic [ref=e46]:
+            - generic [ref=e47]: "454000"
+            - text: 总投票数
+        - generic [ref=e48]:
+          - generic [ref=e49]: 分类：
+          - radiogroup [ref=e50]:
+            - radio "全部" [checked] [ref=e51]:
+              - radio "全部" [checked] [ref=e52]
+              - generic [ref=e53] [cursor=pointer]: 全部
+            - radio "对话" [ref=e54]:
+              - radio "对话" [ref=e55]
+              - generic [ref=e56] [cursor=pointer]: 对话
+            - radio "编程" [ref=e57]:
+              - radio "编程" [ref=e58]
+              - generic [ref=e59] [cursor=pointer]: 编程
+            - radio "推理" [ref=e60]:
+              - radio "推理" [ref=e61]
+              - generic [ref=e62] [cursor=pointer]: 推理
+        - generic [ref=e63]:
+          - table [ref=e65]:
+            - rowgroup [ref=e72]:
+              - row "排名 模型名称 提供商 ELO 评分 投票数" [ref=e73]:
+                - columnheader "排名" [ref=e74]:
+                  - generic [ref=e75]: 排名
+                - columnheader "模型名称" [ref=e76]:
+                  - generic [ref=e77]: 模型名称
+                - columnheader "提供商" [ref=e78]:
+                  - generic [ref=e79]: 提供商
+                - columnheader "ELO 评分" [ref=e80] [cursor=pointer]:
+                  - generic [ref=e81]: ELO 评分
+                - columnheader "投票数" [ref=e85] [cursor=pointer]:
+                  - generic [ref=e86]: 投票数
+          - table [ref=e91]:
+            - rowgroup [ref=e98]:
+              - row "1 Gemini 2.5 Pro (Exp) Google 1423 3.1w" [ref=e99]:
+                - cell "1" [ref=e100]:
+                  - generic [ref=e102]: "1"
+                - cell "Gemini 2.5 Pro (Exp)" [ref=e103]:
+                  - generic [ref=e106]: Gemini 2.5 Pro (Exp)
+                - cell "Google" [ref=e107]:
+                  - generic [ref=e108]: Google
+                - cell "1423" [ref=e109]:
+                  - generic [ref=e110]: "1423"
+                - cell "3.1w" [ref=e111]:
+                  - generic [ref=e112]: 3.1w
+              - row "2 GPT-4o (2025-05) OpenAI 1408 3.6w" [ref=e113]:
+                - cell "2" [ref=e114]:
+                  - generic [ref=e116]: "2"
+                - cell "GPT-4o (2025-05)" [ref=e117]:
+                  - generic [ref=e120]: GPT-4o (2025-05)
+                - cell "OpenAI" [ref=e121]:
+                  - generic [ref=e122]: OpenAI
+                - cell "1408" [ref=e123]:
+                  - generic [ref=e124]: "1408"
+                - cell "3.6w" [ref=e125]:
+                  - generic [ref=e126]: 3.6w
+              - row "3 Claude Sonnet 4 Anthropic 1395 2.7w" [ref=e127]:
+                - cell "3" [ref=e128]:
+                  - generic [ref=e130]: "3"
+                - cell "Claude Sonnet 4" [ref=e131]:
+                  - generic [ref=e134]: Claude Sonnet 4
+                - cell "Anthropic" [ref=e135]:
+                  - generic [ref=e136]: Anthropic
+                - cell "1395" [ref=e137]:
+                  - generic [ref=e138]: "1395"
+                - cell "2.7w" [ref=e139]:
+                  - generic [ref=e140]: 2.7w
+              - row "4 Grok 3 xAI 1372 1.9w" [ref=e141]:
+                - cell "4" [ref=e142]:
+                  - generic [ref=e144]: "4"
+                - cell "Grok 3" [ref=e145]:
+                  - generic [ref=e148]: Grok 3
+                - cell "xAI" [ref=e149]:
+                  - generic [ref=e150]: xAI
+                - cell "1372" [ref=e151]:
+                  - generic [ref=e152]: "1372"
+                - cell "1.9w" [ref=e153]:
+                  - generic [ref=e154]: 1.9w
+              - row "5 DeepSeek-V3 (0324) DeepSeek 1358 2.2w" [ref=e155]:
+                - cell "5" [ref=e156]:
+                  - generic [ref=e158]: "5"
+                - cell "DeepSeek-V3 (0324)" [ref=e159]:
+                  - generic [ref=e162]: DeepSeek-V3 (0324)
+                - cell "DeepSeek" [ref=e163]:
+                  - generic [ref=e164]: DeepSeek
+                - cell "1358" [ref=e165]:
+                  - generic [ref=e166]: "1358"
+                - cell "2.2w" [ref=e167]:
+                  - generic [ref=e168]: 2.2w
+              - row "6 Claude 3.5 Sonnet Anthropic 1340 3.0w" [ref=e169]:
+                - cell "6" [ref=e170]:
+                  - generic [ref=e172]: "6"
+                - cell "Claude 3.5 Sonnet" [ref=e173]:
+                  - generic [ref=e176]: Claude 3.5 Sonnet
+                - cell "Anthropic" [ref=e177]:
+                  - generic [ref=e178]: Anthropic
+                - cell "1340" [ref=e179]:
+                  - generic [ref=e180]: "1340"
+                - cell "3.0w" [ref=e181]:
+                  - generic [ref=e182]: 3.0w
+              - row "7 Llama 4 405B Meta 1325 1.7w" [ref=e183]:
+                - cell "7" [ref=e184]:
+                  - generic [ref=e186]: "7"
+                - cell "Llama 4 405B" [ref=e187]:
+                  - generic [ref=e190]: Llama 4 405B
+                - cell "Meta" [ref=e191]:
+                  - generic [ref=e192]: Meta
+                - cell "1325" [ref=e193]:
+                  - generic [ref=e194]: "1325"
+                - cell "1.7w" [ref=e195]:
+                  - generic [ref=e196]: 1.7w
+              - row "8 Mistral Large 3 Mistral 1308 1.4w" [ref=e197]:
+                - cell "8" [ref=e198]:
+                  - generic [ref=e200]: "8"
+                - cell "Mistral Large 3" [ref=e201]:
+                  - generic [ref=e204]: Mistral Large 3
+                - cell "Mistral" [ref=e205]:
+                  - generic [ref=e206]: Mistral
+                - cell "1308" [ref=e207]:
+                  - generic [ref=e208]: "1308"
+                - cell "1.4w" [ref=e209]:
+                  - generic [ref=e210]: 1.4w
+              - row "9 Qwen 2.5 72B Alibaba 1292 1.1w" [ref=e211]:
+                - cell "9" [ref=e212]:
+                  - generic [ref=e214]: "9"
+                - cell "Qwen 2.5 72B" [ref=e215]:
+                  - generic [ref=e218]: Qwen 2.5 72B
+                - cell "Alibaba" [ref=e219]:
+                  - generic [ref=e220]: Alibaba
+                - cell "1292" [ref=e221]:
+                  - generic [ref=e222]: "1292"
+                - cell "1.1w" [ref=e223]:
+                  - generic [ref=e224]: 1.1w
+              - row "10 Gemini 2.5 Flash Google 1278 2.0w" [ref=e225]:
+                - cell "10" [ref=e226]:
+                  - generic [ref=e228]: "10"
+                - cell "Gemini 2.5 Flash" [ref=e229]:
+                  - generic [ref=e232]: Gemini 2.5 Flash
+                - cell "Google" [ref=e233]:
+                  - generic [ref=e234]: Google
+                - cell "1278" [ref=e235]:
+                  - generic [ref=e236]: "1278"
+                - cell "2.0w" [ref=e237]:
+                  - generic [ref=e238]: 2.0w
+              - row "11 GPT-4o-mini OpenAI 1255 2.8w" [ref=e239]:
+                - cell "11" [ref=e240]:
+                  - generic [ref=e242]: "11"
+                - cell "GPT-4o-mini" [ref=e243]:
+                  - generic [ref=e246]: GPT-4o-mini
+                - cell "OpenAI" [ref=e247]:
+                  - generic [ref=e248]: OpenAI
+                - cell "1255" [ref=e249]:
+                  - generic [ref=e250]: "1255"
+                - cell "2.8w" [ref=e251]:
+                  - generic [ref=e252]: 2.8w
+              - row "12 Yi-Lightning 01.AI 1230 9.2k" [ref=e253]:
+                - cell "12" [ref=e254]:
+                  - generic [ref=e256]: "12"
+                - cell "Yi-Lightning" [ref=e257]:
+                  - generic [ref=e260]: Yi-Lightning
+                - cell "01.AI" [ref=e261]:
+                  - generic [ref=e262]: 01.AI
+                - cell "1230" [ref=e263]:
+                  - generic [ref=e264]: "1230"
+                - cell "9.2k" [ref=e265]:
+                  - generic [ref=e266]: 9.2k
+              - row "13 Claude Haiku 3.5 Anthropic 1210 1.6w" [ref=e267]:
+                - cell "13" [ref=e268]:
+                  - generic [ref=e270]: "13"
+                - cell "Claude Haiku 3.5" [ref=e271]:
+                  - generic [ref=e274]: Claude Haiku 3.5
+                - cell "Anthropic" [ref=e275]:
+                  - generic [ref=e276]: Anthropic
+                - cell "1210" [ref=e277]:
+                  - generic [ref=e278]: "1210"
+                - cell "1.6w" [ref=e279]:
+                  - generic [ref=e280]: 1.6w
+              - row "14 Command R+ Cohere 1185 6.8k" [ref=e281]:
+                - cell "14" [ref=e282]:
+                  - generic [ref=e284]: "14"
+                - cell "Command R+" [ref=e285]:
+                  - generic [ref=e288]: Command R+
+                - cell "Cohere" [ref=e289]:
+                  - generic [ref=e290]: Cohere
+                - cell "1185" [ref=e291]:
+                  - generic [ref=e292]: "1185"
+                - cell "6.8k" [ref=e293]:
+                  - generic [ref=e294]: 6.8k
+              - row "15 o3 OpenAI 1415 1.4w" [ref=e295]:
+                - cell "15" [ref=e296]:
+                  - generic [ref=e298]: "15"
+                - cell "o3" [ref=e299]:
+                  - generic [ref=e302]: o3
+                - cell "OpenAI" [ref=e303]:
+                  - generic [ref=e304]: OpenAI
+                - cell "1415" [ref=e305]:
+                  - generic [ref=e306]: "1415"
+                - cell "1.4w" [ref=e307]:
+                  - generic [ref=e308]: 1.4w
+              - row "16 o4-mini OpenAI 1385 1.9w" [ref=e309]:
+                - cell "16" [ref=e310]:
+                  - generic [ref=e312]: "16"
+                - cell "o4-mini" [ref=e313]:
+                  - generic [ref=e316]: o4-mini
+                - cell "OpenAI" [ref=e317]:
+                  - generic [ref=e318]: OpenAI
+                - cell "1385" [ref=e319]:
+                  - generic [ref=e320]: "1385"
+                - cell "1.9w" [ref=e321]:
+                  - generic [ref=e322]: 1.9w
+              - row "17 DeepSeek-R1 (0615) DeepSeek 1360 1.8w" [ref=e323]:
+                - cell "17" [ref=e324]:
+                  - generic [ref=e326]: "17"
+                - cell "DeepSeek-R1 (0615)" [ref=e327]:
+                  - generic [ref=e330]: DeepSeek-R1 (0615)
+                - cell "DeepSeek" [ref=e331]:
+                  - generic [ref=e332]: DeepSeek
+                - cell "1360" [ref=e333]:
+                  - generic [ref=e334]: "1360"
+                - cell "1.8w" [ref=e335]:
+                  - generic [ref=e336]: 1.8w
+              - row "18 Gemini 2.5 Pro (Think) Google 1330 9.6k" [ref=e337]:
+                - cell "18" [ref=e338]:
+                  - generic [ref=e340]: "18"
+                - cell "Gemini 2.5 Pro (Think)" [ref=e341]:
+                  - generic [ref=e344]: Gemini 2.5 Pro (Think)
+                - cell "Google" [ref=e345]:
+                  - generic [ref=e346]: Google
+                - cell "1330" [ref=e347]:
+                  - generic [ref=e348]: "1330"
+                - cell "9.6k" [ref=e349]:
+                  - generic [ref=e350]: 9.6k
+              - row "19 Claude Sonnet 4 (Think) Anthropic 1310 8.8k" [ref=e351]:
+                - cell "19" [ref=e352]:
+                  - generic [ref=e354]: "19"
+                - cell "Claude Sonnet 4 (Think)" [ref=e355]:
+                  - generic [ref=e358]: Claude Sonnet 4 (Think)
+                - cell "Anthropic" [ref=e359]:
+                  - generic [ref=e360]: Anthropic
+                - cell "1310" [ref=e361]:
+                  - generic [ref=e362]: "1310"
+                - cell "8.8k" [ref=e363]:
+                  - generic [ref=e364]: 8.8k
+              - row "20 QwQ-32B Alibaba 1275 7.2k" [ref=e365]:
+                - cell "20" [ref=e366]:
+                  - generic [ref=e368]: "20"
+                - cell "QwQ-32B" [ref=e369]:
+                  - generic [ref=e372]: QwQ-32B
+                - cell "Alibaba" [ref=e373]:
+                  - generic [ref=e374]: Alibaba
+                - cell "1275" [ref=e375]:
+                  - generic [ref=e376]: "1275"
+                - cell "7.2k" [ref=e377]:
+                  - generic [ref=e378]: 7.2k
+              - row "21 Claude 3.5 Sonnet (Coding) 编程 Anthropic 1410 2.2w" [ref=e379]:
+                - cell "21" [ref=e380]:
+                  - generic [ref=e382]: "21"
+                - cell "Claude 3.5 Sonnet (Coding) 编程" [ref=e383]:
+                  - generic [ref=e385]:
+                    - generic [ref=e386]: Claude 3.5 Sonnet (Coding)
+                    - generic [ref=e387]: 编程
+                - cell "Anthropic" [ref=e388]:
+                  - generic [ref=e389]: Anthropic
+                - cell "1410" [ref=e390]:
+                  - generic [ref=e391]: "1410"
+                - cell "2.2w" [ref=e392]:
+                  - generic [ref=e393]: 2.2w
+              - row "22 GPT-4o (Coding) 编程 OpenAI 1388 2.6w" [ref=e394]:
+                - cell "22" [ref=e395]:
+                  - generic [ref=e397]: "22"
+                - cell "GPT-4o (Coding) 编程" [ref=e398]:
+                  - generic [ref=e400]:
+                    - generic [ref=e401]: GPT-4o (Coding)
+                    - generic [ref=e402]: 编程
+                - cell "OpenAI" [ref=e403]:
+                  - generic [ref=e404]: OpenAI
+                - cell "1388" [ref=e405]:
+                  - generic [ref=e406]: "1388"
+                - cell "2.6w" [ref=e407]:
+                  - generic [ref=e408]: 2.6w
+              - row "23 DeepSeek-Coder-V2 编程 DeepSeek 1355 1.6w" [ref=e409]:
+                - cell "23" [ref=e410]:
+                  - generic [ref=e412]: "23"
+                - cell "DeepSeek-Coder-V2 编程" [ref=e413]:
+                  - generic [ref=e415]:
+                    - generic [ref=e416]: DeepSeek-Coder-V2
+                    - generic [ref=e417]: 编程
+                - cell "DeepSeek" [ref=e418]:
+                  - generic [ref=e419]: DeepSeek
+                - cell "1355" [ref=e420]:
+                  - generic [ref=e421]: "1355"
+                - cell "1.6w" [ref=e422]:
+                  - generic [ref=e423]: 1.6w
+              - row "24 Codestral 2.0 编程 Mistral 1310 8.5k" [ref=e424]:
+                - cell "24" [ref=e425]:
+                  - generic [ref=e427]: "24"
+                - cell "Codestral 2.0 编程" [ref=e428]:
+                  - generic [ref=e430]:
+                    - generic [ref=e431]: Codestral 2.0
+                    - generic [ref=e432]: 编程
+                - cell "Mistral" [ref=e433]:
+                  - generic [ref=e434]: Mistral
+                - cell "1310" [ref=e435]:
+                  - generic [ref=e436]: "1310"
+                - cell "8.5k" [ref=e437]:
+                  - generic [ref=e438]: 8.5k
+              - row "25 Gemini 2.5 Pro (Code) 编程 Google 1288 1.1w" [ref=e439]:
+                - cell "25" [ref=e440]:
+                  - generic [ref=e442]: "25"
+                - cell "Gemini 2.5 Pro (Code) 编程" [ref=e443]:
+                  - generic [ref=e445]:
+                    - generic [ref=e446]: Gemini 2.5 Pro (Code)
+                    - generic [ref=e447]: 编程
+                - cell "Google" [ref=e448]:
+                  - generic [ref=e449]: Google
+                - cell "1288" [ref=e450]:
+                  - generic [ref=e451]: "1288"
+                - cell "1.1w" [ref=e452]:
+                  - generic [ref=e453]: 1.1w
+              - row "26 Qwen 2.5 Coder 32B 编程 Alibaba 1255 7.6k" [ref=e454]:
+                - cell "26" [ref=e455]:
+                  - generic [ref=e457]: "26"
+                - cell "Qwen 2.5 Coder 32B 编程" [ref=e458]:
+                  - generic [ref=e460]:
+                    - generic [ref=e461]: Qwen 2.5 Coder 32B
+                    - generic [ref=e462]: 编程
+                - cell "Alibaba" [ref=e463]:
+                  - generic [ref=e464]: Alibaba
+                - cell "1255" [ref=e465]:
+                  - generic [ref=e466]: "1255"
+                - cell "7.6k" [ref=e467]:
+                  - generic [ref=e468]: 7.6k
+        - generic [ref=e469]: 数据来源：Chatbot Arena Leaderboard & 各大评测基准
+  - contentinfo [ref=e470]:
+    - img [ref=e472]
+    - generic [ref=e475]:
+      - generic [ref=e476]:
+        - generic [ref=e477]:
+          - generic [ref=e478]: </>
+          - generic [ref=e479]: AI-Code
+        - paragraph [ref=e480]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e481]:
+          - generic [ref=e482]: Spring Boot
+          - generic [ref=e483]: MyBatis
+          - generic [ref=e484]: MySQL
+          - generic [ref=e485]: Redis
+          - generic [ref=e486]: Vue.js
+          - generic [ref=e487]: Element UI
+          - generic [ref=e488]: Docker
+      - generic [ref=e489]:
+        - heading "快速导航" [level=4] [ref=e490]
+        - list [ref=e491]:
+          - listitem [ref=e492]:
+            - link "首页" [ref=e493] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e494]:
+            - link "代码审查" [ref=e495] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e496]:
+            - link "智能问答" [ref=e497] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e498]:
+            - link "学习路径" [ref=e499] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e500]:
+        - heading "学习资源" [level=4] [ref=e501]
+        - list [ref=e502]:
+          - listitem [ref=e503]:
+            - link "Java 基础教程" [ref=e504] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e505]:
+            - link "Spring 系列" [ref=e506] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e507]:
+            - link "数据库专题" [ref=e508] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e509]:
+            - link "算法与数据结构" [ref=e510] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e511]:
+        - heading "关于" [level=4] [ref=e512]
+        - list [ref=e513]:
+          - listitem [ref=e514]:
+            - link "平台介绍" [ref=e515] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e516]:
+            - link "使用帮助" [ref=e517] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e518]:
+            - link "意见反馈" [ref=e519] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e520]:
+            - link "隐私政策" [ref=e521] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e523]:
+      - paragraph [ref=e524]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e525]:
+        - generic [ref=e526]:
+          - generic [ref=e527]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e528]:
+          - generic [ref=e529]: 
+          - text: v1.0.0

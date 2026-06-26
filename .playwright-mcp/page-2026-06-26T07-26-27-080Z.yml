@@ -1,0 +1,335 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 代码审查" [ref=e15] [cursor=pointer]:
+          - /url: /code-review
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 代码审查
+        - link " 智能问答" [ref=e18] [cursor=pointer]:
+          - /url: /qa
+          - generic [ref=e19]: 
+          - generic [ref=e20]: 智能问答
+        - link " 学习路径" [active] [ref=e21] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e22]: 
+          - generic [ref=e23]: 学习路径
+        - link " AI 排行" [ref=e24] [cursor=pointer]:
+          - /url: /rankings
+          - generic [ref=e25]: 
+          - generic [ref=e26]: AI 排行
+        - link " 管理" [ref=e27] [cursor=pointer]:
+          - /url: /admin
+          - generic [ref=e28]: 
+          - generic [ref=e29]: 管理
+      - generic [ref=e30]:
+        - generic [ref=e31] [cursor=pointer]:
+          - generic [ref=e32]: A
+          - generic [ref=e33]: admin
+        - button "" [ref=e34] [cursor=pointer]:
+          - generic [ref=e36]: 
+  - main [ref=e37]:
+    - generic [ref=e327]:
+      - generic [ref=e328]:
+        - generic [ref=e329]:
+          - heading "🤖 AI 模型排行榜" [level=2] [ref=e330]
+          - paragraph [ref=e331]: 基于 Chatbot Arena ELO 评分的大语言模型综合排名，数据不定期更新
+        - generic [ref=e332]:
+          - generic [ref=e333]:
+            - generic [ref=e334]: 
+            - text: 更新于 2026-06-26
+          - button " 刷新" [ref=e335] [cursor=pointer]:
+            - generic [ref=e336]: 
+            - text: 刷新
+      - generic [ref=e337]:
+        - generic [ref=e338]:
+          - generic [ref=e339]:
+            - generic [ref=e340]: "15"
+            - text: 模型数量
+          - generic [ref=e342]:
+            - generic [ref=e343]: "1423"
+            - text: 最高 ELO
+          - generic [ref=e345]:
+            - generic [ref=e346]: "161100"
+            - text: 总投票数
+        - generic [ref=e347]:
+          - generic [ref=e348]: 分类：
+          - radiogroup [ref=e349]:
+            - radio "全部" [checked] [ref=e350]:
+              - radio "全部" [checked] [ref=e351]
+              - generic [ref=e352] [cursor=pointer]: 全部
+            - radio "对话" [ref=e353]:
+              - radio "对话" [ref=e354]
+              - generic [ref=e355] [cursor=pointer]: 对话
+            - radio "编程" [ref=e356]:
+              - radio "编程" [ref=e357]
+              - generic [ref=e358] [cursor=pointer]: 编程
+            - radio "推理" [ref=e359]:
+              - radio "推理" [ref=e360]
+              - generic [ref=e361] [cursor=pointer]: 推理
+        - generic [ref=e362]:
+          - table [ref=e364]:
+            - rowgroup [ref=e371]:
+              - row "排名 模型名称 提供商 ELO 评分 投票数" [ref=e372]:
+                - columnheader "排名" [ref=e373]:
+                  - generic [ref=e374]: 排名
+                - columnheader "模型名称" [ref=e375]:
+                  - generic [ref=e376]: 模型名称
+                - columnheader "提供商" [ref=e377]:
+                  - generic [ref=e378]: 提供商
+                - columnheader "ELO 评分" [ref=e379] [cursor=pointer]:
+                  - generic [ref=e380]: ELO 评分
+                - columnheader "投票数" [ref=e384] [cursor=pointer]:
+                  - generic [ref=e385]: 投票数
+          - table [ref=e390]:
+            - rowgroup [ref=e397]:
+              - row "1 Claude Opus 4.8 Anthropic 1423 1.9w" [ref=e398]:
+                - cell "1" [ref=e399]:
+                  - generic [ref=e401]: "1"
+                - cell "Claude Opus 4.8" [ref=e402]:
+                  - generic [ref=e405]: Claude Opus 4.8
+                - cell "Anthropic" [ref=e406]:
+                  - generic [ref=e407]: Anthropic
+                - cell "1423" [ref=e408]:
+                  - generic [ref=e409]: "1423"
+                - cell "1.9w" [ref=e410]:
+                  - generic [ref=e411]: 1.9w
+              - row "2 GPT-4o OpenAI 1387 2.2w" [ref=e412]:
+                - cell "2" [ref=e413]:
+                  - generic [ref=e415]: "2"
+                - cell "GPT-4o" [ref=e416]:
+                  - generic [ref=e419]: GPT-4o
+                - cell "OpenAI" [ref=e420]:
+                  - generic [ref=e421]: OpenAI
+                - cell "1387" [ref=e422]:
+                  - generic [ref=e423]: "1387"
+                - cell "2.2w" [ref=e424]:
+                  - generic [ref=e425]: 2.2w
+              - row "3 Claude Sonnet 4.6 Anthropic 1356 1.6w" [ref=e426]:
+                - cell "3" [ref=e427]:
+                  - generic [ref=e429]: "3"
+                - cell "Claude Sonnet 4.6" [ref=e430]:
+                  - generic [ref=e433]: Claude Sonnet 4.6
+                - cell "Anthropic" [ref=e434]:
+                  - generic [ref=e435]: Anthropic
+                - cell "1356" [ref=e436]:
+                  - generic [ref=e437]: "1356"
+                - cell "1.6w" [ref=e438]:
+                  - generic [ref=e439]: 1.6w
+              - row "4 Gemini 2.5 Pro Google 1320 1.2w" [ref=e440]:
+                - cell "4" [ref=e441]:
+                  - generic [ref=e443]: "4"
+                - cell "Gemini 2.5 Pro" [ref=e444]:
+                  - generic [ref=e447]: Gemini 2.5 Pro
+                - cell "Google" [ref=e448]:
+                  - generic [ref=e449]: Google
+                - cell "1320" [ref=e450]:
+                  - generic [ref=e451]: "1320"
+                - cell "1.2w" [ref=e452]:
+                  - generic [ref=e453]: 1.2w
+              - row "5 DeepSeek-V4 DeepSeek 1295 9.8k" [ref=e454]:
+                - cell "5" [ref=e455]:
+                  - generic [ref=e457]: "5"
+                - cell "DeepSeek-V4" [ref=e458]:
+                  - generic [ref=e461]: DeepSeek-V4
+                - cell "DeepSeek" [ref=e462]:
+                  - generic [ref=e463]: DeepSeek
+                - cell "1295" [ref=e464]:
+                  - generic [ref=e465]: "1295"
+                - cell "9.8k" [ref=e466]:
+                  - generic [ref=e467]: 9.8k
+              - row "6 GPT-4o-mini OpenAI 1278 1.7w" [ref=e468]:
+                - cell "6" [ref=e469]:
+                  - generic [ref=e471]: "6"
+                - cell "GPT-4o-mini" [ref=e472]:
+                  - generic [ref=e475]: GPT-4o-mini
+                - cell "OpenAI" [ref=e476]:
+                  - generic [ref=e477]: OpenAI
+                - cell "1278" [ref=e478]:
+                  - generic [ref=e479]: "1278"
+                - cell "1.7w" [ref=e480]:
+                  - generic [ref=e481]: 1.7w
+              - row "7 Claude Haiku 4.5 Anthropic 1250 1.1w" [ref=e482]:
+                - cell "7" [ref=e483]:
+                  - generic [ref=e485]: "7"
+                - cell "Claude Haiku 4.5" [ref=e486]:
+                  - generic [ref=e489]: Claude Haiku 4.5
+                - cell "Anthropic" [ref=e490]:
+                  - generic [ref=e491]: Anthropic
+                - cell "1250" [ref=e492]:
+                  - generic [ref=e493]: "1250"
+                - cell "1.1w" [ref=e494]:
+                  - generic [ref=e495]: 1.1w
+              - row "8 Gemini 1.5 Pro Google 1220 1.4w" [ref=e496]:
+                - cell "8" [ref=e497]:
+                  - generic [ref=e499]: "8"
+                - cell "Gemini 1.5 Pro" [ref=e500]:
+                  - generic [ref=e503]: Gemini 1.5 Pro
+                - cell "Google" [ref=e504]:
+                  - generic [ref=e505]: Google
+                - cell "1220" [ref=e506]:
+                  - generic [ref=e507]: "1220"
+                - cell "1.4w" [ref=e508]:
+                  - generic [ref=e509]: 1.4w
+              - row "9 Llama 3.1 405B Meta 1205 8.9k" [ref=e510]:
+                - cell "9" [ref=e511]:
+                  - generic [ref=e513]: "9"
+                - cell "Llama 3.1 405B" [ref=e514]:
+                  - generic [ref=e517]: Llama 3.1 405B
+                - cell "Meta" [ref=e518]:
+                  - generic [ref=e519]: Meta
+                - cell "1205" [ref=e520]:
+                  - generic [ref=e521]: "1205"
+                - cell "8.9k" [ref=e522]:
+                  - generic [ref=e523]: 8.9k
+              - row "10 Mistral Large 2 Mistral 1180 6.2k" [ref=e524]:
+                - cell "10" [ref=e525]:
+                  - generic [ref=e527]: "10"
+                - cell "Mistral Large 2" [ref=e528]:
+                  - generic [ref=e531]: Mistral Large 2
+                - cell "Mistral" [ref=e532]:
+                  - generic [ref=e533]: Mistral
+                - cell "1180" [ref=e534]:
+                  - generic [ref=e535]: "1180"
+                - cell "6.2k" [ref=e536]:
+                  - generic [ref=e537]: 6.2k
+              - row "11 Qwen 2.5 72B Alibaba 1155 5.1k" [ref=e538]:
+                - cell "11" [ref=e539]:
+                  - generic [ref=e541]: "11"
+                - cell "Qwen 2.5 72B" [ref=e542]:
+                  - generic [ref=e545]: Qwen 2.5 72B
+                - cell "Alibaba" [ref=e546]:
+                  - generic [ref=e547]: Alibaba
+                - cell "1155" [ref=e548]:
+                  - generic [ref=e549]: "1155"
+                - cell "5.1k" [ref=e550]:
+                  - generic [ref=e551]: 5.1k
+              - row "12 DeepSeek-Coder-V2 编程 DeepSeek 1130 4.8k" [ref=e552]:
+                - cell "12" [ref=e553]:
+                  - generic [ref=e555]: "12"
+                - cell "DeepSeek-Coder-V2 编程" [ref=e556]:
+                  - generic [ref=e558]:
+                    - generic [ref=e559]: DeepSeek-Coder-V2
+                    - generic [ref=e560]: 编程
+                - cell "DeepSeek" [ref=e561]:
+                  - generic [ref=e562]: DeepSeek
+                - cell "1130" [ref=e563]:
+                  - generic [ref=e564]: "1130"
+                - cell "4.8k" [ref=e565]:
+                  - generic [ref=e566]: 4.8k
+              - row "13 Codestral 编程 Mistral 1105 4.2k" [ref=e567]:
+                - cell "13" [ref=e568]:
+                  - generic [ref=e570]: "13"
+                - cell "Codestral 编程" [ref=e571]:
+                  - generic [ref=e573]:
+                    - generic [ref=e574]: Codestral
+                    - generic [ref=e575]: 编程
+                - cell "Mistral" [ref=e576]:
+                  - generic [ref=e577]: Mistral
+                - cell "1105" [ref=e578]:
+                  - generic [ref=e579]: "1105"
+                - cell "4.2k" [ref=e580]:
+                  - generic [ref=e581]: 4.2k
+              - row "14 Yi-Large 01.AI 1080 3.5k" [ref=e582]:
+                - cell "14" [ref=e583]:
+                  - generic [ref=e585]: "14"
+                - cell "Yi-Large" [ref=e586]:
+                  - generic [ref=e589]: Yi-Large
+                - cell "01.AI" [ref=e590]:
+                  - generic [ref=e591]: 01.AI
+                - cell "1080" [ref=e592]:
+                  - generic [ref=e593]: "1080"
+                - cell "3.5k" [ref=e594]:
+                  - generic [ref=e595]: 3.5k
+              - row "15 Claude 3.5 Haiku Anthropic 1065 7.8k" [ref=e596]:
+                - cell "15" [ref=e597]:
+                  - generic [ref=e599]: "15"
+                - cell "Claude 3.5 Haiku" [ref=e600]:
+                  - generic [ref=e603]: Claude 3.5 Haiku
+                - cell "Anthropic" [ref=e604]:
+                  - generic [ref=e605]: Anthropic
+                - cell "1065" [ref=e606]:
+                  - generic [ref=e607]: "1065"
+                - cell "7.8k" [ref=e608]:
+                  - generic [ref=e609]: 7.8k
+        - generic [ref=e610]: 数据来源：Chatbot Arena Leaderboard & 各大评测基准
+  - contentinfo [ref=e250]:
+    - img [ref=e252]
+    - generic [ref=e255]:
+      - generic [ref=e256]:
+        - generic [ref=e257]:
+          - generic [ref=e258]: </>
+          - generic [ref=e259]: AI-Code
+        - paragraph [ref=e260]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e261]:
+          - generic [ref=e262]: Spring Boot
+          - generic [ref=e263]: MyBatis
+          - generic [ref=e264]: MySQL
+          - generic [ref=e265]: Redis
+          - generic [ref=e266]: Vue.js
+          - generic [ref=e267]: Element UI
+          - generic [ref=e268]: Docker
+      - generic [ref=e269]:
+        - heading "快速导航" [level=4] [ref=e270]
+        - list [ref=e271]:
+          - listitem [ref=e272]:
+            - link "首页" [ref=e273] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e274]:
+            - link "代码审查" [ref=e275] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e276]:
+            - link "智能问答" [ref=e277] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e278]:
+            - link "学习路径" [ref=e279] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e280]:
+        - heading "学习资源" [level=4] [ref=e281]
+        - list [ref=e282]:
+          - listitem [ref=e283]:
+            - link "Java 基础教程" [ref=e284] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e285]:
+            - link "Spring 系列" [ref=e286] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e287]:
+            - link "数据库专题" [ref=e288] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e289]:
+            - link "算法与数据结构" [ref=e290] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e291]:
+        - heading "关于" [level=4] [ref=e292]
+        - list [ref=e293]:
+          - listitem [ref=e294]:
+            - link "平台介绍" [ref=e295] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e296]:
+            - link "使用帮助" [ref=e297] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e298]:
+            - link "意见反馈" [ref=e299] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e300]:
+            - link "隐私政策" [ref=e301] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e303]:
+      - paragraph [ref=e304]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e305]:
+        - generic [ref=e306]:
+          - generic [ref=e307]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e308]:
+          - generic [ref=e309]: 
+          - text: v1.0.0

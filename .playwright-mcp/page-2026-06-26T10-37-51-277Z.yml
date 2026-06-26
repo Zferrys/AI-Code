@@ -1,0 +1,262 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 代码审查" [ref=e15] [cursor=pointer]:
+          - /url: /code-review
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 代码审查
+        - link " 智能问答" [ref=e18] [cursor=pointer]:
+          - /url: /qa
+          - generic [ref=e19]: 
+          - generic [ref=e20]: 智能问答
+        - link " 学习路径" [ref=e21] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e22]: 
+          - generic [ref=e23]: 学习路径
+        - link " AI 排行" [ref=e24] [cursor=pointer]:
+          - /url: /rankings
+          - generic [ref=e25]: 
+          - generic [ref=e26]: AI 排行
+      - generic [ref=e27]:
+        - generic [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: T
+          - generic [ref=e30]: testuser
+        - button "" [ref=e31] [cursor=pointer]:
+          - generic [ref=e33]: 
+  - main [ref=e34]:
+    - generic [ref=e35]:
+      - generic [ref=e37]:
+        - heading "智能问答" [level=2] [ref=e38]
+        - paragraph [ref=e39]: 向 AI 提问编程问题，获取专业解答
+      - generic [ref=e40]:
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]: 
+            - generic [ref=e45]: 向 AI 提问
+          - generic [ref=e46]:
+            - generic [ref=e50]:
+              - textbox "选择分类" [ref=e51] [cursor=pointer]: 其他
+              - generic [ref=e53] [cursor=pointer]: 
+            - textbox "描述你的编程问题，可以包含代码、报错信息等..." [ref=e57]
+            - button " 发送问题" [disabled] [ref=e60]:
+              - generic [ref=e61]:
+                - generic [ref=e62]: 
+                - text: 发送问题
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - generic [ref=e66]: 
+            - generic [ref=e67]: 最近问题 (8)
+          - generic [ref=e68]:
+            - generic [ref=e69] [cursor=pointer]:
+              - generic [ref=e70]:
+                - generic [ref=e71]: "3"
+                - generic [ref=e72]: 回答
+              - generic [ref=e73]:
+                - generic [ref=e74]:
+                  - text: Java 8 Stream API 中 map 和 flatMap 的区别是什么？
+                  - generic [ref=e76]: 
+                - generic [ref=e77]:
+                  - generic [ref=e78]: Java
+                  - generic [ref=e79]:
+                    - generic [ref=e80]: 
+                    - text: "256"
+                  - generic [ref=e81]:
+                    - generic [ref=e82]: 
+                    - text: "48"
+                  - generic [ref=e83]: 6 天前
+            - generic [ref=e84] [cursor=pointer]:
+              - generic [ref=e85]:
+                - generic [ref=e86]: "2"
+                - generic [ref=e87]: 回答
+              - generic [ref=e88]:
+                - generic [ref=e89]:
+                  - text: Spring Boot 中如何正确配置事务管理？
+                  - generic [ref=e91]: 
+                - generic [ref=e92]:
+                  - generic [ref=e93]: Spring
+                  - generic [ref=e94]:
+                    - generic [ref=e95]: 
+                    - text: "189"
+                  - generic [ref=e96]:
+                    - generic [ref=e97]: 
+                    - text: "35"
+                  - generic [ref=e98]: 8 天前
+            - generic [ref=e99] [cursor=pointer]:
+              - generic [ref=e100]:
+                - generic [ref=e101]: "2"
+                - generic [ref=e102]: 回答
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - text: MySQL 索引失效的常见场景有哪些？
+                  - generic [ref=e106]: 
+                - generic [ref=e107]:
+                  - generic [ref=e108]: 数据库
+                  - generic [ref=e109]:
+                    - generic [ref=e110]: 
+                    - text: "312"
+                  - generic [ref=e111]:
+                    - generic [ref=e112]: 
+                    - text: "67"
+                  - generic [ref=e113]: 11 天前
+            - generic [ref=e114] [cursor=pointer]:
+              - generic [ref=e115]:
+                - generic [ref=e116]: "1"
+                - generic [ref=e117]: 回答
+              - generic [ref=e118]:
+                - generic [ref=e119]: Vue 组件之间通信方式有哪些？
+                - generic [ref=e120]:
+                  - generic [ref=e121]: 前端
+                  - generic [ref=e122]:
+                    - generic [ref=e123]: 
+                    - text: "145"
+                  - generic [ref=e124]:
+                    - generic [ref=e125]: 
+                    - text: "28"
+                  - generic [ref=e126]: 4 天前
+            - generic [ref=e127] [cursor=pointer]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: "2"
+                - generic [ref=e130]: 回答
+              - generic [ref=e131]:
+                - generic [ref=e132]:
+                  - text: Redis 缓存穿透/击穿/雪崩的区别及解决方案
+                  - generic [ref=e134]: 
+                - generic [ref=e135]:
+                  - generic [ref=e136]: 数据库
+                  - generic [ref=e137]:
+                    - generic [ref=e138]: 
+                    - text: "278"
+                  - generic [ref=e139]:
+                    - generic [ref=e140]: 
+                    - text: "55"
+                  - generic [ref=e141]: 14 天前
+            - generic [ref=e142] [cursor=pointer]:
+              - generic [ref=e143]:
+                - generic [ref=e144]: "2"
+                - generic [ref=e145]: 回答
+              - generic [ref=e146]:
+                - generic [ref=e147]:
+                  - text: JVM 内存模型及常见调优参数详解
+                  - generic [ref=e149]: 
+                - generic [ref=e150]:
+                  - generic [ref=e151]: Java
+                  - generic [ref=e152]:
+                    - generic [ref=e153]: 
+                    - text: "198"
+                  - generic [ref=e154]:
+                    - generic [ref=e155]: 
+                    - text: "42"
+                  - generic [ref=e156]: 16 天前
+            - generic [ref=e157] [cursor=pointer]:
+              - generic [ref=e158]:
+                - generic [ref=e159]: "1"
+                - generic [ref=e160]: 回答
+              - generic [ref=e161]:
+                - generic [ref=e162]:
+                  - text: "MyBatis 中 #{} 和 ${} 的区别及正确用法"
+                  - generic [ref=e164]: 
+                - generic [ref=e165]:
+                  - generic [ref=e166]: Spring
+                  - generic [ref=e167]:
+                    - generic [ref=e168]: 
+                    - text: "167"
+                  - generic [ref=e169]:
+                    - generic [ref=e170]: 
+                    - text: "33"
+                  - generic [ref=e171]: 18 天前
+            - generic [ref=e172] [cursor=pointer]:
+              - generic [ref=e173]:
+                - generic [ref=e174]: "1"
+                - generic [ref=e175]: 回答
+              - generic [ref=e176]:
+                - generic [ref=e177]: Docker 容器化部署 Spring Boot 项目的最佳实践
+                - generic [ref=e178]:
+                  - generic [ref=e179]: 工具
+                  - generic [ref=e180]:
+                    - generic [ref=e181]: 
+                    - text: "134"
+                  - generic [ref=e182]:
+                    - generic [ref=e183]: 
+                    - text: "22"
+                  - generic [ref=e184]: 5 天前
+  - contentinfo [ref=e185]:
+    - img [ref=e187]
+    - generic [ref=e190]:
+      - generic [ref=e191]:
+        - generic [ref=e192]:
+          - generic [ref=e193]: </>
+          - generic [ref=e194]: AI-Code
+        - paragraph [ref=e195]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e196]:
+          - generic [ref=e197]: Spring Boot
+          - generic [ref=e198]: MyBatis
+          - generic [ref=e199]: MySQL
+          - generic [ref=e200]: Redis
+          - generic [ref=e201]: Vue.js
+          - generic [ref=e202]: Element UI
+          - generic [ref=e203]: Docker
+      - generic [ref=e204]:
+        - heading "快速导航" [level=4] [ref=e205]
+        - list [ref=e206]:
+          - listitem [ref=e207]:
+            - link "首页" [ref=e208] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e209]:
+            - link "代码审查" [ref=e210] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e211]:
+            - link "智能问答" [ref=e212] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e213]:
+            - link "学习路径" [ref=e214] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e215]:
+        - heading "学习资源" [level=4] [ref=e216]
+        - list [ref=e217]:
+          - listitem [ref=e218]:
+            - link "Java 基础教程" [ref=e219] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e220]:
+            - link "Spring 系列" [ref=e221] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e222]:
+            - link "数据库专题" [ref=e223] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e224]:
+            - link "算法与数据结构" [ref=e225] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e226]:
+        - heading "关于" [level=4] [ref=e227]
+        - list [ref=e228]:
+          - listitem [ref=e229]:
+            - link "平台介绍" [ref=e230] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e231]:
+            - link "使用帮助" [ref=e232] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e233]:
+            - link "意见反馈" [ref=e234] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e235]:
+            - link "隐私政策" [ref=e236] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e238]:
+      - paragraph [ref=e239]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e240]:
+        - generic [ref=e241]:
+          - generic [ref=e242]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e243]:
+          - generic [ref=e244]: 
+          - text: v1.0.0

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aicode.mapper.QaAnswerMapper">
+
+    <resultMap id="BaseResultMap" type="com.aicode.entity.QaAnswer">
+        <id column="id" property="id"/>
+        <result column="question_id" property="questionId"/>
+        <result column="type" property="type"/>
+        <result column="content" property="content"/>
+        <result column="rating" property="rating"/>
+        <result column="is_accepted" property="isAccepted"/>
+        <result column="ai_response_time" property="aiResponseTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, question_id, `type`, content, rating, is_accepted, ai_response_time, create_time
+    </sql>
+
+    <select id="selectByQuestionId" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM qa_answer
+        WHERE question_id = #{questionId}
+        ORDER BY create_time ASC
+    </select>
+
+    <select id="countByQuestionId" resultType="int">
+        SELECT COUNT(*) FROM qa_answer WHERE question_id = #{questionId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO qa_answer (question_id, `type`, content, rating, ai_response_time, create_time)
+        VALUES (#{questionId}, #{type}, #{content}, #{rating}, #{aiResponseTime}, #{createTime})
+    </insert>
+
+    <update id="updateRating">
+        UPDATE qa_answer SET rating = #{rating} WHERE id = #{id}
+    </update>
+</mapper>

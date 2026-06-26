@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aicode.mapper.TagMapper">
+
+    <resultMap id="BaseResultMap" type="com.aicode.entity.Tag">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="category" property="category"/>
+        <result column="color" property="color"/>
+        <result column="icon" property="icon"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, `name`, category, color, icon, sort_order, create_time
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM tag WHERE id = #{id}
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM tag WHERE `name` = #{name}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM tag ORDER BY sort_order ASC, id ASC
+    </select>
+
+    <select id="selectByCategory" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM tag WHERE category = #{category} ORDER BY sort_order ASC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tag (`name`, category, color, icon, sort_order, create_time)
+        VALUES (#{name}, #{category}, #{color}, #{icon}, #{sortOrder}, #{createTime})
+    </insert>
+
+    <update id="updateById">
+        UPDATE tag
+        <set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="category != null">category = #{category},</if>
+            <if test="color != null">color = #{color},</if>
+            <if test="icon != null">icon = #{icon},</if>
+            <if test="sortOrder != null">sort_order = #{sortOrder},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM tag WHERE id = #{id}
+    </delete>
+</mapper>

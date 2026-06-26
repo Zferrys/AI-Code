@@ -1,0 +1,30 @@
+{
+  "name": "aicode-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "cross-env NODE_OPTIONS=--no-deprecation vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "codemirror": "^5.65.16",
+    "element-ui": "^2.15.14",
+    "highlight.js": "^11.9.0",
+    "marked": "^4.3.0",
+    "mermaid": "^10.9.6",
+    "three": "^0.160.0",
+    "vue": "^2.7.14",
+    "vue-codemirror": "^4.0.6",
+    "vue-router": "^3.6.5",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-router": "^5.0.8",
+    "@vue/cli-plugin-vuex": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
+    "cross-env": "^10.1.0",
+    "vue-template-compiler": "^2.7.14"
+  }
+}

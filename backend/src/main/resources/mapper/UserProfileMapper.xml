@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aicode.mapper.UserProfileMapper">
+
+    <resultMap id="BaseResultMap" type="com.aicode.entity.UserProfile">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="real_name" property="realName"/>
+        <result column="school" property="school"/>
+        <result column="major" property="major"/>
+        <result column="grade" property="grade"/>
+        <result column="bio" property="bio"/>
+        <result column="github_url" property="githubUrl"/>
+        <result column="experience_level" property="experienceLevel"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, user_id, real_name, school, major, grade, bio, github_url, experience_level
+    </sql>
+
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM user_profile WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_profile (user_id, real_name, school, major, grade, bio, github_url, experience_level)
+        VALUES (#{userId}, #{realName}, #{school}, #{major}, #{grade}, #{bio}, #{githubUrl}, #{experienceLevel})
+    </insert>
+
+    <update id="updateByUserId">
+        UPDATE user_profile
+        <set>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="school != null">school = #{school},</if>
+            <if test="major != null">major = #{major},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="bio != null">bio = #{bio},</if>
+            <if test="githubUrl != null">github_url = #{githubUrl},</if>
+            <if test="experienceLevel != null">experience_level = #{experienceLevel},</if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+</mapper>

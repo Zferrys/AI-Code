@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aicode.mapper.ContentTagMapper">
+
+    <resultMap id="BaseResultMap" type="com.aicode.entity.ContentTag">
+        <id column="id" property="id"/>
+        <result column="tag_id" property="tagId"/>
+        <result column="content_type" property="contentType"/>
+        <result column="content_id" property="contentId"/>
+    </resultMap>
+
+    <sql id="BaseColumns">
+        id, tag_id, content_type, content_id
+    </sql>
+
+    <select id="selectByTarget" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM content_tag
+        WHERE content_type = #{contentType} AND content_id = #{contentId}
+    </select>
+
+    <select id="selectTagIdsByTarget" resultType="long">
+        SELECT tag_id FROM content_tag
+        WHERE content_type = #{contentType} AND content_id = #{contentId}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO content_tag (tag_id, content_type, content_id)
+        VALUES (#{tagId}, #{contentType}, #{contentId})
+    </insert>
+
+    <delete id="deleteByTarget">
+        DELETE FROM content_tag WHERE content_type = #{contentType} AND content_id = #{contentId}
+    </delete>
+
+    <delete id="deleteById">
+        DELETE FROM content_tag WHERE id = #{id}
+    </delete>
+</mapper>

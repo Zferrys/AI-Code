@@ -1,0 +1,353 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 学习路径" [ref=e15] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 学习路径
+        - link " AI 排行" [ref=e18] [cursor=pointer]:
+          - /url: /rankings
+          - generic [ref=e19]: 
+          - generic [ref=e20]: AI 排行
+      - generic [ref=e21]:
+        - button "登录" [ref=e22] [cursor=pointer]
+        - button "免费注册" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic:
+          - generic:
+            - generic: </>
+            - generic: "{ }"
+            - generic: "#"
+            - generic: "@"
+            - generic: ()
+            - generic: ==
+            - generic: /**
+            - generic: =>
+        - generic [ref=e27]:
+          - generic [ref=e28]: 🚀 AI 驱动的智能编程学习平台
+          - heading "写代码 · 查问题 · 学技术 一个平台就够了" [level=1] [ref=e29]
+          - paragraph [ref=e30]:
+            - text: 基于 AI 的智能代码审查、实时编程问答、个性化学习路径，
+            - text: 帮助你从入门到精通，高效提升编程能力
+          - generic [ref=e31]:
+            - button "免费开始学习 " [ref=e32] [cursor=pointer]:
+              - text: 免费开始学习
+              - generic [ref=e33]: 
+            - button "浏览学习路径 " [ref=e34] [cursor=pointer]:
+              - text: 浏览学习路径
+              - generic [ref=e35]: 
+          - generic [ref=e36]:
+            - generic [ref=e37]:
+              - generic [ref=e38]: 2.9k
+              - text: 注册用户
+            - generic [ref=e40]:
+              - generic [ref=e41]: 1.6w
+              - text: 代码审查
+            - generic [ref=e43]:
+              - generic [ref=e44]: 8.9k
+              - text: AI 问答
+            - generic [ref=e46]:
+              - generic [ref=e47]: "6"
+              - text: 学习路径
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]: 核心功能
+          - heading "为什么选择 AI-Code？" [level=2] [ref=e51]
+          - paragraph [ref=e52]: 三大核心功能，覆盖编程学习全链路
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - generic [ref=e56]: 
+            - heading "智能代码审查" [level=3] [ref=e57]
+            - paragraph [ref=e58]: 提交你的代码，AI 自动分析代码质量、检测潜在 Bug、性能瓶颈和安全漏洞，并提供优化建议和最佳实践。
+            - generic [ref=e59]:
+              - generic [ref=e60]: 质量检测
+              - generic [ref=e61]: 安全扫描
+              - generic [ref=e62]: 性能优化
+          - generic [ref=e63]:
+            - generic [ref=e65]: 
+            - heading "AI 编程问答" [level=3] [ref=e66]
+            - paragraph [ref=e67]: 遇到编程问题？直接提问 AI 助手。支持多轮对话、代码示例、最佳实践推荐，比搜索引擎更精准。
+            - generic [ref=e68]:
+              - generic [ref=e69]: 实时回答
+              - generic [ref=e70]: 代码示例
+              - generic [ref=e71]: 多轮对话
+          - generic [ref=e72]:
+            - generic [ref=e74]: 
+            - heading "个性化学习路径" [level=3] [ref=e75]
+            - paragraph [ref=e76]: 根据你的技术栈和水平目标，智能推荐最合适的学习路线。从入门到精通，循序渐进，学练结合。
+            - generic [ref=e77]:
+              - generic [ref=e78]: 分层教学
+              - generic [ref=e79]: 实战驱动
+              - generic [ref=e80]: 进度追踪
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - generic [ref=e83]: 精选路线
+          - heading "热门学习路径" [level=2] [ref=e84]
+          - paragraph [ref=e85]: 覆盖主流技术栈，从入门到高级系统化学习
+        - generic [ref=e86]:
+          - generic [ref=e89] [cursor=pointer]:
+            - generic [ref=e90]:
+              - generic [ref=e91]: 入门
+              - generic [ref=e92]: 24 课 · 90 天
+            - heading "Java 后端开发从零到精通" [level=3] [ref=e93]
+            - paragraph [ref=e94]: 从 Java 基础语法到 Spring Boot 企业级开发，覆盖集合、多线程、JVM、MySQL、MyBatis、Spring 全家桶，配合 20+ 实战项目循序渐进。
+            - generic [ref=e96]: 2026/6/20
+          - generic [ref=e99] [cursor=pointer]:
+            - generic [ref=e100]:
+              - generic [ref=e101]: 高级
+              - generic [ref=e102]: 16 课 · 50 天
+            - heading "Spring Boot 微服务架构实战" [level=3] [ref=e103]
+            - paragraph [ref=e104]: 深入微服务架构设计，学习服务注册发现、配置中心、网关、熔断降级、分布式事务等核心能力，掌握生产级微服务解决方案。
+            - generic [ref=e106]: 2026/6/18
+          - generic [ref=e109] [cursor=pointer]:
+            - generic [ref=e110]:
+              - generic [ref=e111]: 入门
+              - generic [ref=e112]: 20 课 · 60 天
+            - heading "Python 全栈开发从入门到项目" [level=3] [ref=e113]
+            - paragraph [ref=e114]: Python 语法基础 → Web 开发（Flask/Django）→ 数据分析 → AI 应用，适合零基础入门但希望直达实战的开发者。
+            - generic [ref=e116]: 2026/6/15
+        - button "查看全部路径 " [ref=e118] [cursor=pointer]:
+          - text: 查看全部路径
+          - generic [ref=e119]: 
+      - generic [ref=e120]:
+        - generic [ref=e121]:
+          - generic [ref=e122]: 热门问答
+          - heading "大家都在问" [level=2] [ref=e123]
+          - paragraph [ref=e124]: 精选高质量编程问答，由 AI 深度解答
+        - generic [ref=e125]:
+          - generic [ref=e126] [cursor=pointer]:
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]: 
+                - generic [ref=e130]: "256"
+              - generic [ref=e131]:
+                - generic [ref=e132]: 
+                - generic [ref=e133]: "3"
+              - generic [ref=e134]:
+                - generic [ref=e135]: 
+                - generic [ref=e136]: "48"
+            - generic [ref=e137]:
+              - heading "Java 8 Stream API 中 map 和 flatMap 的区别是什么？" [level=3] [ref=e138]
+              - paragraph [ref=e139]: 在使用 Java 8 Stream 时，经常混淆 map 和 flatMap 的用法。map 是对每个元素进行转换，那 flatMap 呢？能不能给一些具体的代...
+              - generic [ref=e140]:
+                - generic [ref=e141]: java-basics
+                - generic [ref=e142]: Java · Stream
+                - generic [ref=e143]: 6 天前
+            - generic [ref=e144]:
+              - generic [ref=e145]: 
+              - text: 已解决
+          - generic [ref=e146] [cursor=pointer]:
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - generic [ref=e149]: 
+                - generic [ref=e150]: "189"
+              - generic [ref=e151]:
+                - generic [ref=e152]: 
+                - generic [ref=e153]: "2"
+              - generic [ref=e154]:
+                - generic [ref=e155]: 
+                - generic [ref=e156]: "35"
+            - generic [ref=e157]:
+              - heading "Spring Boot 中如何正确配置事务管理？" [level=3] [ref=e158]
+              - paragraph [ref=e159]: 我在 Spring Boot 项目中使用 @Transactional 注解，但有时候事务不回滚，有时候又报了 unexpected rollback 异常。想...
+              - generic [ref=e160]:
+                - generic [ref=e161]: spring
+                - generic [ref=e162]: Spring Boot · 事务
+                - generic [ref=e163]: 8 天前
+            - generic [ref=e164]:
+              - generic [ref=e165]: 
+              - text: 已解决
+          - generic [ref=e166] [cursor=pointer]:
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: 
+                - generic [ref=e170]: "312"
+              - generic [ref=e171]:
+                - generic [ref=e172]: 
+                - generic [ref=e173]: "2"
+              - generic [ref=e174]:
+                - generic [ref=e175]: 
+                - generic [ref=e176]: "67"
+            - generic [ref=e177]:
+              - heading "MySQL 索引失效的常见场景有哪些？" [level=3] [ref=e178]
+              - paragraph [ref=e179]: 我在优化慢查询时经常遇到明明有索引却不走的情况。想系统地了解一下 MySQL 索引失效的常见场景，以及如何通过 EXPLAIN 判断是否走了索引。...
+              - generic [ref=e180]:
+                - generic [ref=e181]: database
+                - generic [ref=e182]: MySQL · 索引
+                - generic [ref=e183]: 11 天前
+            - generic [ref=e184]:
+              - generic [ref=e185]: 
+              - text: 已解决
+          - generic [ref=e186] [cursor=pointer]:
+            - generic [ref=e187]:
+              - generic [ref=e188]:
+                - generic [ref=e189]: 
+                - generic [ref=e190]: "145"
+              - generic [ref=e191]:
+                - generic [ref=e192]: 
+                - generic [ref=e193]: "1"
+              - generic [ref=e194]:
+                - generic [ref=e195]: 
+                - generic [ref=e196]: "28"
+            - generic [ref=e197]:
+              - heading "Vue 组件之间通信方式有哪些？" [level=3] [ref=e198]
+              - paragraph [ref=e199]: Vue 开发中组件通信是核心问题。父子组件、兄弟组件、跨级组件之间有哪些通信方式？各自的适用场景是什么？...
+              - generic [ref=e200]:
+                - generic [ref=e201]: frontend
+                - generic [ref=e202]: Vue.js · 组件通信
+                - generic [ref=e203]: 4 天前
+        - button "更多问答 " [ref=e205] [cursor=pointer]:
+          - text: 更多问答
+          - generic [ref=e206]: 
+      - generic [ref=e207]:
+        - generic [ref=e208]:
+          - generic [ref=e209]: 为什么选择我们
+          - heading "四大核心优势" [level=2] [ref=e210]
+        - generic [ref=e211]:
+          - generic [ref=e212]:
+            - generic [ref=e214]: 
+            - heading "AI 深度分析" [level=4] [ref=e215]
+            - paragraph [ref=e216]: 基于大语言模型，代码检测精度达到专业开发者水平，覆盖上千种常见代码问题模式
+          - generic [ref=e217]:
+            - generic [ref=e219]: 
+            - heading "实时互动学习" [level=4] [ref=e220]
+            - paragraph [ref=e221]: AI 问答支持多轮对话，不限次数追问，让每个技术难点都能得到充分解答
+          - generic [ref=e222]:
+            - generic [ref=e224]: 
+            - heading "个性化推荐" [level=4] [ref=e225]
+            - paragraph [ref=e226]: 基于你的技术标签和学习进度，智能匹配最适合的学习路径，不走弯路
+          - generic [ref=e227]:
+            - heading "安全可靠" [level=4] [ref=e229]
+            - paragraph [ref=e230]: 代码加密传输，不存储用户代码到第三方，JWT 认证 + BCrypt 加密，全方位保障数据安全
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - generic [ref=e233]: 用户评价
+          - heading "看看他们怎么说" [level=2] [ref=e234]
+        - generic [ref=e235]:
+          - generic [ref=e236]:
+            - generic [ref=e237]:
+              - generic [ref=e238]: 
+              - generic [ref=e239]: 
+              - generic [ref=e240]: 
+              - generic [ref=e241]: 
+              - generic [ref=e242]: 
+            - paragraph [ref=e243]: "\"AI 代码审查功能太强了！提交作业后 AI 不仅指出了 Bug，还给出了优化建议。上学期 Java 课设用了这个平台，老师直接给了 A+。\""
+            - generic [ref=e244]:
+              - generic [ref=e245]: 张
+              - generic [ref=e246]:
+                - generic [ref=e247]: 张同学
+                - generic [ref=e248]: 大三计算机系
+          - generic [ref=e249]:
+            - generic [ref=e250]:
+              - generic [ref=e251]: 
+              - generic [ref=e252]: 
+              - generic [ref=e253]: 
+              - generic [ref=e254]: 
+              - generic [ref=e255]: 
+            - paragraph [ref=e256]: "\"工作两年了，一直想系统提升一下。学习路径中的微服务专题帮了大忙，跟着课程走完一遍，现在已经在组里负责核心模块开发了。\""
+            - generic [ref=e257]:
+              - generic [ref=e258]: 李
+              - generic [ref=e259]:
+                - generic [ref=e260]: 李工
+                - generic [ref=e261]: 后端开发（2年经验）
+          - generic [ref=e262]:
+            - generic [ref=e263]:
+              - generic [ref=e264]: 
+              - generic [ref=e265]: 
+              - generic [ref=e266]: 
+              - generic [ref=e267]: 
+            - paragraph [ref=e268]: "\"非科班转码太痛苦了，AI 问答帮我解决了好多入门问题。比如 Java 内存模型那篇回答，比我啃一周书都管用。\""
+            - generic [ref=e269]:
+              - generic [ref=e270]: 王
+              - generic [ref=e271]:
+                - generic [ref=e272]: 王同学
+                - generic [ref=e273]: 研一（转码）
+      - generic [ref=e275]:
+        - heading "准备好提升你的编程能力了吗？" [level=2] [ref=e276]
+        - paragraph [ref=e277]: 立即注册，开启 AI 驱动的编程学习之旅
+        - button "免费注册 " [ref=e278] [cursor=pointer]:
+          - text: 免费注册
+          - generic [ref=e279]: 
+  - contentinfo [ref=e280]:
+    - img [ref=e282]
+    - generic [ref=e285]:
+      - generic [ref=e286]:
+        - generic [ref=e287]:
+          - generic [ref=e288]: </>
+          - generic [ref=e289]: AI-Code
+        - paragraph [ref=e290]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e291]:
+          - generic [ref=e292]: Spring Boot
+          - generic [ref=e293]: MyBatis
+          - generic [ref=e294]: MySQL
+          - generic [ref=e295]: Redis
+          - generic [ref=e296]: Vue.js
+          - generic [ref=e297]: Element UI
+          - generic [ref=e298]: Docker
+      - generic [ref=e299]:
+        - heading "快速导航" [level=4] [ref=e300]
+        - list [ref=e301]:
+          - listitem [ref=e302]:
+            - link "首页" [ref=e303] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e304]:
+            - link "代码审查" [ref=e305] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e306]:
+            - link "智能问答" [ref=e307] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e308]:
+            - link "学习路径" [ref=e309] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e310]:
+        - heading "学习资源" [level=4] [ref=e311]
+        - list [ref=e312]:
+          - listitem [ref=e313]:
+            - link "Java 基础教程" [ref=e314] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e315]:
+            - link "Spring 系列" [ref=e316] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e317]:
+            - link "数据库专题" [ref=e318] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e319]:
+            - link "算法与数据结构" [ref=e320] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e321]:
+        - heading "关于" [level=4] [ref=e322]
+        - list [ref=e323]:
+          - listitem [ref=e324]:
+            - link "平台介绍" [ref=e325] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e326]:
+            - link "使用帮助" [ref=e327] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e328]:
+            - link "意见反馈" [ref=e329] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e330]:
+            - link "隐私政策" [ref=e331] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e333]:
+      - paragraph [ref=e334]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e335]:
+        - generic [ref=e336]:
+          - generic [ref=e337]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e338]:
+          - generic [ref=e339]: 
+          - text: v1.0.0

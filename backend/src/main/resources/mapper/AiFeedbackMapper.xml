@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aicode.mapper.AiFeedbackMapper">
+    <resultMap id="BaseResultMap" type="com.aicode.entity.AiFeedback">
+        <id column="id" property="id"/><result column="user_id" property="userId"/>
+        <result column="feedback_type" property="feedbackType"/><result column="target_id" property="targetId"/>
+        <result column="rating" property="rating"/><result column="comment" property="comment"/>
+        <result column="is_resolved" property="isResolved"/><result column="create_time" property="createTime"/>
+    </resultMap>
+    <sql id="BaseColumns">id, user_id, feedback_type, target_id, rating, comment, is_resolved, create_time</sql>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ai_feedback (user_id, feedback_type, target_id, rating, comment, create_time)
+        VALUES (#{userId}, #{feedbackType}, #{targetId}, #{rating}, #{comment}, #{createTime})
+    </insert>
+    <select id="selectByTarget" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM ai_feedback WHERE feedback_type = #{feedbackType} AND target_id = #{targetId}
+    </select>
+    <select id="selectByTargetAndUser" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM ai_feedback WHERE feedback_type = #{feedbackType} AND target_id = #{targetId} AND user_id = #{userId}
+    </select>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        SELECT <include refid="BaseColumns"/> FROM ai_feedback WHERE user_id = #{userId} ORDER BY create_time DESC LIMIT #{offset}, #{limit}
+    </select>
+    <select id="countByUserId" resultType="long">SELECT COUNT(*) FROM ai_feedback WHERE user_id = #{userId}</select>
+    <select id="avgRating" resultType="double">SELECT AVG(rating) FROM ai_feedback</select>
+</mapper>

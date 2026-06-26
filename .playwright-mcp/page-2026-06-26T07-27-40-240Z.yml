@@ -1,0 +1,234 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 代码审查" [ref=e15] [cursor=pointer]:
+          - /url: /code-review
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 代码审查
+        - link " 智能问答" [ref=e18] [cursor=pointer]:
+          - /url: /qa
+          - generic [ref=e19]: 
+          - generic [ref=e20]: 智能问答
+        - link " 学习路径" [ref=e21] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e22]: 
+          - generic [ref=e23]: 学习路径
+        - link " AI 排行" [ref=e24] [cursor=pointer]:
+          - /url: /rankings
+          - generic [ref=e25]: 
+          - generic [ref=e26]: AI 排行
+        - link " 管理" [ref=e27] [cursor=pointer]:
+          - /url: /admin
+          - generic [ref=e28]: 
+          - generic [ref=e29]: 管理
+      - generic [ref=e30]:
+        - generic [ref=e31] [cursor=pointer]:
+          - generic [ref=e32]: A
+          - generic [ref=e33]: admin
+        - button "" [ref=e34] [cursor=pointer]:
+          - generic [ref=e36]: 
+  - main [ref=e37]:
+    - generic [ref=e733]:
+      - button "← 返回路径列表" [ref=e734] [cursor=pointer]
+      - generic [ref=e735]:
+        - heading "Java 后端开发从零到精通" [level=1] [ref=e736]
+        - paragraph [ref=e737]: 从零开始系统学习 Java 后端开发。涵盖 Java 核心语法、面向对象编程、集合框架、IO流、多线程、JVM 基础，再到 MySQL 数据库、JDBC、MyBatis、Spring Boot 等企业级框架，配合 20+ 实战项目循序渐进。学完可达初级后端开发工程师水平。
+        - generic [ref=e738]:
+          - generic [ref=e739]: 入门
+          - generic [ref=e740]:
+            - generic [ref=e741]: 
+            - text: 12 课程
+          - generic [ref=e742]:
+            - generic [ref=e743]: 
+            - text: 90 天
+      - generic [ref=e744]:
+        - heading "课程目录" [level=3] [ref=e745]
+        - generic [ref=e746]:
+          - generic [ref=e747]: "1"
+          - generic [ref=e748]:
+            - generic [ref=e749]: Java 基础语法与开发环境搭建
+            - generic [ref=e750]: 安装 JDK、配置环境变量、IDE 使用、第一个 Java 程序、基本数据类型、运算符、流程控制
+            - generic [ref=e751]:
+              - generic [ref=e752]: 文章
+              - generic [ref=e753]: 60 分钟
+          - button "开始" [active] [ref=e754] [cursor=pointer]
+        - generic [ref=e755]:
+          - generic [ref=e756]: "2"
+          - generic [ref=e757]:
+            - generic [ref=e758]: 面向对象编程核心
+            - generic [ref=e759]: 类与对象、封装继承多态、接口与抽象类、内部类、Lambda 表达式入门
+            - generic [ref=e760]:
+              - generic [ref=e761]: 视频
+              - generic [ref=e762]: 90 分钟
+          - button "开始" [ref=e763] [cursor=pointer]
+        - generic [ref=e764]:
+          - generic [ref=e765]: "3"
+          - generic [ref=e766]:
+            - generic [ref=e767]: Java 集合框架深入
+            - generic [ref=e768]: List/Set/Map 体系详解、ArrayList vs LinkedList、HashMap 原理、TreeMap、Collections 工具类、Stream API
+            - generic [ref=e769]:
+              - generic [ref=e770]: 文章
+              - generic [ref=e771]: 120 分钟
+          - button "开始" [ref=e772] [cursor=pointer]
+        - generic [ref=e773]:
+          - generic [ref=e774]: "4"
+          - generic [ref=e775]:
+            - generic [ref=e776]: IO流与文件操作
+            - generic [ref=e777]: 字节流/字符流、缓冲流、转换流、对象序列化、NIO 基础、Files/Paths 工具类
+            - generic [ref=e778]:
+              - generic [ref=e779]: 文章
+              - generic [ref=e780]: 60 分钟
+          - button "开始" [ref=e781] [cursor=pointer]
+        - generic [ref=e782]:
+          - generic [ref=e783]: "5"
+          - generic [ref=e784]:
+            - generic [ref=e785]: 多线程与并发编程
+            - generic [ref=e786]: Thread/Runnable、线程池、synchronized、Lock、volatile、CAS、ConcurrentHashMap、JUC 工具类
+            - generic [ref=e787]:
+              - generic [ref=e788]: 视频
+              - generic [ref=e789]: 120 分钟
+          - button "开始" [ref=e790] [cursor=pointer]
+        - generic [ref=e791]:
+          - generic [ref=e792]: "6"
+          - generic [ref=e793]:
+            - generic [ref=e794]: JVM 内存模型与性能调优入门
+            - generic [ref=e795]: JVM 内存分区、垃圾回收算法、常见 GC、类加载机制、jvisualvm/jstack 调优工具
+            - generic [ref=e796]:
+              - generic [ref=e797]: 文章
+              - generic [ref=e798]: 90 分钟
+          - button "开始" [ref=e799] [cursor=pointer]
+        - generic [ref=e800]:
+          - generic [ref=e801]: "7"
+          - generic [ref=e802]:
+            - generic [ref=e803]: MySQL 数据库从入门到实践
+            - generic [ref=e804]: 数据库设计范式、CRUD、多表 JOIN、聚合函数、索引原理、事务与隔离级别、EXPLAIN 调优
+            - generic [ref=e805]:
+              - generic [ref=e806]: 视频
+              - generic [ref=e807]: 120 分钟
+          - button "开始" [ref=e808] [cursor=pointer]
+        - generic [ref=e809]:
+          - generic [ref=e810]: "8"
+          - generic [ref=e811]:
+            - generic [ref=e812]: JDBC 与连接池
+            - generic [ref=e813]: JDBC 原生操作、PreparedStatement 防注入、Druid/HikariCP 连接池、数据库事务操作
+            - generic [ref=e814]:
+              - generic [ref=e815]: 文章
+              - generic [ref=e816]: 60 分钟
+          - button "开始" [ref=e817] [cursor=pointer]
+        - generic [ref=e818]:
+          - generic [ref=e819]: "9"
+          - generic [ref=e820]:
+            - generic [ref=e821]: MyBatis 框架精讲
+            - generic [ref=e822]: XML 映射、动态 SQL、结果映射、缓存机制、PageHelper 分页、MyBatis Generator 代码生成
+            - generic [ref=e823]:
+              - generic [ref=e824]: 视频
+              - generic [ref=e825]: 90 分钟
+          - button "开始" [ref=e826] [cursor=pointer]
+        - generic [ref=e827]:
+          - generic [ref=e828]: "10"
+          - generic [ref=e829]:
+            - generic [ref=e830]: Spring Boot 快速入门
+            - generic [ref=e831]: Spring IoC/DI、Bean 生命周期、配置管理、自动装配原理、Spring Boot Starter、Actuator 监控
+            - generic [ref=e832]:
+              - generic [ref=e833]: 文章
+              - generic [ref=e834]: 120 分钟
+          - button "开始" [ref=e835] [cursor=pointer]
+        - generic [ref=e836]:
+          - generic [ref=e837]: "11"
+          - generic [ref=e838]:
+            - generic [ref=e839]: RESTful API 开发实战
+            - generic [ref=e840]: "@RestController、请求参数处理、统一响应格式、全局异常处理、参数校验、Swagger 接口文档"
+            - generic [ref=e841]:
+              - generic [ref=e842]: 编程
+              - generic [ref=e843]: 90 分钟
+          - button "开始" [ref=e844] [cursor=pointer]
+        - generic [ref=e845]:
+          - generic [ref=e846]: "12"
+          - generic [ref=e847]:
+            - generic [ref=e848]: 项目实战：企业级用户管理系统
+            - generic [ref=e849]: 综合运用 Spring Boot + MyBatis + MySQL + Redis 构建完整 CRUD 项目、JWT 认证、拦截器、日志 AOP
+            - generic [ref=e850]:
+              - generic [ref=e851]: 编程
+              - generic [ref=e852]: 180 分钟
+          - button "开始" [ref=e853] [cursor=pointer]
+  - contentinfo [ref=e250]:
+    - img [ref=e252]
+    - generic [ref=e255]:
+      - generic [ref=e256]:
+        - generic [ref=e257]:
+          - generic [ref=e258]: </>
+          - generic [ref=e259]: AI-Code
+        - paragraph [ref=e260]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e261]:
+          - generic [ref=e262]: Spring Boot
+          - generic [ref=e263]: MyBatis
+          - generic [ref=e264]: MySQL
+          - generic [ref=e265]: Redis
+          - generic [ref=e266]: Vue.js
+          - generic [ref=e267]: Element UI
+          - generic [ref=e268]: Docker
+      - generic [ref=e269]:
+        - heading "快速导航" [level=4] [ref=e270]
+        - list [ref=e271]:
+          - listitem [ref=e272]:
+            - link "首页" [ref=e273] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e274]:
+            - link "代码审查" [ref=e275] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e276]:
+            - link "智能问答" [ref=e277] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e278]:
+            - link "学习路径" [ref=e279] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e280]:
+        - heading "学习资源" [level=4] [ref=e281]
+        - list [ref=e282]:
+          - listitem [ref=e283]:
+            - link "Java 基础教程" [ref=e284] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e285]:
+            - link "Spring 系列" [ref=e286] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e287]:
+            - link "数据库专题" [ref=e288] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e289]:
+            - link "算法与数据结构" [ref=e290] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e291]:
+        - heading "关于" [level=4] [ref=e292]
+        - list [ref=e293]:
+          - listitem [ref=e294]:
+            - link "平台介绍" [ref=e295] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e296]:
+            - link "使用帮助" [ref=e297] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e298]:
+            - link "意见反馈" [ref=e299] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e300]:
+            - link "隐私政策" [ref=e301] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e303]:
+      - paragraph [ref=e304]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e305]:
+        - generic [ref=e306]:
+          - generic [ref=e307]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e308]:
+          - generic [ref=e309]: 
+          - text: v1.0.0

@@ -1,0 +1,108 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5] [cursor=pointer]:
+        - generic [ref=e6]:
+          - generic [ref=e7]: <
+          - generic [ref=e8]: /
+          - generic [ref=e9]: ">"
+        - generic [ref=e10]: AI-Code
+      - navigation [ref=e11]:
+        - link " 首页" [ref=e12] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e13]: 
+          - generic [ref=e14]: 首页
+        - link " 代码审查" [ref=e15] [cursor=pointer]:
+          - /url: /code-review
+          - generic [ref=e16]: 
+          - generic [ref=e17]: 代码审查
+        - link " 智能问答" [ref=e18] [cursor=pointer]:
+          - /url: /qa
+          - generic [ref=e19]: 
+          - generic [ref=e20]: 智能问答
+        - link " 学习路径" [ref=e21] [cursor=pointer]:
+          - /url: /learning-paths
+          - generic [ref=e22]: 
+          - generic [ref=e23]: 学习路径
+        - link " 管理" [ref=e24] [cursor=pointer]:
+          - /url: /admin
+          - generic [ref=e25]: 
+          - generic [ref=e26]: 管理
+      - generic [ref=e27]:
+        - generic [ref=e28] [cursor=pointer]:
+          - generic [ref=e29]: A
+          - generic [ref=e30]: admin
+        - button "" [ref=e31] [cursor=pointer]:
+          - generic [ref=e33]: 
+  - main [ref=e34]:
+    - button "← 返回列表" [ref=e36] [cursor=pointer]
+  - contentinfo [ref=e46]:
+    - img [ref=e48]
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - generic [ref=e54]: </>
+          - generic [ref=e55]: AI-Code
+        - paragraph [ref=e56]: 基于 AI 驱动的智能编程学习平台，提供代码审查、智能问答、个性化学习路径等一站式服务，帮助你更高效地学习编程。
+        - generic [ref=e57]:
+          - generic [ref=e58]: Spring Boot
+          - generic [ref=e59]: MyBatis
+          - generic [ref=e60]: MySQL
+          - generic [ref=e61]: Redis
+          - generic [ref=e62]: Vue.js
+          - generic [ref=e63]: Element UI
+          - generic [ref=e64]: Docker
+      - generic [ref=e65]:
+        - heading "快速导航" [level=4] [ref=e66]
+        - list [ref=e67]:
+          - listitem [ref=e68]:
+            - link "首页" [ref=e69] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e70]:
+            - link "代码审查" [ref=e71] [cursor=pointer]:
+              - /url: /code-review
+          - listitem [ref=e72]:
+            - link "智能问答" [ref=e73] [cursor=pointer]:
+              - /url: /qa
+          - listitem [ref=e74]:
+            - link "学习路径" [ref=e75] [cursor=pointer]:
+              - /url: /learning-paths
+      - generic [ref=e76]:
+        - heading "学习资源" [level=4] [ref=e77]
+        - list [ref=e78]:
+          - listitem [ref=e79]:
+            - link "Java 基础教程" [ref=e80] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e81]:
+            - link "Spring 系列" [ref=e82] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e83]:
+            - link "数据库专题" [ref=e84] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e85]:
+            - link "算法与数据结构" [ref=e86] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e87]:
+        - heading "关于" [level=4] [ref=e88]
+        - list [ref=e89]:
+          - listitem [ref=e90]:
+            - link "平台介绍" [ref=e91] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e92]:
+            - link "使用帮助" [ref=e93] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e94]:
+            - link "意见反馈" [ref=e95] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e96]:
+            - link "隐私政策" [ref=e97] [cursor=pointer]:
+              - /url: "#"
+    - generic [ref=e99]:
+      - paragraph [ref=e100]: © 2026 AI-Code 智能编程学习平台. All rights reserved.
+      - paragraph [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e103]: 
+          - text: 浙ICP备2026XXXXXXXX号-1
+        - generic [ref=e104]:
+          - generic [ref=e105]: 
+          - text: v1.0.0
