@@ -320,3 +320,20 @@ CREATE TABLE `sys_log` (
   INDEX `idx_action_type` (`action_type`),
   INDEX `idx_create_time` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ========================================
+-- 阶段7：课程资源表
+-- ========================================
+
+CREATE TABLE IF NOT EXISTS `course_resource` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `course_id` BIGINT(20) NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
+  `type` ENUM('LINK','VIDEO','EXERCISE','REFERENCE','DOWNLOAD') DEFAULT 'LINK',
+  `url` VARCHAR(500) DEFAULT NULL,
+  `description` TEXT,
+  `sort_order` INT(11) DEFAULT '0',
+  `create_time` DATETIME DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_course_id` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
