@@ -52,6 +52,8 @@ services:
         condition: service_healthy
     environment:
       JDBC_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      MYSQL_HOST: mysql
       REDIS_HOST: redis
       REDIS_PASSWORD: ${REDIS_PASSWORD:-}
       TZ: Asia/Shanghai
