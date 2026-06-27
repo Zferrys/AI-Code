@@ -284,7 +284,6 @@
 </template>
 
 <script>
-import http from '../api';
 import { mapGetters } from 'vuex';
 import { learningPathApi } from '../api';
 import { mockTestimonials, mockStats } from '../mock';
@@ -337,15 +336,12 @@ export default {
 
     async loadData() {
       try {
-        const [pathRes, statsRes] = await Promise.all([
-          learningPathApi.getAll().catch(() => ({ code: 200, data: [] })),
-          http.get('/stats').catch(() => null)
-        ]);
-        if (pathRes.code === 200) this.paths = (pathRes.data && pathRes.data.list) || pathRes.data || [];
-        // 学习路径数用真实的，其余统计保留展示用的大数
-        const realStats = statsRes?.data;
-        if (realStats && realStats.code === 200 && realStats.data) {
-          this.stats.pathCount = realStats.data.pathCount || this.paths.length;
+        const pathRes = await learningPathApi.getAll().catch(() => ({ code: 200, data: [] }));
+        if (pathRes.code === 200) {
+          const list = (pathRes.data && pathRes.data.list) || pathRes.data || [];
+          this.paths = list;
+          // 学习路径数直接用真实数据的长度
+          this.stats.pathCount = list.length;
         }
       } catch {}
     },
