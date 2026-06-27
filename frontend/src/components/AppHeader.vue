@@ -48,7 +48,7 @@
       <!-- 用户区域 -->
       <div class="user-area">
         <template v-if="isLoggedIn">
-          <div class="user-info pulse-ring" @click="$router.push('/profile')">
+          <div class="user-info pulse-ring" @click="goToProfile">
             <el-avatar :size="32" class="user-avatar" v-if="!user?.avatar || user.avatar === '/default.png'">
               {{ user?.username?.charAt(0)?.toUpperCase() }}
             </el-avatar>
@@ -102,6 +102,11 @@ export default {
   methods: {
     ...mapActions(['logout']),
     onScroll() { this.scrolled = window.scrollY > 20; },
+    goToProfile() {
+      this.$router.push('/profile').catch(err => {
+        if (err.name !== 'NavigationDuplicated') throw err;
+      });
+    },
     handleLogout() {
       this.logout();
       this.$router.push('/');

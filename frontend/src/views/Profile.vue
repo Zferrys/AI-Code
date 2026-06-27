@@ -85,25 +85,84 @@
             </div>
             <span>编辑资料</span>
           </div>
-          <el-form :model="editForm" label-width="70px">
+          <el-form :model="editForm" label-width="80px">
             <el-row :gutter="20">
               <el-col :span="12">
+                <el-form-item label="真实姓名">
+                  <el-input v-model="editForm.realName" class="pi-input" placeholder="你的真实姓名">
+                    <i slot="prefix" class="el-icon-user"></i>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item label="邮箱">
-                  <el-input v-model="editForm.email" class="pi-input"
-                            placeholder="请输入邮箱地址">
+                  <el-input v-model="editForm.email" class="pi-input" placeholder="请输入邮箱地址">
                     <i slot="prefix" class="el-icon-message"></i>
                   </el-input>
                 </el-form-item>
               </el-col>
+            </el-row>
+            <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="手机">
-                  <el-input v-model="editForm.phone" class="pi-input"
-                            placeholder="请输入手机号码">
+                  <el-input v-model="editForm.phone" class="pi-input" placeholder="请输入手机号码">
                     <i slot="prefix" class="el-icon-phone"></i>
                   </el-input>
                 </el-form-item>
               </el-col>
+              <el-col :span="12">
+                <el-form-item label="学校">
+                  <el-input v-model="editForm.school" class="pi-input" placeholder="所在学校">
+                    <i slot="prefix" class="el-icon-school"></i>
+                  </el-input>
+                </el-form-item>
+              </el-col>
             </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="专业">
+                  <el-input v-model="editForm.major" class="pi-input" placeholder="所学专业">
+                    <i slot="prefix" class="el-icon-reading"></i>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="年级">
+                  <el-select v-model="editForm.grade" class="pi-input" placeholder="选择年级" clearable>
+                    <el-option label="大一" value="大一" />
+                    <el-option label="大二" value="大二" />
+                    <el-option label="大三" value="大三" />
+                    <el-option label="大四" value="大四" />
+                    <el-option label="研一" value="研一" />
+                    <el-option label="研二" value="研二" />
+                    <el-option label="研三" value="研三" />
+                    <el-option label="已毕业" value="已毕业" />
+                    <el-option label="其他" value="其他" />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="GitHub">
+                  <el-input v-model="editForm.githubUrl" class="pi-input" placeholder="https://github.com/yourname">
+                    <i slot="prefix" class="el-icon-link"></i>
+                  </el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="技术等级">
+                  <span class="experience-tag" :class="'level-' + (userInfo.experienceLevel || 'BEGINNER').toLowerCase()">
+                    {{ levelLabel }}
+                  </span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-form-item label="个人简介">
+              <el-input v-model="editForm.bio" type="textarea" class="pi-input"
+                        :rows="3" placeholder="介绍一下自己，让其他同学了解你" maxlength="200"
+                        show-word-limit />
+            </el-form-item>
             <el-form-item>
               <el-button type="primary" class="pi-save-btn" @click="handleUpdate"
                          :loading="saving">
@@ -194,7 +253,8 @@ export default {
       saving: false,
       addingTag: false,
       loadingAvatar: false,
-      animatedStats: { review: 0, qa: 0, tags: 0 }
+      animatedStats: { review: 0, qa: 0, tags: 0 },
+      statsLoaded: false
     };
   },
   computed: {
@@ -207,6 +267,15 @@ export default {
       if (!av || av === '/default.png') return '';
       if (av.startsWith('http')) return av;
       return av.startsWith('/') ? av : '/' + av;
+    },
+    levelLabel() {
+      const map = {
+        'BEGINNER': '🏁 入门新手',
+        'INTERMEDIATE': '📈 初级开发者',
+        'ADVANCED': '🚀 中级开发者',
+        'EXPERT': '🏆 高级开发者'
+      };
+      return map[this.userInfo?.experienceLevel] || '🏁 入门新手';
     }
   },
   created() { this.loadData(); },
@@ -265,8 +334,15 @@ export default {
           this.userInfo = userRes.data;
           this.editForm = {
             email: userRes.data.email || '',
-            phone: userRes.data.phone || ''
+            phone: userRes.data.phone || '',
+            realName: userRes.data.realName || '',
+            school: userRes.data.school || '',
+            major: userRes.data.major || '',
+            grade: userRes.data.grade || '',
+            bio: userRes.data.bio || '',
+            githubUrl: userRes.data.githubUrl || ''
           };
+          this.statsLoaded = true;
         }
         if (tagRes.code === 200) this.userTags = tagRes.data;
         if (allTagRes.code === 200) this.allTags = allTagRes.data;
@@ -329,10 +405,12 @@ export default {
     // ---- 统计数字动画 ----
     initStatCounter() {
       const targets = {
-        review: 0,
-        qa: 0,
+        review: this.userInfo?.reviewCount || 0,
+        qa: this.userInfo?.qaCount || 0,
         tags: this.userTags.length || 0
       };
+      // 如果数据还未加载，用 0
+      if (!this.statsLoaded && !this.userInfo?.reviewCount) return;
       // 使用 requestAnimationFrame 做计数动画
       const duration = 1200;
       const start = performance.now();
@@ -353,7 +431,16 @@ export default {
   },
   watch: {
     userTags() {
-      this.initStatCounter();
+      if (this.statsLoaded) this.initStatCounter();
+    },
+    'userInfo.reviewCount'() {
+      if (this.statsLoaded) this.initStatCounter();
+    },
+    'userInfo.qaCount'() {
+      if (this.statsLoaded) this.initStatCounter();
+    },
+    statsLoaded(val) {
+      if (val) this.initStatCounter();
     }
   }
 };
@@ -893,6 +980,45 @@ export default {
 .tag-dialog >>> .el-dialog__title {
   font-weight: 600;
   font-size: 16px;
+}
+
+/* ===== 技术等级标签 ===== */
+.experience-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+.level-beginner {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+}
+.level-intermediate {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+}
+.level-advanced {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #065f46;
+}
+.level-expert {
+  background: linear-gradient(135deg, #fae8ff, #e9d5ff);
+  color: #6b21a8;
+}
+
+/* select 在编辑表单中的样式 */
+.pi-input >>> .el-select .el-input__inner {
+  border-radius: 10px;
+  height: 42px;
+  border: 1.5px solid var(--border, #e2e8f0);
+  transition: all 0.3s;
+}
+.pi-input >>> .el-select .el-input__inner:focus {
+  border-color: var(--primary, #1a56db);
+  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
 }
 
 /* ===== 响应式 ===== */

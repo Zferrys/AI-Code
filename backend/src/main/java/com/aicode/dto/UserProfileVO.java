@@ -25,6 +25,8 @@ public class UserProfileVO {
     private String githubUrl;
     private String experienceLevel;
     private List<TagVO> tags;
+    private long reviewCount;
+    private long qaCount;
 
     public UserVO getUser() { return user; }
     public void setUser(UserVO user) { this.user = user; }
@@ -73,4 +75,10 @@ public class UserProfileVO {
 
     public List<TagVO> getTags() { return tags; }
     public void setTags(List<TagVO> tags) { this.tags = tags; }
+
+    public long getReviewCount() { return reviewCount; }
+    public void setReviewCount(long reviewCount) { this.reviewCount = reviewCount; }
+
+    public long getQaCount() { return qaCount; }
+    public void setQaCount(long qaCount) { this.qaCount = qaCount; }
 }

@@ -4,6 +4,8 @@ import com.aicode.dto.*;
 import com.aicode.entity.User;
 import com.aicode.entity.UserProfile;
 import com.aicode.exception.BusinessException;
+import com.aicode.mapper.CodeReviewMapper;
+import com.aicode.mapper.QaQuestionMapper;
 import com.aicode.mapper.UserMapper;
 import com.aicode.mapper.UserProfileMapper;
 import com.aicode.util.JwtTokenUtil;
@@ -77,6 +79,12 @@ public class UserService {
 
     @Autowired
     private EmailVerificationService emailVerificationService;
+
+    @Autowired
+    private CodeReviewMapper codeReviewMapper;
+
+    @Autowired
+    private QaQuestionMapper qaQuestionMapper;
 
     /**
      * 用户注册
@@ -302,6 +310,9 @@ public class UserService {
             vo.setGithubUrl(profile.getGithubUrl());
             vo.setExperienceLevel(profile.getExperienceLevel());
         }
+        // 统计数据
+        vo.setReviewCount(codeReviewMapper.countByUserId(userId));
+        vo.setQaCount(qaQuestionMapper.countByUserId(userId));
         return vo;
     }
 
