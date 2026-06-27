@@ -10,18 +10,18 @@ import com.aicode.dto.UserProgressVO;
 import com.aicode.entity.CourseResource;
 import com.aicode.entity.LearningPath;
 import com.aicode.entity.LearningPathCourse;
-import com.aicode.entity.Tag;
 import com.aicode.exception.BusinessException;
-import com.aicode.mapper.ContentTagMapper;
 import com.aicode.mapper.CourseResourceMapper;
 import com.aicode.mapper.LearningPathCourseMapper;
 import com.aicode.mapper.LearningPathMapper;
 import com.aicode.mapper.UserLearningProgressMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,33 +36,33 @@ public class LearningPathService {
 
     private static final Logger log = LoggerFactory.getLogger(LearningPathService.class);
 
-    @Autowired
-    private LearningPathMapper learningPathMapper;
-
-    @Autowired
-    private LearningPathCourseMapper courseMapper;
-
-    @Autowired
-    private UserLearningProgressMapper progressMapper;
-
-    @Autowired
-    private ContentTagMapper contentTagMapper;
-
-    @Autowired
-    private RedisService redisService;
-
-    @Autowired
-    private AIService aiService;
-
-    @Autowired
-    private UserTechTagService userTechTagService;
-
-    @Autowired
-    private CourseResourceMapper courseResourceMapper;
+    private final LearningPathMapper learningPathMapper;
+    private final LearningPathCourseMapper courseMapper;
+    private final UserLearningProgressMapper progressMapper;
+    private final RedisService redisService;
+    private final AIService aiService;
+    private final UserTechTagService userTechTagService;
+    private final CourseResourceMapper courseResourceMapper;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String CACHE_KEY_ALL_PATHS = "learning_paths:all";
+
+    public LearningPathService(LearningPathMapper learningPathMapper,
+                                LearningPathCourseMapper courseMapper,
+                                UserLearningProgressMapper progressMapper,
+                                RedisService redisService,
+                                AIService aiService,
+                                UserTechTagService userTechTagService,
+                                CourseResourceMapper courseResourceMapper) {
+        this.learningPathMapper = learningPathMapper;
+        this.courseMapper = courseMapper;
+        this.progressMapper = progressMapper;
+        this.redisService = redisService;
+        this.aiService = aiService;
+        this.userTechTagService = userTechTagService;
+        this.courseResourceMapper = courseResourceMapper;
+    }
 
     /**
      * 获取所有已发布的路径（带 Redis 缓存）
@@ -247,19 +247,41 @@ public class LearningPathService {
      * AI 调用和 JSON 解析在事务外，仅数据库写入在事务内
      */
     public LearningPathVO generatePathByAI(String requirement) {
-        String prompt = "请根据以下需求生成学习路径：\n" + requirement
-                + "\n\n生成" + (requirement.contains("入门") || requirement.contains("初级") ? 6 : 10)
+        // XSS 过滤用户输入
+        String safeRequirement = Jsoup.clean(requirement, Safelist.none());
+        if (safeRequirement.trim().isEmpty()) {
+            throw new BusinessException(400, "需求描述不能为空");
+        }
+
+        String prompt = "请根据以下需求生成学习路径：\n" + safeRequirement
+                + "\n\n生成" + (safeRequirement.contains("入门") || safeRequirement.contains("初级") ? 6 : 10)
                 + "个课程，JSON 格式返回，每个课程包含 200-500 字的 contentMarkdown。";
         // Phase 1: AI 调用（事务外，可能耗时 30-180s）
         String response = aiService.chat(AIPromptTemplate.PATH_GENERATION_SYSTEM, prompt, 180000);
 
         // Phase 2: 解析 JSON（事务外）
-        com.fasterxml.jackson.databind.JsonNode root;
+        JsonNode root;
         try {
-            root = objectMapper.readTree(response);
+            // 尝试提取 JSON 部分（AI 可能掺杂多余文本）
+            String clean = response;
+            int startBrace = clean.indexOf("{");
+            int endBrace = clean.lastIndexOf("}");
+            if (startBrace != -1 && endBrace > startBrace) {
+                clean = clean.substring(startBrace, endBrace + 1);
+            }
+            root = objectMapper.readTree(clean);
+            // 校验必要字段
+            if (!root.has("title") || !root.has("description")) {
+                throw new BusinessException(500, "AI 返回格式不完整，缺少 title 或 description");
+            }
+            if (!root.has("courses") || !root.get("courses").isArray() || root.get("courses").size() == 0) {
+                throw new BusinessException(500, "AI 返回格式不完整，缺少课程列表");
+            }
+        } catch (BusinessException e) {
+            throw e;
         } catch (Exception e) {
             log.error("AI 生成路径解析失败: {}", e.getMessage());
-            throw new BusinessException(500, "AI 生成失败，响应解析异常：" + e.getMessage());
+            throw new BusinessException(500, "AI 生成失败，响应解析异常，请重试");
         }
 
         // Phase 3: 保存到数据库（事务内）
@@ -267,11 +289,11 @@ public class LearningPathService {
     }
 
     @Transactional
-    public LearningPathVO saveGeneratedPath(com.fasterxml.jackson.databind.JsonNode root) {
+    public LearningPathVO saveGeneratedPath(JsonNode root) {
         try {
             LearningPathVO vo = new LearningPathVO();
-            vo.setTitle(root.get("title").asText());
-            vo.setDescription(root.get("description").asText());
+            vo.setTitle(safeJsonText(root, "title", "未命名路径"));
+            vo.setDescription(safeJsonText(root, "description", ""));
             vo.setDifficulty(root.has("difficulty") ? root.get("difficulty").asText() : "BEGINNER");
             vo.setEstimatedDays(root.has("estimatedDays") ? root.get("estimatedDays").asInt() : 30);
             vo.setStatus("DRAFT");
@@ -287,23 +309,26 @@ public class LearningPathService {
             path.setUpdateTime(new Date());
             learningPathMapper.insert(path);
 
-            com.fasterxml.jackson.databind.JsonNode courses = root.get("courses");
+            JsonNode courses = root.get("courses");
             if (courses != null && courses.isArray()) {
                 int idx = 1;
-                for (com.fasterxml.jackson.databind.JsonNode c : courses) {
+                List<LearningPathCourse> batch = new ArrayList<>();
+                for (JsonNode c : courses) {
                     LearningPathCourse course = new LearningPathCourse();
                     course.setPathId(path.getId());
-                    course.setTitle(c.get("title").asText());
-                    course.setDescription(c.get("description").asText());
+                    course.setTitle(safeJsonText(c, "title", "未命名课程"));
+                    course.setDescription(safeJsonText(c, "description", ""));
                     course.setOrderIndex(idx++);
-                    String ct = c.has("contentType") ? c.get("contentType").asText() : "ARTICLE";
-                    course.setContentType(ct);
+                    course.setContentType(c.has("contentType") ? c.get("contentType").asText() : "ARTICLE");
                     course.setEstimatedMinutes(c.has("estimatedMinutes") ? c.get("estimatedMinutes").asInt() : 30);
-                    course.setContentMarkdown(c.has("contentMarkdown") ? c.get("contentMarkdown").asText() : "");
+                    String md = c.has("contentMarkdown") ? c.get("contentMarkdown").asText() : "";
+                    course.setContentMarkdown(Jsoup.clean(md, Safelist.none()));
                     course.setCreateTime(new Date());
-                    courseMapper.insert(course);
+                    batch.add(course);
                 }
-                learningPathMapper.updateCourseCount(path.getId(), idx - 1);
+                // 批量插入
+                courseMapper.batchInsert(batch);
+                learningPathMapper.updateCourseCount(path.getId(), batch.size());
             }
 
             redisService.delete(CACHE_KEY_ALL_PATHS);
@@ -313,6 +338,16 @@ public class LearningPathService {
             log.error("AI 生成路径保存失败: {}", e.getMessage());
             throw new BusinessException(500, "保存失败：" + e.getMessage());
         }
+    }
+
+    /**
+     * 安全地从 JsonNode 提取文本，防止 NPE
+     */
+    private String safeJsonText(JsonNode node, String field, String fallback) {
+        if (node != null && node.has(field) && !node.get(field).isNull()) {
+            return node.get(field).asText();
+        }
+        return fallback;
     }
 
     // ========== 管理员方法 ==========

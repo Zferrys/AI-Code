@@ -245,6 +245,7 @@ public class CodeReviewService {
     /**
      * 使用 Jackson 解析和验证 AI 返回的 JSON，提取字段值
      * 解析成功后重新序列化，确保前端 JSON.parse 不会因宽松格式而失败
+     * 当 AI 输出掺杂了多余文本时，尝试提取 JSON 部分；兜底返回安全错误 JSON
      */
     private AiReviewResult cleanAndValidateJson(String raw) {
         String clean = raw;
@@ -253,31 +254,55 @@ public class CodeReviewService {
 
         ObjectMapper mapper = new ObjectMapper();
         try {
+            // 先尝试直接解析
             JsonNode root = mapper.readTree(clean);
-
-            Integer quality = root.has("quality") ? root.get("quality").asInt(0) : null;
-            int bugCount = 0;
-            int suggestionCount = 0;
-
-            if (root.has("bugs") && root.get("bugs").isArray()) {
-                bugCount = root.get("bugs").size();
-            }
-            if (root.has("optimizations") && root.get("optimizations").isArray()) {
-                suggestionCount = root.get("optimizations").size();
-            }
-
-            // 关键修复：重新序列化 JSON，保证格式严格合法（无 trailing comma、无单引号等）
-            String reSerialized = mapper.writeValueAsString(root);
-
-            return new AiReviewResult(reSerialized, quality, bugCount, suggestionCount);
+            return buildResult(mapper, root, clean);
         } catch (Exception e) {
-            log.warn("AI 响应 JSON 解析失败，使用降级回退: {}", e.getMessage());
-            // 降级：尝试从原始字符串中提取数值
-            Integer quality = fallbackExtractInt(raw, "\"quality\"", 0);
-            int bugCount = fallbackExtractArrayCount(raw, "\"bugs\"");
-            int suggestionCount = fallbackExtractArrayCount(raw, "\"optimizations\"");
-            return new AiReviewResult(clean, quality, bugCount, suggestionCount);
+            log.warn("AI 响应 JSON 解析失败，尝试提取 JSON 部分: {}", e.getMessage());
         }
+
+        // 降级1：尝试从文本中提取 { ... } 包裹的 JSON 部分
+        try {
+            int start = clean.indexOf("{");
+            int end = clean.lastIndexOf("}");
+            if (start != -1 && end > start) {
+                String extracted = clean.substring(start, end + 1);
+                JsonNode root = mapper.readTree(extracted);
+                log.info("AI 响应 JSON 提取成功，丢弃 {} 字符非 JSON 前缀/后缀",
+                        clean.length() - extracted.length());
+                return buildResult(mapper, root, extracted);
+            }
+        } catch (Exception e) {
+            log.warn("AI 响应 JSON 提取解析也失败: {}", e.getMessage());
+        }
+
+        // 降级2：兜底 — 返回安全 JSON 错误信息，绝不存原始脏文本
+        log.warn("AI 响应完全无法解析为 JSON，返回错误响应");
+        String safeJson = "{\"summary\":\"AI 审查结果格式异常，无法解析。请重试。\"}";
+        try {
+            JsonNode root = mapper.readTree(safeJson);
+            return new AiReviewResult(safeJson, 0, 0, 0);
+        } catch (Exception ex) {
+            // 极端兜底，不应该发生
+            return new AiReviewResult("{\"summary\":\"审查失败\"}", 0, 0, 0);
+        }
+    }
+
+    private AiReviewResult buildResult(ObjectMapper mapper, JsonNode root, String source) throws Exception {
+        Integer quality = root.has("quality") ? root.get("quality").asInt(0) : null;
+        int bugCount = 0;
+        int suggestionCount = 0;
+
+        if (root.has("bugs") && root.get("bugs").isArray()) {
+            bugCount = root.get("bugs").size();
+        }
+        if (root.has("optimizations") && root.get("optimizations").isArray()) {
+            suggestionCount = root.get("optimizations").size();
+        }
+
+        // 重新序列化 JSON，保证格式严格合法
+        String reSerialized = mapper.writeValueAsString(root);
+        return new AiReviewResult(reSerialized, quality, bugCount, suggestionCount);
     }
 
     /**

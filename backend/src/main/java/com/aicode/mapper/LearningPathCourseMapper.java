@@ -18,6 +18,8 @@ public interface LearningPathCourseMapper {
 
     int insert(LearningPathCourse course);
 
+    int batchInsert(List<LearningPathCourse> courses);
+
     int updateById(LearningPathCourse course);
 
     int deleteById(@Param("id") Long id);

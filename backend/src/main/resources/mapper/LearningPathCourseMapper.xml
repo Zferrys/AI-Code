@@ -55,6 +55,16 @@
         WHERE id = #{id}
     </update>
 
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO learning_path_course (path_id, title, description, order_index, content_type,
+            content_url, content_markdown, estimated_minutes, create_time)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.pathId}, #{item.title}, #{item.description}, #{item.orderIndex}, #{item.contentType},
+            #{item.contentUrl}, #{item.contentMarkdown}, #{item.estimatedMinutes}, #{item.createTime})
+        </foreach>
+    </insert>
+
     <delete id="deleteById">
         DELETE FROM learning_path_course WHERE id = #{id}
     </delete>

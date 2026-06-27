@@ -132,14 +132,19 @@ export default {
     parsedResult() {
       if (!this.result || !this.result.reviewResult) return null;
       try {
-        // 尝试解析 JSON
-        const text = this.result.reviewResult;
+        let text = String(this.result.reviewResult);
         // 清理可能的 markdown 标记
-        const clean = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-        return JSON.parse(clean);
+        text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+        // 尝试提取 JSON 对象（如果 AI 掺杂了其他文本）
+        const firstBrace = text.indexOf('{');
+        const lastBrace = text.lastIndexOf('}');
+        if (firstBrace !== -1 && lastBrace > firstBrace) {
+          text = text.substring(firstBrace, lastBrace + 1);
+        }
+        return JSON.parse(text);
       } catch {
-        // 非 JSON 格式，直接返回文本
-        return { summary: this.result.reviewResult };
+        // 非 JSON 格式，返回提示
+        return { summary: 'AI 返回结果格式异常，无法解析。请返回列表页重试。' };
       }
     },
     scoreClass() {
