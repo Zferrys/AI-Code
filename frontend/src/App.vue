@@ -16,6 +16,7 @@
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
 import OnboardingTour from './components/OnboardingTour.vue';
+import BackToTop from './components/BackToTop.vue';
 import { mapGetters } from 'vuex';
 
 export default {
