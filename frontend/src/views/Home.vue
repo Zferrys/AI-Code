@@ -307,7 +307,8 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     displayPaths() {
-      return fallbackArray(this.paths, mockLearningPaths).slice(0, 3);
+      const arr = fallbackArray(this.paths, mockLearningPaths);
+      return [...arr].sort(() => Math.random() - 0.5).slice(0, 3);
     },
     displayQuestions() {
       return fallbackArray(this.questions, mockQuestions).slice(0, 4);
