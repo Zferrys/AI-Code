@@ -13,6 +13,10 @@ Vue.config.productionTip = false;
 
 // 全局错误处理 — 防止 [object Object] 运行时错误泄露到控制台
 Vue.config.errorHandler = (err, vm, info) => {
+  // Vue Router 导航中断是正常行为，不打印
+  if (err && (err.name === 'NavigationDuplicated' || err.type === 4 || (err.message && err.message.indexOf('Navigation cancelled') !== -1))) {
+    return;
+  }
   console.warn('[Vue 全局错误]', info, err?.message || err);
   // 不传播到 webpack-dev-server overlay
 };

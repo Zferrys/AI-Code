@@ -9,8 +9,22 @@ const originalPush = Router.prototype.push;
 Router.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => {
     // name 'NavigationDuplicated' = 重复点击同一路由
-    // type 4 = Abort by guard redirect (守卫内部重定向是正常行为)
-    if (err.name !== 'NavigationDuplicated' && err.type !== 4) throw err;
+    // type 4 / 'Navigation cancelled' = 守卫内部重定向（正常行为）
+    if (err && (err.name === 'NavigationDuplicated' || err.type === 4 ||
+        (err.message && err.message.indexOf('Navigation cancelled') !== -1))) {
+      return;
+    }
+    throw err;
+  });
+};
+const originalReplace = Router.prototype.replace;
+Router.prototype.replace = function replace(location) {
+  return originalReplace.call(this, location).catch(err => {
+    if (err && (err.name === 'NavigationDuplicated' || err.type === 4 ||
+        (err.message && err.message.indexOf('Navigation cancelled') !== -1))) {
+      return;
+    }
+    throw err;
   });
 };
 
