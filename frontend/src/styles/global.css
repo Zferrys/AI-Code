@@ -419,9 +419,7 @@ img { max-width: 100%; height: auto; }
 }
 .el-button--primary:hover {
   box-shadow: 0 6px 20px rgba(26,86,219,0.35) !important;
-  transform: translateY(-2px) !important;
 }
-.el-button--primary:active { transform: translateY(0) !important; }
 
 .el-button--text { color: var(--primary) !important; }
 
