@@ -79,7 +79,7 @@ public class CodeReviewService {
         codeReviewMapper.insert(review);
 
         // 异步调用 AI 进行审查
-        asyncProcessReview(review.getId(), request);
+        asyncProcessReview(review.getId(), userId, request);
 
         return toCodeReviewVO(review);
     }
@@ -88,14 +88,14 @@ public class CodeReviewService {
      * 异步处理 AI 代码审查
      */
     @Async("aiExecutor")
-    protected void asyncProcessReview(Long reviewId, CodeReviewRequest request) {
+    protected void asyncProcessReview(Long reviewId, Long userId, CodeReviewRequest request) {
         long startTime = System.currentTimeMillis();
         try {
             // 更新状态为处理中
             codeReviewMapper.updateStatus(reviewId, "PROCESSING");
 
             // 限流检查
-            if (!rateLimiter.tryAcquire()) {
+            if (!rateLimiter.tryAcquire(userId, null)) {
                 CodeReview review = codeReviewMapper.selectById(reviewId);
                 review.setStatus("FAILED");
                 review.setReviewResult("{\"summary\":\"系统繁忙，请稍后重试（API 调用频率超限）\"}");

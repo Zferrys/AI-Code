@@ -208,12 +208,27 @@ public class UserService {
             registerAttempts.entrySet().removeIf(e -> e.getValue().isExpired(REGISTER_WINDOW));
         }
 
-        // 验证码校验（仅在提供了验证码ID和答案时校验）
+        // 验证码校验（3 次失败后强制要求，不可绕过）
         String cid = request.getCaptchaId();
         Integer ans = request.getCaptchaAnswer();
-        if (cid != null && !cid.isEmpty() && ans != null) {
+        boolean needCaptcha = false;
+        if (ip != null) {
+            LoginAttempt att = loginAttempts.get(ip);
+            needCaptcha = (att != null && att.count >= 3);
+        }
+        if (needCaptcha) {
+            if (cid == null || cid.isEmpty() || ans == null) {
+                throw new BusinessException(400, "登录失败次数过多，请完成验证码");
+            }
             if (!captchaService.validate(cid, ans)) {
                 throw new BusinessException(400, "验证码错误或已过期，请重新获取");
+            }
+        } else {
+            // 3 次以下可选校验
+            if (cid != null && !cid.isEmpty() && ans != null) {
+                if (!captchaService.validate(cid, ans)) {
+                    throw new BusinessException(400, "验证码错误或已过期，请重新获取");
+                }
             }
         }
 

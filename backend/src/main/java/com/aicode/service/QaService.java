@@ -83,7 +83,7 @@ public class QaService {
         qaQuestionMapper.insert(question);
 
         // 异步调用 AI 回答
-        asyncAnswerQuestion(question.getId(), request);
+        asyncAnswerQuestion(question.getId(), userId, request);
 
         return toQaQuestionVO(question, null);
     }
@@ -92,11 +92,11 @@ public class QaService {
      * 异步 AI 回答
      */
     @Async("aiExecutor")
-    protected void asyncAnswerQuestion(Long questionId, QaQuestionRequest request) {
+    protected void asyncAnswerQuestion(Long questionId, Long userId, QaQuestionRequest request) {
         long startTime = System.currentTimeMillis();
         try {
             // 限流检查
-            if (!rateLimiter.tryAcquire()) {
+            if (!rateLimiter.tryAcquire(userId, null)) {
                 log.warn("AI 限流，问答跳过: questionId={}", questionId);
                 saveAnswer(questionId, "系统繁忙，请稍后重试（API 调用频率超限）", startTime);
                 return;
@@ -227,6 +227,11 @@ public class QaService {
                 .collect(Collectors.joining("\n\n"));
 
         // 调用 AI（同步调用，追问通常需要返回结果）
+        // 限流检查
+        if (!rateLimiter.tryAcquire(userId, null)) {
+            throw new BusinessException(429, "AI 服务繁忙，请稍后再试");
+        }
+
         String systemPrompt = AIPromptTemplate.QA_SYSTEM;
         String userMessage = AIPromptTemplate.buildFollowUpPrompt(
                 question.getTitle(), context, request.getContent());

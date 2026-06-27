@@ -68,6 +68,7 @@ public class LearningPathService {
      * 获取所有已发布的路径（带 Redis 缓存）
      */
     public List<LearningPathVO> getAllPublishedPaths() {
+        // 1. 无锁检查缓存
         String cached = redisService.get(CACHE_KEY_ALL_PATHS);
         if (cached != null) {
             try {
@@ -78,17 +79,31 @@ public class LearningPathService {
             }
         }
 
-        List<LearningPath> paths = learningPathMapper.selectAllPublished();
-        List<LearningPathVO> result = paths.stream()
-                .map(this::toSimpleVO)
-                .collect(Collectors.toList());
+        // 2. 加锁重建缓存（防缓存击穿）
+        synchronized (CACHE_KEY_ALL_PATHS.intern()) {
+            cached = redisService.get(CACHE_KEY_ALL_PATHS);
+            if (cached != null) {
+                try {
+                    return objectMapper.readValue(cached,
+                            objectMapper.getTypeFactory().constructCollectionType(List.class, LearningPathVO.class));
+                } catch (Exception e) {
+                    log.warn("缓存反序列化失败", e);
+                }
+            }
 
-        try {
-            redisService.set(CACHE_KEY_ALL_PATHS, objectMapper.writeValueAsString(result));
-        } catch (JsonProcessingException e) {
-            log.warn("缓存序列化失败", e);
+            List<LearningPath> paths = learningPathMapper.selectAllPublished();
+            List<LearningPathVO> result = paths.stream()
+                    .map(this::toSimpleVO)
+                    .collect(Collectors.toList());
+
+            try {
+                int ttl = 3600 + new java.util.Random().nextInt(300);
+                redisService.set(CACHE_KEY_ALL_PATHS, objectMapper.writeValueAsString(result), ttl);
+            } catch (JsonProcessingException e) {
+                log.warn("缓存序列化失败", e);
+            }
+            return result;
         }
-        return result;
     }
 
     /**
