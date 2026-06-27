@@ -417,6 +417,32 @@ public class UserService {
     }
 
     /**
+     * 重置密码（忘记密码场景，通过邮箱验证码验证身份）
+     */
+    @Transactional
+    public void resetPassword(String email, String code, String newPassword) {
+        if (email == null || !email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            throw new BusinessException(400, "邮箱格式不正确");
+        }
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new BusinessException(400, "新密码长度不能少于6位");
+        }
+        // 验证码校验
+        boolean codeOk = emailVerificationService.verifyCode(email, code);
+        if (!codeOk) {
+            throw new BusinessException(400, "验证码错误或已过期");
+        }
+        // 查找用户
+        User user = userMapper.selectByEmail(email);
+        if (user == null) {
+            throw new BusinessException(404, "该邮箱未注册");
+        }
+        // 更新密码
+        userMapper.updatePassword(user.getId(), passwordUtil.encode(newPassword), new Date());
+        log.info("用户重置密码成功: email={}", email);
+    }
+
+    /**
      * 上传用户头像
      */
     public String uploadAvatar(Long userId, MultipartFile file) {

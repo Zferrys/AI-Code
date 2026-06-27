@@ -64,6 +64,7 @@
             <mvc:exclude-mapping path="/api/email/**"/>
             <mvc:exclude-mapping path="/api/user/register"/>
             <mvc:exclude-mapping path="/api/user/login"/>
+            <mvc:exclude-mapping path="/api/user/reset-password"/>
             <mvc:exclude-mapping path="/api/tags/**"/>
             <mvc:exclude-mapping path="/api/rankings/**"/>
             <mvc:exclude-mapping path="/api/rankings"/>

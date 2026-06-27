@@ -93,7 +93,8 @@ export const userApi = {
   removeTechTag: tagId => http.delete(`/user/tags/${tagId}`),
   uploadAvatar: formData => http.post('/user/avatar', formData),
   changeEmail: data => http.put('/user/email', data),
-  changePassword: data => http.put('/user/password', data)
+  changePassword: data => http.put('/user/password', data),
+  resetPassword: data => http.post('/user/reset-password', data)
 };
 
 // 标签相关

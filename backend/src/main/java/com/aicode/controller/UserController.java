@@ -93,6 +93,24 @@ public class UserController {
     }
 
     /**
+     * 重置密码（忘记密码，邮箱验证码验证身份，无需登录）
+     */
+    @PostMapping("/reset-password")
+    public ApiResponse<?> resetPassword(@RequestBody Map<String, String> body) {
+        String email = body.get("email");
+        String code = body.get("code");
+        String newPassword = body.get("newPassword");
+        if (email == null || code == null || code.trim().isEmpty()) {
+            return ApiResponse.error(400, "参数不完整");
+        }
+        if (newPassword == null || newPassword.length() < 6) {
+            return ApiResponse.error(400, "新密码长度不能少于6位");
+        }
+        userService.resetPassword(email.trim(), code.trim(), newPassword);
+        return ApiResponse.success("密码重置成功");
+    }
+
+    /**
      * 修改密码（需邮箱验证码）
      */
     @PutMapping("/password")

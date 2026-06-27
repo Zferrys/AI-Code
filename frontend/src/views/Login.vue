@@ -100,6 +100,13 @@
             </el-form-item>
           </el-form>
 
+          <!-- 忘记密码 -->
+          <div class="auth-forgot-row">
+            <span class="auth-forgot-link" @click="showForgotDialog = true">
+              忘记密码？
+            </span>
+          </div>
+
           <div class="auth-form-footer">
             <span>还没有账号？</span>
             <router-link to="/register" class="auth-link">
@@ -109,12 +116,53 @@
         </div>
       </div>
     </div>
+
+    <!-- 忘记密码对话框 -->
+    <el-dialog title="重置密码" :visible.sync="showForgotDialog" width="400px" top="25vh"
+               class="forgot-dialog" :close-on-click-modal="false"
+               @closed="resetForgotDialog">
+      <div class="dialog-step" v-if="forgotStep === 1">
+        <p class="dialog-desc">输入你的注册邮箱，我们将发送验证码</p>
+        <el-input v-model="forgotEmail" placeholder="请输入注册邮箱" class="dialog-input"
+                  @keyup.enter="handleSendResetCode">
+          <i slot="prefix" class="el-icon-message"></i>
+        </el-input>
+        <el-button type="primary" class="dialog-action-btn" @click="handleSendResetCode"
+                   :loading="sendingResetCode" :disabled="resetCodeSent">
+          <i class="el-icon-message"></i> {{ resetCodeSent ? '验证码已发送' : '发送验证码' }}
+        </el-button>
+        <p v-if="resetCodeSent" class="dialog-code-hint">验证码已发送，请查看你的邮箱</p>
+      </div>
+      <div class="dialog-step" v-if="forgotStep === 2">
+        <p class="dialog-desc">验证身份后设置新密码</p>
+        <el-form label-width="70px">
+          <el-form-item label="验证码">
+            <el-input v-model="forgotCode" placeholder="6 位验证码" maxlength="6" class="dialog-input" />
+          </el-form-item>
+          <el-form-item label="新密码">
+            <el-input v-model="forgotNewPwd" type="password" placeholder="至少 6 位"
+                      class="dialog-input" show-password />
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-input v-model="forgotConfirmPwd" type="password" placeholder="再次输入新密码"
+                      class="dialog-input" show-password />
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button @click="showForgotDialog = false">取消</el-button>
+        <el-button v-if="forgotStep === 2" type="primary" @click="handleResetPassword"
+                   :loading="resettingPwd">
+          <i class="el-icon-check"></i> 重置密码
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex';
-import { captchaApi } from '../api';
+import { captchaApi, emailApi, userApi } from '../api';
 
 export default {
   name: 'Login',
@@ -127,6 +175,16 @@ export default {
       failedAttempts: 0,
       captchaId: '',
       captchaImage: '',
+      // 忘记密码
+      showForgotDialog: false,
+      forgotStep: 1,
+      forgotEmail: '',
+      forgotCode: '',
+      forgotNewPwd: '',
+      forgotConfirmPwd: '',
+      sendingResetCode: false,
+      resetCodeSent: false,
+      resettingPwd: false,
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -190,6 +248,71 @@ export default {
     triggerShake() {
       this.shaking = true;
       setTimeout(() => { this.shaking = false; }, 500);
+    },
+    // ---- 忘记密码 ----
+    resetForgotDialog() {
+      this.forgotStep = 1;
+      this.forgotEmail = '';
+      this.forgotCode = '';
+      this.forgotNewPwd = '';
+      this.forgotConfirmPwd = '';
+      this.resetCodeSent = false;
+      this.sendingResetCode = false;
+      this.resettingPwd = false;
+    },
+    async handleSendResetCode() {
+      if (!this.forgotEmail || !/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(this.forgotEmail)) {
+        this.$message.warning('请输入正确的邮箱地址');
+        return;
+      }
+      this.sendingResetCode = true;
+      try {
+        const res = await emailApi.sendCode(this.forgotEmail);
+        if (res.code === 200) {
+          this.$message.success('验证码已发送');
+          this.resetCodeSent = true;
+          this.forgotStep = 2;
+        } else {
+          this.$message.error(res.message || '发送失败');
+        }
+      } catch {
+        this.$message.error('网络异常，请稍后重试');
+      } finally {
+        this.sendingResetCode = false;
+      }
+    },
+    async handleResetPassword() {
+      if (!this.forgotCode || this.forgotCode.length !== 6) {
+        this.$message.warning('请输入 6 位验证码');
+        return;
+      }
+      if (!this.forgotNewPwd || this.forgotNewPwd.length < 6) {
+        this.$message.warning('新密码不能少于 6 位');
+        return;
+      }
+      if (this.forgotNewPwd !== this.forgotConfirmPwd) {
+        this.$message.warning('两次输入的密码不一致');
+        return;
+      }
+      this.resettingPwd = true;
+      try {
+        const res = await userApi.resetPassword({
+          email: this.forgotEmail,
+          code: this.forgotCode,
+          newPassword: this.forgotNewPwd
+        });
+        if (res.code === 200) {
+          this.$message.success('密码重置成功，请使用新密码登录 🎉');
+          this.showForgotDialog = false;
+          this.resetForgotDialog();
+        } else {
+          this.$message.error(res.message || '重置失败');
+        }
+      } catch {
+        this.$message.error('网络异常，请稍后重试');
+      } finally {
+        this.resettingPwd = false;
+      }
     }
   }
 };
@@ -546,6 +669,22 @@ export default {
   40% { transform: translateY(-8px); opacity: 1; }
 }
 
+/* ===== 忘记密码 ===== */
+.auth-forgot-row {
+  text-align: right;
+  margin-top: -12px;
+  margin-bottom: 4px;
+}
+.auth-forgot-link {
+  font-size: 13px;
+  color: var(--text-tertiary, #94a3b8);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.auth-forgot-link:hover {
+  color: var(--primary, #1a56db);
+}
+
 /* ===== 底部链接 ===== */
 .auth-form-footer {
   text-align: center;
@@ -600,6 +739,65 @@ export default {
   transition: color 0.3s, transform 0.3s;
 }
 .captcha-refresh:hover { color: var(--primary, #1a56db); transform: rotate(180deg); }
+
+/* ===== 忘记密码对话框 ===== */
+.forgot-dialog >>> .el-dialog {
+  border-radius: 14px;
+}
+.forgot-dialog >>> .el-dialog__header {
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  padding: 18px 24px;
+}
+.forgot-dialog >>> .el-dialog__title {
+  font-weight: 600;
+  font-size: 16px;
+}
+.forgot-dialog >>> .el-dialog__body {
+  padding: 24px;
+  min-height: 120px;
+}
+.forgot-dialog >>> .el-dialog__footer {
+  border-top: 1px solid var(--border, #e2e8f0);
+  padding: 14px 24px;
+}
+.dialog-step {
+  min-height: 60px;
+}
+.dialog-desc {
+  font-size: 14px;
+  color: var(--text-secondary, #475569);
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.dialog-input {
+  margin-bottom: 12px;
+}
+.dialog-input >>> .el-input__inner {
+  border-radius: 10px;
+  height: 42px;
+  border: 1.5px solid var(--border, #e2e8f0);
+  padding-left: 36px !important;
+  transition: all 0.3s;
+}
+.dialog-input >>> .el-input__inner:focus {
+  border-color: var(--primary, #1a56db);
+  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+}
+.dialog-input >>> .el-input__prefix {
+  left: 10px;
+  font-size: 16px;
+  color: var(--text-tertiary, #94a3b8);
+}
+.dialog-action-btn {
+  border-radius: 10px !important;
+  width: 100%;
+  margin-top: 4px;
+}
+.dialog-code-hint {
+  font-size: 13px;
+  color: var(--primary, #1a56db);
+  margin-top: 10px;
+}
 
 @media (max-width: 640px) {
   .auth-brand { display: none; }
