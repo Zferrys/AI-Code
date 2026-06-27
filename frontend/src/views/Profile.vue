@@ -16,59 +16,110 @@
       <!-- 左侧用户信息 -->
       <el-col :xs="24" :sm="24" :md="8">
         <div class="profile-card user-sidebar animate-fade-in-up" style="animation-delay: 0.1s">
-          <div class="user-card">
-            <div class="user-avatar-wrap" @click="triggerUpload" ref="avatarWrap"
-                 @mousemove="onAvatarMouseMove" @mouseleave="onAvatarMouseLeave">
-              <!-- 加载骨架 -->
-              <div v-if="loadingAvatar" class="avatar-skeleton"></div>
-              <template v-else>
-                <el-avatar :size="88" class="user-avatar" v-if="!hasAvatar">
-                  {{ userInfo?.username?.charAt(0)?.toUpperCase() }}
-                </el-avatar>
-                <el-image v-else :src="avatarUrl" class="user-avatar-img" :size="88" fit="cover">
-                  <div slot="error" class="image-slot">
-                    <el-avatar :size="88" class="user-avatar">
-                      {{ userInfo?.username?.charAt(0)?.toUpperCase() }}
-                    </el-avatar>
-                  </div>
-                </el-image>
-              </template>
-              <input ref="fileInput" type="file" accept="image/jpeg,image/png,image/gif,image/webp"
-                     class="avatar-file-input" @change="handleAvatarUpload" />
-              <div class="avatar-overlay" :class="{ 'is-uploading': uploading }">
-                <i :class="uploading ? 'el-icon-loading' : 'el-icon-camera'"></i>
-                <span>{{ uploading ? '上传中...' : '更换头像' }}</span>
-              </div>
-              <div class="avatar-ring"></div>
-              <div class="avatar-glow-ring"></div>
+          <!-- 头像区 -->
+          <div class="user-avatar-wrap" @click="triggerUpload" ref="avatarWrap"
+               @mousemove="onAvatarMouseMove" @mouseleave="onAvatarMouseLeave">
+            <div v-if="loadingAvatar" class="avatar-skeleton"></div>
+            <template v-else>
+              <el-avatar :size="88" class="user-avatar" v-if="!hasAvatar">
+                {{ userInfo?.username?.charAt(0)?.toUpperCase() }}
+              </el-avatar>
+              <el-image v-else :src="avatarUrl" class="user-avatar-img" :size="88" fit="cover">
+                <div slot="error" class="image-slot">
+                  <el-avatar :size="88" class="user-avatar">
+                    {{ userInfo?.username?.charAt(0)?.toUpperCase() }}
+                  </el-avatar>
+                </div>
+              </el-image>
+            </template>
+            <input ref="fileInput" type="file" accept="image/jpeg,image/png,image/gif,image/webp"
+                   class="avatar-file-input" @change="handleAvatarUpload" />
+            <div class="avatar-overlay" :class="{ 'is-uploading': uploading }">
+              <i :class="uploading ? 'el-icon-loading' : 'el-icon-camera'"></i>
             </div>
+            <div class="avatar-ring"></div>
+            <div class="avatar-glow-ring"></div>
+          </div>
 
-            <h3 class="user-name">{{ userInfo?.username || '—' }}</h3>
+          <h3 class="user-name">{{ userInfo?.username || '—' }}</h3>
+          <div class="user-meta-row">
             <span class="user-role-badge"
                   :class="userInfo?.role === 'ADMIN' ? 'role-admin' : 'role-user'">
               <i :class="userInfo?.role === 'ADMIN' ? 'el-icon-s-custom' : 'el-icon-user'"></i>
               {{ userInfo?.role === 'ADMIN' ? '管理员' : '普通用户' }}
             </span>
-            <p class="user-email" v-if="userInfo?.email">
-              <i class="el-icon-message"></i> {{ userInfo.email }}
-            </p>
+            <span v-if="userInfo?.experienceLevel" class="experience-tag-mini"
+                  :class="'level-' + (userInfo.experienceLevel || 'BEGINNER').toLowerCase()">
+              {{ levelLabel }}
+            </span>
+          </div>
 
-            <el-divider class="user-divider" />
+          <!-- 账号信息 -->
+          <div class="account-info">
+            <div class="account-info-item">
+              <i class="el-icon-message"></i>
+              <span>{{ userInfo?.email || '未绑定' }}</span>
+            </div>
+            <div class="account-info-item">
+              <i class="el-icon-time"></i>
+              <span>注册于 {{ formatDate(userInfo?.user?.createTime) }}</span>
+            </div>
+            <div class="account-info-item" v-if="userInfo?.user?.lastLogin">
+              <i class="el-icon-date"></i>
+              <span>最近登录 {{ formatDate(userInfo?.user?.lastLogin) }}</span>
+            </div>
+          </div>
 
-            <div class="user-stats">
-              <div class="user-stat-item">
-                <span class="user-stat-num" ref="statReview">{{ animatedStats.review }}</span>
-                <span class="user-stat-label">代码审查</span>
+          <!-- 统计卡片 -->
+          <div class="stat-cards">
+            <div class="stat-card" @click="$router.push('/code-review')">
+              <div class="stat-card-icon sc-icon-review">
+                <i class="el-icon-document"></i>
               </div>
-              <div class="user-stat-divider"></div>
-              <div class="user-stat-item">
-                <span class="user-stat-num" ref="statQa">{{ animatedStats.qa }}</span>
-                <span class="user-stat-label">问答</span>
+              <div class="stat-card-body">
+                <span class="stat-card-num" ref="statReview">{{ animatedStats.review }}</span>
+                <span class="stat-card-label">代码审查</span>
               </div>
-              <div class="user-stat-divider"></div>
-              <div class="user-stat-item">
-                <span class="user-stat-num" ref="statTags">{{ animatedStats.tags }}</span>
-                <span class="user-stat-label">技术标签</span>
+            </div>
+            <div class="stat-card" @click="$router.push('/qa')">
+              <div class="stat-card-icon sc-icon-qa">
+                <i class="el-icon-chat-dot-round"></i>
+              </div>
+              <div class="stat-card-body">
+                <span class="stat-card-num" ref="statQa">{{ animatedStats.qa }}</span>
+                <span class="stat-card-label">问答</span>
+              </div>
+            </div>
+            <div class="stat-card" @click="showTagDialog = true">
+              <div class="stat-card-icon sc-icon-tag">
+                <i class="el-icon-collection-tag"></i>
+              </div>
+              <div class="stat-card-body">
+                <span class="stat-card-num" ref="statTags">{{ animatedStats.tags }}</span>
+                <span class="stat-card-label">技术标签</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷入口 -->
+          <div class="quick-actions">
+            <p class="quick-actions-title">快捷入口</p>
+            <div class="quick-actions-grid">
+              <div class="quick-action-item" @click="$router.push('/code-review')">
+                <i class="el-icon-document"></i>
+                <span>代码审查</span>
+              </div>
+              <div class="quick-action-item" @click="$router.push('/qa')">
+                <i class="el-icon-chat-dot-round"></i>
+                <span>智能问答</span>
+              </div>
+              <div class="quick-action-item" @click="$router.push('/learning-paths')">
+                <i class="el-icon-notebook-2"></i>
+                <span>学习路径</span>
+              </div>
+              <div class="quick-action-item" @click="$router.push('/rankings')">
+                <i class="el-icon-s-data"></i>
+                <span>AI 排行</span>
               </div>
             </div>
           </div>
@@ -85,84 +136,24 @@
             </div>
             <span>编辑资料</span>
           </div>
-          <el-form :model="editForm" label-width="80px">
+          <el-form :model="editForm" label-width="70px">
             <el-row :gutter="20">
-              <el-col :span="12">
-                <el-form-item label="真实姓名">
-                  <el-input v-model="editForm.realName" class="pi-input" placeholder="你的真实姓名">
-                    <i slot="prefix" class="el-icon-user"></i>
-                  </el-input>
-                </el-form-item>
-              </el-col>
               <el-col :span="12">
                 <el-form-item label="邮箱">
-                  <el-input v-model="editForm.email" class="pi-input" placeholder="请输入邮箱地址">
+                  <el-input :value="editForm.email" class="pi-input" disabled placeholder="注册邮箱不可更改">
                     <i slot="prefix" class="el-icon-message"></i>
                   </el-input>
+                  <p class="email-hint">邮箱已通过验证，不可修改</p>
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="手机">
-                  <el-input v-model="editForm.phone" class="pi-input" placeholder="请输入手机号码">
+                  <el-input v-model="editForm.phone" class="pi-input" placeholder="选填，用于找回密码">
                     <i slot="prefix" class="el-icon-phone"></i>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="学校">
-                  <el-input v-model="editForm.school" class="pi-input" placeholder="所在学校">
-                    <i slot="prefix" class="el-icon-school"></i>
-                  </el-input>
-                </el-form-item>
-              </el-col>
             </el-row>
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <el-form-item label="专业">
-                  <el-input v-model="editForm.major" class="pi-input" placeholder="所学专业">
-                    <i slot="prefix" class="el-icon-reading"></i>
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="年级">
-                  <el-select v-model="editForm.grade" class="pi-input" placeholder="选择年级" clearable>
-                    <el-option label="大一" value="大一" />
-                    <el-option label="大二" value="大二" />
-                    <el-option label="大三" value="大三" />
-                    <el-option label="大四" value="大四" />
-                    <el-option label="研一" value="研一" />
-                    <el-option label="研二" value="研二" />
-                    <el-option label="研三" value="研三" />
-                    <el-option label="已毕业" value="已毕业" />
-                    <el-option label="其他" value="其他" />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row :gutter="20">
-              <el-col :span="12">
-                <el-form-item label="GitHub">
-                  <el-input v-model="editForm.githubUrl" class="pi-input" placeholder="https://github.com/yourname">
-                    <i slot="prefix" class="el-icon-link"></i>
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="技术等级">
-                  <span class="experience-tag" :class="'level-' + (userInfo.experienceLevel || 'BEGINNER').toLowerCase()">
-                    {{ levelLabel }}
-                  </span>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-form-item label="个人简介">
-              <el-input v-model="editForm.bio" type="textarea" class="pi-input"
-                        :rows="3" placeholder="介绍一下自己，让其他同学了解你" maxlength="200"
-                        show-word-limit />
-            </el-form-item>
             <el-form-item>
               <el-button type="primary" class="pi-save-btn" @click="handleUpdate"
                          :loading="saving">
@@ -334,13 +325,7 @@ export default {
           this.userInfo = userRes.data;
           this.editForm = {
             email: userRes.data.email || '',
-            phone: userRes.data.phone || '',
-            realName: userRes.data.realName || '',
-            school: userRes.data.school || '',
-            major: userRes.data.major || '',
-            grade: userRes.data.grade || '',
-            bio: userRes.data.bio || '',
-            githubUrl: userRes.data.githubUrl || ''
+            phone: userRes.data.phone || ''
           };
           this.statsLoaded = true;
         }
@@ -380,6 +365,20 @@ export default {
       if (res.code === 200) {
         this.$message.success('标签已删除');
         await this.loadData();
+      }
+    },
+
+    // ---- 工具方法 ----
+    formatDate(dateStr) {
+      if (!dateStr) return '—';
+      try {
+        const d = new Date(dateStr);
+        const year = d.getFullYear();
+        const month = (d.getMonth() + 1).toString().padStart(2, '0');
+        const day = d.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      } catch {
+        return '—';
       }
     },
 
@@ -595,13 +594,14 @@ export default {
 .user-sidebar {
   text-align: center;
   background: rgba(255, 255, 255, 0.88);
+  padding-bottom: 20px;
 }
 
 /* 头像 3D 交互 */
 .user-avatar-wrap {
   position: relative;
   display: inline-block;
-  margin-bottom: 18px;
+  margin: 8px auto 14px;
   cursor: pointer;
   transition: transform 0.3s ease;
   transform-style: preserve-3d;
@@ -651,21 +651,15 @@ export default {
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 12px;
+  font-size: 22px;
   opacity: 0;
   transition: opacity 0.3s, background 0.3s;
   z-index: 2;
   cursor: pointer;
   backdrop-filter: blur(4px);
-}
-.avatar-overlay i {
-  font-size: 22px;
-  margin-bottom: 2px;
-  transition: transform 0.3s;
 }
 .avatar-overlay.is-uploading {
   opacity: 1;
@@ -673,9 +667,6 @@ export default {
 }
 .user-avatar-wrap:hover .avatar-overlay {
   opacity: 1;
-}
-.user-avatar-wrap:hover .avatar-overlay i {
-  transform: scale(1.1);
 }
 
 .avatar-ring {
@@ -708,10 +699,19 @@ export default {
 }
 
 .user-name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 6px;
   color: var(--text-primary, #0f172a);
+}
+
+.user-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
 }
 
 .user-role-badge {
@@ -722,7 +722,6 @@ export default {
   padding: 3px 14px;
   border-radius: 20px;
   font-weight: 500;
-  margin-bottom: 10px;
   transition: all 0.3s;
 }
 .role-user {
@@ -734,55 +733,145 @@ export default {
   color: #d97706;
 }
 
-.user-email {
+.experience-tag-mini {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ===== 账号信息行 ===== */
+.account-info {
+  background: rgba(248, 250, 252, 0.6);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 0 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.account-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 13px;
   color: var(--text-secondary, #475569);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
 }
-.user-email i {
+.account-info-item i {
   font-size: 14px;
   color: var(--text-tertiary, #94a3b8);
+  width: 16px;
+  text-align: center;
 }
 
-.user-divider {
-  margin: 16px 0 12px !important;
-  background: linear-gradient(90deg, transparent, rgba(226, 232, 240, 0.6), transparent) !important;
+/* ===== 统计卡片 ===== */
+.stat-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
-.user-stats {
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(248, 250, 252, 0.5);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+  text-align: left;
+}
+.stat-card:hover {
+  background: white;
+  border-color: rgba(226, 232, 240, 0.6);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.stat-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: all 0.3s;
 }
-.user-stat-item {
-  text-align: center;
-  transition: transform 0.3s;
-  cursor: default;
+.stat-card:hover .stat-card-icon {
+  transform: scale(1.05);
 }
-.user-stat-item:hover {
-  transform: translateY(-2px);
+.sc-icon-review {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  color: #1a56db;
 }
-.user-stat-num {
-  display: block;
-  font-size: 24px;
+.sc-icon-qa {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #d97706;
+}
+.sc-icon-tag {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #059669;
+}
+
+.stat-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.stat-card-num {
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-primary, #0f172a);
-  margin-bottom: 2px;
   font-variant-numeric: tabular-nums;
+  line-height: 1.2;
 }
-.user-stat-label {
+.stat-card-label {
   font-size: 12px;
   color: var(--text-tertiary, #94a3b8);
   font-weight: 500;
 }
-.user-stat-divider {
-  width: 1px;
-  height: 36px;
-  background: linear-gradient(180deg, transparent, rgba(226, 232, 240, 0.5), transparent);
+
+/* ===== 快捷入口 ===== */
+.quick-actions {
+  border-top: 1px solid rgba(226, 232, 240, 0.5);
+  padding-top: 14px;
+}
+.quick-actions-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-tertiary, #94a3b8);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  text-align: left;
+}
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.quick-action-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary, #475569);
+  transition: all 0.2s;
+}
+.quick-action-item:hover {
+  background: rgba(26, 86, 219, 0.06);
+  color: var(--primary, #1a56db);
 }
 
 /* ===== 编辑区域 ===== */
@@ -982,16 +1071,7 @@ export default {
   font-size: 16px;
 }
 
-/* ===== 技术等级标签 ===== */
-.experience-tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.3s;
-}
+/* ===== 等级标签（全局共用） ===== */
 .level-beginner {
   background: linear-gradient(135deg, #fef3c7, #fde68a);
   color: #92400e;
@@ -1009,16 +1089,12 @@ export default {
   color: #6b21a8;
 }
 
-/* select 在编辑表单中的样式 */
-.pi-input >>> .el-select .el-input__inner {
-  border-radius: 10px;
-  height: 42px;
-  border: 1.5px solid var(--border, #e2e8f0);
-  transition: all 0.3s;
-}
-.pi-input >>> .el-select .el-input__inner:focus {
-  border-color: var(--primary, #1a56db);
-  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+/* ===== 邮箱只读提示 ===== */
+.email-hint {
+  font-size: 11px;
+  color: var(--text-tertiary, #94a3b8);
+  margin: 2px 0 0;
+  line-height: 1;
 }
 
 /* ===== 响应式 ===== */
