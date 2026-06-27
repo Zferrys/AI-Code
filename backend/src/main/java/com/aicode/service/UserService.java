@@ -141,23 +141,23 @@ public class UserService {
             throw new BusinessException(400, "邮箱已被注册");
         }
 
-        // 校验邮箱验证码
+        // 先校验图形验证码（不消耗邮箱验证码）
+        String regCid = request.getCaptchaId();
+        Integer regAns = request.getCaptchaAnswer();
+        if (regCid == null || regCid.isEmpty() || regAns == null) {
+            throw new BusinessException(400, "请完成图形验证码");
+        }
+        if (!captchaService.validate(regCid, regAns)) {
+            throw new BusinessException(400, "图形验证码错误，请刷新后重试");
+        }
+
+        // 再校验邮箱验证码
         String emailCode = request.getEmailCode();
         if (emailCode == null || emailCode.trim().isEmpty()) {
             throw new BusinessException(400, "请先获取邮箱验证码");
         }
         if (!emailVerificationService.verifyCode(email, emailCode.trim())) {
-            throw new BusinessException(400, "邮箱验证码错误或已过期，请重新获取");
-        }
-
-        // 最后校验图形验证码（消耗验证码，前面的校验不通过则验证码不会被消耗）
-        String regCid = request.getCaptchaId();
-        Integer regAns = request.getCaptchaAnswer();
-        if (regCid == null || regCid.isEmpty() || regAns == null) {
-            throw new BusinessException(400, "请完成验证码");
-        }
-        if (!captchaService.validate(regCid, regAns)) {
-            throw new BusinessException(400, "验证码错误或已过期，请重新获取");
+            throw new BusinessException(400, "邮箱验证码错误或已过期，请在邮箱查收最新验证码");
         }
 
         // 创建用户

@@ -78,14 +78,16 @@ public class EmailVerificationService {
         // 检查是否在频率限制内
         CodeEntry existing = store.get(email);
         if (existing != null && !existing.isExpired()) {
+            // 如果之前锁定，请求新验证码时解除锁定
             if (existing.isLocked()) {
-                log.warn("邮箱已被锁定，拒绝发送验证码: email={}", email);
-                return false;
-            }
-            long elapsed = System.currentTimeMillis() - existing.createdAt;
-            if (elapsed < SEND_INTERVAL) {
-                log.warn("发送过于频繁: email={}, 已过{}s", email, elapsed / 1000);
-                return false;
+                log.warn("邮箱之前被锁定，请求新验证码自动解锁: email={}", email);
+                store.remove(email);
+            } else {
+                long elapsed = System.currentTimeMillis() - existing.createdAt;
+                if (elapsed < SEND_INTERVAL) {
+                    log.warn("发送过于频繁: email={}, 已过{}s", email, elapsed / 1000);
+                    return false;
+                }
             }
         }
 
