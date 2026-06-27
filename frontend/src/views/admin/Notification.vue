@@ -90,7 +90,7 @@ export default {
           this.$message.error(res.message || '发送失败');
         }
       } catch (e) {
-        this.$message.error('发送失败');
+        this.$message.error('发送失败：' + (e.message || '网络异常，请检查控制台'));
       } finally {
         this.sending = false;
       }

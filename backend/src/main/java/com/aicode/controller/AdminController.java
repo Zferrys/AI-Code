@@ -212,6 +212,7 @@ public class AdminController {
                 return ApiResponse.success("通知已发送");
             }
         } catch (Exception e) {
+            log.error("邮件通知发送异常: type={}, email={}", req.getType(), req.getEmail(), e);
             return ApiResponse.error(500, "发送失败：" + e.getMessage());
         }
     }
