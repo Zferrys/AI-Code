@@ -134,7 +134,6 @@
 
 <script>
 import { learningPathApi } from '../api';
-import { mockLearningPaths, fallbackArray } from '../mock';
 
 export default {
   name: 'LearningPaths',
@@ -151,13 +150,13 @@ export default {
   },
   computed: {
     totalCourses() {
-      return (this.allPaths.length ? this.allPaths : mockLearningPaths).reduce((s, p) => s + (p.courseCount || 0), 0);
+      return (this.allPaths || []).reduce((s, p) => s + (p.courseCount || 0), 0);
     },
     totalDays() {
-      return (this.allPaths.length ? this.allPaths : mockLearningPaths).reduce((s, p) => s + (p.estimatedDays || 0), 0);
+      return (this.allPaths || []).reduce((s, p) => s + (p.estimatedDays || 0), 0);
     },
     displayPaths() {
-      let p = fallbackArray(this.allPaths, mockLearningPaths);
+      let p = this.allPaths || [];
       if (this.diffFilter) p = p.filter(x => x.difficulty === this.diffFilter);
       if (this.sortBy === 'courses') p = [...p].sort((a, b) => (b.courseCount || 0) - (a.courseCount || 0));
       if (this.sortBy === 'days') p = [...p].sort((a, b) => (b.estimatedDays || 0) - (a.estimatedDays || 0));
@@ -178,8 +177,11 @@ export default {
           this.totalPaths = a.data.total || 0;
         }
         if (r.code === 200) this.recommended = r.data || [];
-        if (!this.recommended.length) this.recommended = mockLearningPaths.slice(0, 3);
-      } catch { /* mock fallback in computed */ }
+      } catch {} finally {
+        if (!this.recommended.length && this.allPaths.length) {
+          this.recommended = this.allPaths.slice(0, 3);
+        }
+      }
     },
     async handlePageChange(page) {
       this.currentPage = page;

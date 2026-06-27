@@ -284,13 +284,10 @@
 </template>
 
 <script>
+import http from '../api';
 import { mapGetters } from 'vuex';
 import { learningPathApi, qaApi, codeReviewApi } from '../api';
-import {
-  mockLearningPaths, mockQuestions, mockReviews,
-  mockTestimonials, mockStats,
-  fallbackArray
-} from '../mock';
+import { mockTestimonials, mockStats } from '../mock';
 import ThreeBackground from '../components/ThreeBackground.vue';
 
 export default {
@@ -307,11 +304,11 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     displayPaths() {
-      const arr = fallbackArray(this.paths, mockLearningPaths);
+      const arr = this.paths || [];
       return [...arr].sort(() => Math.random() - 0.5).slice(0, 3);
     },
     displayQuestions() {
-      return fallbackArray(this.questions, mockQuestions).slice(0, 4);
+      return (this.questions || []).slice(0, 4);
     },
     displayTestimonials() {
       return this.testimonials;
@@ -340,12 +337,17 @@ export default {
 
     async loadData() {
       try {
-        const [pathRes, qaRes] = await Promise.all([
+        const [pathRes, qaRes, statsRes] = await Promise.all([
           learningPathApi.getAll().catch(() => ({ code: 200, data: [] })),
-          qaApi.getList({ page: 1, pageSize: 10 }).catch(() => ({ code: 200, data: { list: [] } }))
+          qaApi.getList({ page: 1, pageSize: 10 }).catch(() => ({ code: 200, data: { list: [] } })),
+          http.get('/stats').catch(() => ({ data: { data: null } }))
         ]);
         if (pathRes.code === 200) this.paths = (pathRes.data && pathRes.data.list) || pathRes.data || [];
         if (qaRes.code === 200) this.questions = (qaRes.data && qaRes.data.list) || [];
+        const statsData = statsRes.data;
+        if (statsData && statsData.code === 200 && statsData.data) {
+          this.stats = statsData.data;
+        }
       } catch {}
     },
     diffLabel(d) {

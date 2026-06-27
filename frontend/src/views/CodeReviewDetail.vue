@@ -26,7 +26,6 @@
 <script>
 import ReviewResult from '../components/ReviewResult.vue';
 import { codeReviewApi } from '../api';
-import { mockReviews } from '../mock';
 
 export default {
   name: 'CodeReviewDetail',
@@ -49,10 +48,7 @@ export default {
         if (res.code === 200 && res.data) {
           this.review = res.data;
         } else {
-          // fallback to mock data
-          const mock = mockReviews.find(r => r.id === id);
-          if (mock) this.review = mock;
-          else this.error = res.message || '审查记录不存在';
+          this.error = res.message || '审查记录不存在';
         }
       } catch (e) {
         this.error = '网络请求失败';

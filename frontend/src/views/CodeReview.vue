@@ -123,8 +123,6 @@
 <script>
 import WaitingIndicator from '../components/WaitingIndicator.vue';
 import { codeReviewApi } from '../api';
-import { mockReviews, fallbackArray } from '../mock';
-
 export default {
   name: 'CodeReview',
   components: { WaitingIndicator },
@@ -148,7 +146,7 @@ export default {
   },
   computed: {
     displayReviews() {
-      return fallbackArray(this.reviews, mockReviews);
+      return this.reviews || [];
     }
   },
   created() { this.loadReviews(); },

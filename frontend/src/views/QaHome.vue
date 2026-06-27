@@ -104,7 +104,6 @@
 
 <script>
 import { qaApi } from '../api';
-import { mockQuestions, fallbackArray } from '../mock';
 
 export default {
   name: 'QaHome',
@@ -126,7 +125,7 @@ export default {
   },
   computed: {
     displayQuestions() {
-      return fallbackArray(this.questions, mockQuestions);
+      return this.questions || [];
     }
   },
   created() { this.loadQuestions(); },
