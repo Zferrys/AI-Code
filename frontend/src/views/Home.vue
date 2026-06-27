@@ -356,9 +356,9 @@ export default {
     },
     formatNum(n) {
       if (!n) return '0';
-      if (n >= 10000) return (n / 10000).toFixed(1) + 'w';
-      if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
-      return String(n);
+      if (n >= 10000) return (n / 10000).toFixed(1) + 'w+';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'k+';
+      return n + '+';
     },
     navigateTo(path) {
       if (this.isLoggedIn) {
