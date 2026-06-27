@@ -162,6 +162,8 @@ export const adminApi = {
   updateConfig: data => http.put('/admin/config', data),
   getLogs: params => http.get('/admin/logs', { params }),
   generatePath: data => http.post('/admin/paths/generate', data, { timeout: 180000 }),
+  // 邮件通知
+  sendNotification: data => http.post('/admin/notify', data),
   // 路径课程管理
   getPathCourses: pathId => http.get(`/admin/paths/${pathId}/courses`),
   createCourse: (pathId, data) => http.post(`/admin/paths/${pathId}/courses`, data),
