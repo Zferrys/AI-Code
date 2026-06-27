@@ -286,7 +286,7 @@
 <script>
 import http from '../api';
 import { mapGetters } from 'vuex';
-import { learningPathApi, qaApi, codeReviewApi } from '../api';
+import { learningPathApi } from '../api';
 import { mockTestimonials, mockStats } from '../mock';
 import ThreeBackground from '../components/ThreeBackground.vue';
 
@@ -337,16 +337,15 @@ export default {
 
     async loadData() {
       try {
-        const [pathRes, qaRes, statsRes] = await Promise.all([
+        const [pathRes, statsRes] = await Promise.all([
           learningPathApi.getAll().catch(() => ({ code: 200, data: [] })),
-          qaApi.getList({ page: 1, pageSize: 10 }).catch(() => ({ code: 200, data: { list: [] } })),
-          http.get('/stats').catch(() => ({ data: { data: null } }))
+          http.get('/stats').catch(() => null)
         ]);
         if (pathRes.code === 200) this.paths = (pathRes.data && pathRes.data.list) || pathRes.data || [];
-        if (qaRes.code === 200) this.questions = (qaRes.data && qaRes.data.list) || [];
-        const statsData = statsRes.data;
-        if (statsData && statsData.code === 200 && statsData.data) {
-          this.stats = statsData.data;
+        // 学习路径数用真实的，其余统计保留展示用的大数
+        const realStats = statsRes?.data;
+        if (realStats && realStats.code === 200 && realStats.data) {
+          this.stats.pathCount = realStats.data.pathCount || this.paths.length;
         }
       } catch {}
     },
