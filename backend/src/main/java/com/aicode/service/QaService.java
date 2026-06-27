@@ -3,6 +3,7 @@ package com.aicode.service;
 import com.aicode.ai.AIPromptTemplate;
 import com.aicode.ai.AIRateLimiter;
 import com.aicode.ai.AIService;
+import com.aicode.ai.InputSanitizer;
 import com.aicode.dto.QaAnswerVO;
 import org.jsoup.Jsoup;
 import com.aicode.dto.QaFollowUpRequest;
@@ -65,9 +66,11 @@ public class QaService {
             request.setTitle(autoTitle);
         }
 
-        // XSS 过滤
+        // XSS 过滤 + 安全校验
         String safeTitle = Jsoup.clean(request.getTitle(), org.jsoup.safety.Safelist.none());
         String safeContent = Jsoup.clean(request.getContent(), org.jsoup.safety.Safelist.none());
+        InputSanitizer.validate(safeTitle, "问题标题");
+        InputSanitizer.validate(safeContent, "问题内容");
 
         Date now = new Date();
         QaQuestion question = new QaQuestion();
@@ -211,27 +214,36 @@ public class QaService {
     }
 
     /**
-     * 追问
+     * 追问（AI 调用在事务外，只保存结果在事务内）
      */
-    @Transactional
     public QaAnswerVO askFollowUp(Long userId, QaFollowUpRequest request) {
         QaQuestion question = qaQuestionMapper.selectById(request.getQuestionId());
         if (question == null) {
             throw new BusinessException(404, "问题不存在");
         }
 
-        // 获取之前的上下文
-        List<QaAnswer> previousAnswers = qaAnswerMapper.selectByQuestionId(request.getQuestionId());
-        String context = previousAnswers.stream()
-                .map(a -> (a.getType().equals("AI") ? "AI: " : "用户: ") + a.getContent())
-                .collect(Collectors.joining("\n\n"));
+        // 安全校验
+        InputSanitizer.validate(request.getContent(), "追问内容");
 
-        // 调用 AI（同步调用，追问通常需要返回结果）
-        // 限流检查
+        // 限流检查（在 AI 调用前）
         if (!rateLimiter.tryAcquire(userId, null)) {
             throw new BusinessException(429, "AI 服务繁忙，请稍后再试");
         }
 
+        // 限制上下文长度：只取最近 3 轮对话，每段不超过 500 字
+        List<QaAnswer> previousAnswers = qaAnswerMapper.selectByQuestionId(request.getQuestionId());
+        String context = previousAnswers.stream()
+                .skip(Math.max(0, previousAnswers.size() - 6)) // 最多 6 条（3 轮问答）
+                .map(a -> {
+                    String content = a.getContent();
+                    if (content != null && content.length() > 500) {
+                        content = content.substring(0, 500) + "...(截断)";
+                    }
+                    return (a.getType().equals("AI") ? "AI: " : "用户: ") + content;
+                })
+                .collect(Collectors.joining("\n\n"));
+
+        // AI 调用（事务外，避免长事务占连接）
         String systemPrompt = AIPromptTemplate.QA_SYSTEM;
         String userMessage = AIPromptTemplate.buildFollowUpPrompt(
                 question.getTitle(), context, request.getContent());
@@ -240,6 +252,12 @@ public class QaService {
         String aiResponse = aiService.chat(systemPrompt, userMessage);
         int duration = (int) (System.currentTimeMillis() - startTime);
 
+        // 保存结果（单独事务）
+        return saveFollowUpAnswer(question, aiResponse, duration);
+    }
+
+    @Transactional
+    protected QaAnswerVO saveFollowUpAnswer(QaQuestion question, String aiResponse, int duration) {
         QaAnswer answer = new QaAnswer();
         answer.setQuestionId(question.getId());
         answer.setType("AI");

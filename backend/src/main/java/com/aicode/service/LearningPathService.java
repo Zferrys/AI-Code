@@ -2,6 +2,7 @@ package com.aicode.service;
 
 import com.aicode.ai.AIPromptTemplate;
 import com.aicode.ai.AIService;
+import com.aicode.ai.InputSanitizer;
 import com.aicode.dto.CourseResourceVO;
 import com.aicode.dto.LearningPathCourseVO;
 import com.aicode.dto.LearningPathVO;
@@ -262,11 +263,12 @@ public class LearningPathService {
      * AI 调用和 JSON 解析在事务外，仅数据库写入在事务内
      */
     public LearningPathVO generatePathByAI(String requirement) {
-        // XSS 过滤用户输入
+        // XSS 过滤 + 安全校验
         String safeRequirement = Jsoup.clean(requirement, Safelist.none());
         if (safeRequirement.trim().isEmpty()) {
             throw new BusinessException(400, "需求描述不能为空");
         }
+        InputSanitizer.validate(safeRequirement, "路径需求");
 
         String prompt = "请根据以下需求生成学习路径：\n" + safeRequirement
                 + "\n\n生成" + (safeRequirement.contains("入门") || safeRequirement.contains("初级") ? 6 : 10)

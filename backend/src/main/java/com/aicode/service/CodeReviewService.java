@@ -3,6 +3,7 @@ package com.aicode.service;
 import com.aicode.ai.AIPromptTemplate;
 import com.aicode.ai.AIRateLimiter;
 import com.aicode.ai.AIService;
+import com.aicode.ai.InputSanitizer;
 import com.aicode.dto.CodeReviewRequest;
 import com.aicode.dto.CodeReviewStatusVO;
 import com.aicode.dto.CodeReviewVO;
@@ -61,9 +62,11 @@ public class CodeReviewService {
             request.setLanguage("java");
         }
 
-        // XSS 过滤：用户输入只保留纯文本
+        // XSS 过滤 + 安全校验
         String safeTitle = Jsoup.clean(request.getTitle(), org.jsoup.safety.Safelist.none());
         String safeCode = Jsoup.clean(request.getCodeContent(), org.jsoup.safety.Safelist.none());
+        InputSanitizer.validate(safeTitle, "审查标题");
+        InputSanitizer.validate(safeCode, "代码内容");
 
         // 创建审查记录（状态：PENDING）
         Date now = new Date();

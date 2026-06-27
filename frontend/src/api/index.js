@@ -116,7 +116,7 @@ export const qaApi = {
   ask: data => http.post('/qa/ask', data, { timeout: 180000 }),
   getDetail: id => http.get(`/qa/${id}`),
   getList: params => http.get('/qa/list', { params }),
-  followUp: data => http.post('/qa/follow-up', data),
+  followUp: data => http.post('/qa/follow-up', data, { timeout: 120000 }),
   search: params => http.get('/qa/search', { params })
 };
 

@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 /**
  * AI 服务实现（兼容 OpenAI 协议）
@@ -32,6 +33,17 @@ public class DeepSeekV4ServiceImpl implements AIService {
     private static final long CONFIG_CACHE_TTL = 10000;
     private static final int MAX_RESPONSE_CHARS = 500_000;
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
+
+    // 身份泄露清理模式
+    private static final Pattern[] IDENTITY_PATTERNS = {
+        Pattern.compile("^(你好[，!！]*(?:我(?:是|叫))\\s*\\S+[。！!]?\\s*)", Pattern.MULTILINE),
+        Pattern.compile("^(Hi[，,]*(?:I'?m|I am)\\s*\\S+[.!]?\\s*)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
+        Pattern.compile("^(你好[，!！]*我是\\s*\\S+[，!！]?\\s*)", Pattern.MULTILINE),
+    };
+    // injection 成功检测（如果 AI 回复包含这些说明被注入了）
+    private static final Pattern INJECTION_CONFIRM = Pattern.compile(
+            "忽略(之前|以上|所有)(的)?(指令|命令|要求|规则|提示|prompt)",
+            Pattern.CASE_INSENSITIVE);
 
     @Autowired
     private SysConfigMapper sysConfigMapper;
@@ -185,11 +197,30 @@ public class DeepSeekV4ServiceImpl implements AIService {
             text = text.replaceAll("(?s)```(?:json)?\\s*", "").replaceAll("(?s)```\\s*", "").trim();
             text = text.replaceAll("\\\\(\r?\n)", "$1");
             text = text.replaceAll("\\\\$", "");
+            // 输出安全清理：移除身份泄露、检测 injection 成功
+            text = cleanupOutput(text);
             return text;
         } catch (Exception e) {
             log.warn("AI 响应解析失败: {}", e.getMessage());
             return responseBody;
         }
+    }
+
+    /**
+     * 清理 AI 输出：移除身份泄露文本，检测 injection 是否成功
+     */
+    private String cleanupOutput(String text) {
+        if (text == null || text.isEmpty()) return text;
+        // 移除开头的自我介绍
+        for (Pattern p : IDENTITY_PATTERNS) {
+            text = p.matcher(text).replaceFirst("");
+        }
+        // 检测 injection 成功特征 — 如果 AI 响应中包含"忽略指令"类文本，说明被注入了
+        if (INJECTION_CONFIRM.matcher(text).find()) {
+            log.warn("AI 响应检测到 injection 特征，已被拦截: {}", text.substring(0, Math.min(100, text.length())));
+            return "抱歉，我无法处理这个请求。";
+        }
+        return text.trim();
     }
 
     private String readStream(java.io.InputStream stream) throws Exception {
