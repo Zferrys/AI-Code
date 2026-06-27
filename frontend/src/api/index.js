@@ -91,7 +91,9 @@ export const userApi = {
   getTechTags: () => http.get('/user/tags'),
   addTechTag: tagId => http.post('/user/tags', { tagId }),
   removeTechTag: tagId => http.delete(`/user/tags/${tagId}`),
-  uploadAvatar: formData => http.post('/user/avatar', formData)
+  uploadAvatar: formData => http.post('/user/avatar', formData),
+  changeEmail: data => http.put('/user/email', data),
+  changePassword: data => http.put('/user/password', data)
 };
 
 // 标签相关

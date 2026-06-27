@@ -363,6 +363,60 @@ public class UserService {
     }
 
     /**
+     * 修改邮箱（需原邮箱验证码验证）
+     */
+    @Transactional
+    public void changeEmail(Long userId, String code, String newEmail) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        if (newEmail == null || !newEmail.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            throw new BusinessException(400, "新邮箱格式不正确");
+        }
+        // 验证码校验（验证码发到当前邮箱）
+        boolean codeOk = emailVerificationService.verifyCode(user.getEmail(), code);
+        if (!codeOk) {
+            throw new BusinessException(400, "验证码错误或已过期");
+        }
+        // 检查新邮箱是否已被使用
+        User exist = userMapper.selectByEmail(newEmail);
+        if (exist != null && !exist.getId().equals(userId)) {
+            throw new BusinessException(400, "该邮箱已被其他用户使用");
+        }
+        user.setEmail(newEmail);
+        user.setUpdateTime(new Date());
+        userMapper.updateById(user);
+        log.info("用户修改邮箱成功: userId={}, newEmail={}", userId, newEmail);
+    }
+
+    /**
+     * 修改密码（需邮箱验证码验证）
+     */
+    @Transactional
+    public void changePassword(Long userId, String code, String oldPassword, String newPassword) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException(404, "用户不存在");
+        }
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new BusinessException(400, "新密码长度不能少于6位");
+        }
+        // 验证码校验（验证码发到用户邮箱）
+        boolean codeOk = emailVerificationService.verifyCode(user.getEmail(), code);
+        if (!codeOk) {
+            throw new BusinessException(400, "验证码错误或已过期");
+        }
+        // 校验旧密码
+        if (!passwordUtil.matches(oldPassword, user.getPassword())) {
+            throw new BusinessException(400, "旧密码不正确");
+        }
+        // 更新密码
+        userMapper.updatePassword(userId, passwordUtil.encode(newPassword), new Date());
+        log.info("用户修改密码成功: userId={}", userId);
+    }
+
+    /**
      * 上传用户头像
      */
     public String uploadAvatar(Long userId, MultipartFile file) {

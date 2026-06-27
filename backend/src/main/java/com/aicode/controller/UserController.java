@@ -2,6 +2,8 @@ package com.aicode.controller;
 
 import com.aicode.dto.*;
 import com.aicode.service.UserService;
+
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +74,44 @@ public class UserController {
         Long userId = (Long) request.getAttribute("userId");
         userService.updateUserInfo(userId, updateRequest);
         return ApiResponse.success("保存成功", null);
+    }
+
+    /**
+     * 修改邮箱（需原邮箱验证码）
+     */
+    @PutMapping("/email")
+    public ApiResponse<?> changeEmail(HttpServletRequest request,
+                                       @RequestBody Map<String, String> body) {
+        Long userId = (Long) request.getAttribute("userId");
+        String code = body.get("code");
+        String newEmail = body.get("newEmail");
+        if (code == null || code.trim().isEmpty()) {
+            return ApiResponse.error(400, "请输入验证码");
+        }
+        userService.changeEmail(userId, code.trim(), newEmail);
+        return ApiResponse.success("邮箱修改成功");
+    }
+
+    /**
+     * 修改密码（需邮箱验证码）
+     */
+    @PutMapping("/password")
+    public ApiResponse<?> changePassword(HttpServletRequest request,
+                                          @RequestBody Map<String, String> body) {
+        Long userId = (Long) request.getAttribute("userId");
+        String code = body.get("code");
+        String oldPassword = body.get("oldPassword");
+        String newPassword = body.get("newPassword");
+        if (code == null || code.trim().isEmpty()) {
+            return ApiResponse.error(400, "请输入验证码");
+        }
+        if (oldPassword == null || oldPassword.trim().isEmpty()) {
+            return ApiResponse.error(400, "请输入旧密码");
+        }
+        if (newPassword == null || newPassword.length() < 6) {
+            return ApiResponse.error(400, "新密码长度不能少于6位");
+        }
+        userService.changePassword(userId, code.trim(), oldPassword, newPassword);
+        return ApiResponse.success("密码修改成功");
     }
 }

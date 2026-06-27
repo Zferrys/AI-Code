@@ -97,7 +97,7 @@ public class EmailVerificationService {
 
         // 发送邮件
         String subject = "AI-Code 邮箱验证";
-        String text = "您好！\n\n您正在注册 AI-Code 智能编程学习平台，验证码为：\n\n" +
+        String text = "您好！\n\n您的 AI-Code 邮箱验证码为：\n\n" +
                 code + "\n\n验证码 5 分钟内有效，请尽快完成验证。\n\n如非本人操作，请忽略此邮件。";
 
         emailService.send(email, subject, text);

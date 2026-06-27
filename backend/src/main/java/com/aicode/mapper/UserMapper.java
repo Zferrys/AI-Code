@@ -3,6 +3,7 @@ package com.aicode.mapper;
 import com.aicode.entity.User;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +28,9 @@ public interface UserMapper {
     int updateLastLogin(@Param("id") Long id);
 
     int updateStatus(@Param("id") Long id, @Param("status") Integer status);
+
+    int updatePassword(@Param("id") Long id, @Param("password") String password,
+                       @Param("updateTime") Date updateTime);
 
     int deleteById(@Param("id") Long id);
 }

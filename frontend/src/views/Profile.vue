@@ -159,6 +159,12 @@
                          :loading="saving">
                 <i class="el-icon-check"></i> 保存修改
               </el-button>
+              <el-button class="pi-email-btn" @click="showEmailDialog = true">
+                <i class="el-icon-edit-outline"></i> 修改邮箱
+              </el-button>
+              <el-button class="pi-pwd-btn" @click="showPwdDialog = true">
+                <i class="el-icon-key"></i> 修改密码
+              </el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -224,11 +230,84 @@
         <el-button type="primary" @click="handleAddTag" :loading="addingTag">确认</el-button>
       </span>
     </el-dialog>
+
+    <!-- 修改邮箱对话框 -->
+    <el-dialog title="修改邮箱" :visible.sync="showEmailDialog" width="420px" top="25vh"
+               class="profile-dialog" :close-on-click-modal="false">
+      <div class="dialog-step" v-if="emailStep === 1">
+        <p class="dialog-desc">当前邮箱：<strong>{{ userInfo?.email || '未绑定' }}</strong></p>
+        <p class="dialog-desc">我们将发送验证码到当前邮箱以验证身份</p>
+        <el-button type="primary" class="dialog-code-btn" @click="handleSendEmailCode"
+                   :loading="sendingCode" :disabled="codeSent">
+          <i class="el-icon-message"></i> {{ codeSent ? '验证码已发送' : '发送验证码' }}
+        </el-button>
+        <p v-if="codeSent" class="dialog-code-hint">验证码已发送，请查看你的邮箱</p>
+      </div>
+      <div class="dialog-step" v-if="emailStep === 2">
+        <el-form label-width="70px">
+          <el-form-item label="验证码">
+            <el-input v-model="emailCode" placeholder="输入 6 位验证码" maxlength="6"
+                      class="dialog-input" />
+          </el-form-item>
+          <el-form-item label="新邮箱">
+            <el-input v-model="newEmail" placeholder="输入新的邮箱地址" class="dialog-input" />
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button @click="showEmailDialog = false; resetEmailDialog()">取消</el-button>
+        <el-button v-if="emailStep === 2" type="primary" @click="handleChangeEmail"
+                   :loading="changingEmail">
+          <i class="el-icon-check"></i> 确认修改
+        </el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 修改密码对话框 -->
+    <el-dialog title="修改密码" :visible.sync="showPwdDialog" width="420px" top="25vh"
+               class="profile-dialog" :close-on-click-modal="false">
+      <div class="dialog-step" v-if="pwdStep === 1">
+        <p class="dialog-desc">验证身份：我们将发送验证码到你的邮箱</p>
+        <p class="dialog-desc">邮箱：<strong>{{ userInfo?.email || '未绑定' }}</strong></p>
+        <el-button type="primary" class="dialog-code-btn" @click="handleSendPwdCode"
+                   :loading="sendingCode" :disabled="pwdCodeSent">
+          <i class="el-icon-message"></i> {{ pwdCodeSent ? '验证码已发送' : '发送验证码' }}
+        </el-button>
+        <p v-if="pwdCodeSent" class="dialog-code-hint">验证码已发送，请查看你的邮箱</p>
+      </div>
+      <div class="dialog-step" v-if="pwdStep === 2">
+        <el-form label-width="80px">
+          <el-form-item label="验证码">
+            <el-input v-model="pwdCode" placeholder="输入 6 位验证码" maxlength="6"
+                      class="dialog-input" />
+          </el-form-item>
+          <el-form-item label="旧密码">
+            <el-input v-model="oldPassword" type="password" placeholder="输入当前密码"
+                      class="dialog-input" show-password />
+          </el-form-item>
+          <el-form-item label="新密码">
+            <el-input v-model="newPassword" type="password" placeholder="至少 6 位"
+                      class="dialog-input" show-password />
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-input v-model="confirmPassword" type="password" placeholder="再次输入新密码"
+                      class="dialog-input" show-password />
+          </el-form-item>
+        </el-form>
+      </div>
+      <span slot="footer">
+        <el-button @click="showPwdDialog = false; resetPwdDialog()">取消</el-button>
+        <el-button v-if="pwdStep === 2" type="primary" @click="handleChangePassword"
+                   :loading="changingPwd">
+          <i class="el-icon-check"></i> 确认修改
+        </el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { userApi, tagApi } from '../api';
+import { userApi, tagApi, emailApi } from '../api';
 
 export default {
   name: 'Profile',
@@ -245,7 +324,24 @@ export default {
       addingTag: false,
       loadingAvatar: false,
       animatedStats: { review: 0, qa: 0, tags: 0 },
-      statsLoaded: false
+      statsLoaded: false,
+      // 邮箱修改
+      showEmailDialog: false,
+      emailStep: 1,
+      sendingCode: false,
+      codeSent: false,
+      emailCode: '',
+      newEmail: '',
+      changingEmail: false,
+      // 密码修改
+      showPwdDialog: false,
+      pwdStep: 1,
+      pwdCodeSent: false,
+      pwdCode: '',
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      changingPwd: false
     };
   },
   computed: {
@@ -365,6 +461,121 @@ export default {
       if (res.code === 200) {
         this.$message.success('标签已删除');
         await this.loadData();
+      }
+    },
+
+    // ---- 邮箱修改 ----
+    async handleSendEmailCode() {
+      const email = this.userInfo?.email;
+      if (!email) { this.$message.warning('你还未绑定邮箱'); return; }
+      this.sendingCode = true;
+      try {
+        const res = await emailApi.sendCode(email);
+        if (res.code === 200) {
+          this.$message.success('验证码已发送到你的邮箱');
+          this.codeSent = true;
+          this.emailStep = 2;
+        } else {
+          this.$message.error(res.message || '发送失败');
+        }
+      } catch {
+        this.$message.error('发送失败，请检查网络');
+      } finally {
+        this.sendingCode = false;
+      }
+    },
+    resetEmailDialog() {
+      this.emailStep = 1;
+      this.codeSent = false;
+      this.emailCode = '';
+      this.newEmail = '';
+      this.changingEmail = false;
+    },
+    async handleChangeEmail() {
+      if (!this.emailCode || this.emailCode.length !== 6) {
+        this.$message.warning('请输入 6 位验证码'); return;
+      }
+      if (!this.newEmail || !/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(this.newEmail)) {
+        this.$message.warning('请输入正确的新邮箱地址'); return;
+      }
+      this.changingEmail = true;
+      try {
+        const res = await userApi.changeEmail({
+          code: this.emailCode,
+          newEmail: this.newEmail
+        });
+        if (res.code === 200) {
+          this.$message.success('邮箱修改成功 🎉');
+          this.showEmailDialog = false;
+          this.resetEmailDialog();
+          await this.loadData();
+          await this.$store.dispatch('fetchUserInfo');
+        }
+      } catch {
+        this.$message.error('修改失败');
+      } finally {
+        this.changingEmail = false;
+      }
+    },
+
+    // ---- 密码修改 ----
+    async handleSendPwdCode() {
+      const email = this.userInfo?.email;
+      if (!email) { this.$message.warning('你还未绑定邮箱'); return; }
+      this.sendingCode = true;
+      try {
+        const res = await emailApi.sendCode(email);
+        if (res.code === 200) {
+          this.$message.success('验证码已发送到你的邮箱');
+          this.pwdCodeSent = true;
+          this.pwdStep = 2;
+        } else {
+          this.$message.error(res.message || '发送失败');
+        }
+      } catch {
+        this.$message.error('发送失败，请检查网络');
+      } finally {
+        this.sendingCode = false;
+      }
+    },
+    resetPwdDialog() {
+      this.pwdStep = 1;
+      this.pwdCodeSent = false;
+      this.pwdCode = '';
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.confirmPassword = '';
+      this.changingPwd = false;
+    },
+    async handleChangePassword() {
+      if (!this.pwdCode || this.pwdCode.length !== 6) {
+        this.$message.warning('请输入 6 位验证码'); return;
+      }
+      if (!this.oldPassword) {
+        this.$message.warning('请输入当前密码'); return;
+      }
+      if (!this.newPassword || this.newPassword.length < 6) {
+        this.$message.warning('新密码长度不能少于 6 位'); return;
+      }
+      if (this.newPassword !== this.confirmPassword) {
+        this.$message.warning('两次输入的新密码不一致'); return;
+      }
+      this.changingPwd = true;
+      try {
+        const res = await userApi.changePassword({
+          code: this.pwdCode,
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword
+        });
+        if (res.code === 200) {
+          this.$message.success('密码修改成功 🎉');
+          this.showPwdDialog = false;
+          this.resetPwdDialog();
+        }
+      } catch {
+        this.$message.error('修改失败');
+      } finally {
+        this.changingPwd = false;
       }
     },
 
@@ -1095,6 +1306,79 @@ export default {
   color: var(--text-tertiary, #94a3b8);
   margin: 2px 0 0;
   line-height: 1;
+}
+
+/* ===== 修改邮箱/密码按钮 ===== */
+.pi-email-btn, .pi-pwd-btn {
+  border-radius: 10px !important;
+  padding: 10px 18px !important;
+  font-weight: 500 !important;
+  border: 1.5px solid var(--border, #e2e8f0) !important;
+  transition: all 0.3s !important;
+  margin-left: 8px !important;
+}
+.pi-email-btn:hover {
+  border-color: #0ea5e9 !important;
+  color: #0ea5e9 !important;
+  background: #f0f9ff !important;
+}
+.pi-pwd-btn:hover {
+  border-color: #d97706 !important;
+  color: #d97706 !important;
+  background: #fffbeb !important;
+}
+
+/* ===== 对话框通用 ===== */
+.profile-dialog >>> .el-dialog {
+  border-radius: 14px;
+}
+.profile-dialog >>> .el-dialog__header {
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  padding: 18px 24px;
+}
+.profile-dialog >>> .el-dialog__title {
+  font-weight: 600;
+  font-size: 16px;
+}
+.profile-dialog >>> .el-dialog__body {
+  padding: 24px;
+}
+.profile-dialog >>> .el-dialog__footer {
+  border-top: 1px solid var(--border, #e2e8f0);
+  padding: 14px 24px;
+}
+.dialog-step {
+  min-height: 100px;
+}
+.dialog-desc {
+  font-size: 14px;
+  color: var(--text-secondary, #475569);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+.dialog-desc strong {
+  color: var(--text-primary, #0f172a);
+}
+.dialog-code-btn {
+  border-radius: 10px !important;
+  padding: 10px 24px !important;
+  font-weight: 500 !important;
+  margin-top: 8px !important;
+}
+.dialog-code-hint {
+  font-size: 13px;
+  color: var(--primary, #1a56db);
+  margin-top: 12px;
+}
+.dialog-input >>> .el-input__inner {
+  border-radius: 10px;
+  height: 42px;
+  border: 1.5px solid var(--border, #e2e8f0);
+  transition: all 0.3s;
+}
+.dialog-input >>> .el-input__inner:focus {
+  border-color: var(--primary, #1a56db);
+  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
 }
 
 /* ===== 响应式 ===== */

@@ -68,6 +68,10 @@
         UPDATE `user` SET `status` = #{status}, update_time = NOW() WHERE id = #{id}
     </update>
 
+    <update id="updatePassword">
+        UPDATE `user` SET password = #{password}, update_time = #{updateTime} WHERE id = #{id}
+    </update>
+
     <delete id="deleteById">
         DELETE FROM `user` WHERE id = #{id}
     </delete>
