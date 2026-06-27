@@ -1,6 +1,7 @@
 # ===== 构建阶段 =====
 FROM maven:3.6-jdk-8 AS build
 WORKDIR /app
+ENV MAVEN_OPTS="-Xms256m -Xmx512m"
 
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
