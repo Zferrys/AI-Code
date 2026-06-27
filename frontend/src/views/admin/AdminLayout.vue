@@ -50,6 +50,10 @@
             <i class="el-icon-document"></i>
             <span slot="title">操作日志</span>
           </el-menu-item>
+          <el-menu-item index="/admin/notify">
+            <i class="el-icon-message"></i>
+            <span slot="title">邮件通知</span>
+          </el-menu-item>
         </el-menu>
 
         <div class="sidebar-footer">

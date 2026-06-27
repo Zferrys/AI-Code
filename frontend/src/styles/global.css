@@ -654,3 +654,311 @@ input:focus, textarea:focus, .el-input__inner:focus, .el-textarea__inner:focus {
 .mb-10 { margin-bottom: 10px; }
 .mb-20 { margin-bottom: 20px; }
 .mb-30 { margin-bottom: 30px; }
+
+/* ==========================================
+   交互升级 v4 — 动效、引导、反馈
+   ========================================== */
+
+/* 全局平滑滚动 */
+html { scroll-behavior: smooth; }
+
+/* 选中颜色 */
+::selection { background: rgba(26, 86, 219, 0.18); color: inherit; }
+::-moz-selection { background: rgba(26, 86, 219, 0.18); color: inherit; }
+
+/* 键盘焦点环（仅 Tab 导航时可见） */
+:focus-visible {
+  outline: 2px solid var(--primary, #1a56db);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 可点击元素光标增强 */
+a, button, .el-button, .el-menu-item, .el-tag,
+[role="button"], [cursor="pointer"], .clickable {
+  cursor: pointer;
+}
+
+/* Element UI 消息增强 */
+.el-message {
+  border-radius: var(--radius-md, 10px) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+  backdrop-filter: blur(12px);
+  padding: 12px 20px !important;
+  min-width: 280px;
+}
+.el-message .el-message__icon { font-size: 18px; }
+.el-message--success {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+  border-color: #a7f3d0 !important;
+}
+.el-message--warning {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  border-color: #fde68a !important;
+}
+.el-message--error {
+  background: linear-gradient(135deg, #fef2f2, #fee2e2) !important;
+  border-color: #fecaca !important;
+}
+
+/* Element UI 通知增强 */
+.el-notification {
+  border-radius: var(--radius-lg, 16px) !important;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+/* Element UI 对话框动画增强 */
+.el-dialog {
+  animation: fadeInScale 0.3s ease !important;
+  border-radius: var(--radius-lg, 16px) !important;
+  overflow: hidden;
+}
+.el-dialog__header {
+  padding: 20px 24px !important;
+  border-bottom: 1px solid var(--border, #e2e8f0);
+  background: linear-gradient(135deg, #f8faff, #f0f4ff);
+}
+.el-dialog__title {
+  font-weight: 600;
+  font-size: 16px;
+}
+.el-dialog__body { padding: 24px !important; }
+.el-dialog__footer {
+  padding: 16px 24px !important;
+  border-top: 1px solid var(--border, #e2e8f0);
+  background: #fafbfc;
+}
+
+/* 卡片入场交叠动画 */
+.card-stagger > * {
+  opacity: 0;
+  animation: fadeInUp 0.45s ease forwards;
+}
+.card-stagger > *:nth-child(1) { animation-delay: 0.03s; }
+.card-stagger > *:nth-child(2) { animation-delay: 0.07s; }
+.card-stagger > *:nth-child(3) { animation-delay: 0.11s; }
+.card-stagger > *:nth-child(4) { animation-delay: 0.15s; }
+.card-stagger > *:nth-child(5) { animation-delay: 0.19s; }
+.card-stagger > *:nth-child(6) { animation-delay: 0.23s; }
+.card-stagger > *:nth-child(7) { animation-delay: 0.27s; }
+.card-stagger > *:nth-child(8) { animation-delay: 0.31s; }
+.card-stagger > *:nth-child(9) { animation-delay: 0.35s; }
+.card-stagger > *:nth-child(10) { animation-delay: 0.39s; }
+
+/* 数字统计跳动 */
+.stat-count {
+  display: inline-block;
+  animation: countUp 0.6s ease both;
+}
+
+/* 渐变条加载动画 */
+.loading-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), #0ea5e9, var(--primary));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 2px;
+}
+
+/* 卡片悬浮光晕 */
+.card-glow-hover {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-glow-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(26,86,219,0.1);
+}
+.card-glow-hover::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59,130,246,0.06), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.card-glow-hover:hover::before {
+  opacity: 1;
+}
+
+/* 按钮脉冲吸引 */
+.btn-attract {
+  animation: attractPulse 2s ease-in-out infinite;
+}
+@keyframes attractPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(26,86,219,0.3); }
+  50% { box-shadow: 0 0 0 8px rgba(26,86,219,0); }
+}
+
+/* 淡入上移（用于滚动触发，配合 Intersection Observer 使用 .visible） */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 缩放显现 */
+.scale-in {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.scale-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 回到顶部按钮样式（由 BackToTop 组件使用） */
+.back-to-top {
+  position: fixed;
+  right: 28px;
+  bottom: 40px;
+  z-index: 999;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26,86,219,0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(26,86,219,0.4);
+}
+.back-to-top:active {
+  transform: translateY(0);
+}
+
+/* Element UI 表格行交互增强 */
+.el-table__body tr {
+  transition: background 0.2s ease, transform 0.15s ease !important;
+}
+.el-table__body tr:hover td {
+  background-color: #f0f4ff !important;
+}
+.el-table__body tr:active td {
+  background-color: #e8effa !important;
+}
+
+/* 分页按钮美化 */
+.el-pagination button,
+.el-pager li {
+  border-radius: 6px !important;
+  transition: all 0.2s ease !important;
+}
+.el-pager li.active {
+  background: var(--primary-gradient) !important;
+  border: none !important;
+  font-weight: 600;
+}
+.el-pager li:hover {
+  color: var(--primary) !important;
+}
+
+/* 标签页切换动画 */
+.el-tabs__item {
+  transition: color 0.25s ease !important;
+}
+.el-tabs__active-bar {
+  background: var(--primary-gradient) !important;
+  height: 3px !important;
+  border-radius: 2px;
+}
+
+/* 进度条美化 */
+.el-progress-bar__inner {
+  background: var(--primary-gradient) !important;
+  border-radius: 4px !important;
+  transition: width 0.6s ease !important;
+}
+.el-progress__text {
+  font-weight: 600 !important;
+  color: var(--primary) !important;
+}
+
+/* 下拉选择器美化 */
+.el-select-dropdown__item.selected {
+  color: var(--primary) !important;
+  font-weight: 600;
+}
+.el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+  background-color: #f0f4ff !important;
+}
+
+/* 空状态统一样式 */
+.empty-state-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+.empty-state-page .empty-icon {
+  font-size: 56px;
+  color: var(--text-tertiary, #94a3b8);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+.empty-state-page h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-secondary, #475569);
+  margin-bottom: 8px;
+}
+.empty-state-page p {
+  font-size: 14px;
+  color: var(--text-tertiary, #94a3b8);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+/* Element UI 步骤条美化 */
+.el-steps {
+  padding: 20px 0;
+}
+.el-step__head.is-finish {
+  color: var(--success) !important;
+  border-color: var(--success) !important;
+}
+.el-step__title.is-finish {
+  color: var(--success) !important;
+  font-weight: 600;
+}
+.el-step__head.is-process {
+  color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+/* 响应式调整：小屏减少内边距 */
+@media (max-width: 768px) {
+  .page-container { padding: 16px 12px !important; }
+  .page-title { font-size: 22px !important; }
+}
+

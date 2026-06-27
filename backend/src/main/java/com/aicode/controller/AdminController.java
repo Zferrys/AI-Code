@@ -8,16 +8,20 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.*;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AdminController.class);
 
     @Autowired private AdminService adminService;
     @Autowired private UserService userService;
     @Autowired private CodeReviewService codeReviewService;
     @Autowired private QaService qaService;
     @Autowired private LearningPathService learningPathService;
+    @Autowired private EmailService emailService;
 
     @GetMapping("/stats")
     public ApiResponse<DashboardStatsVO> stats() {
@@ -163,5 +167,61 @@ public class AdminController {
         return ApiResponse.success(ApiResponse.page(
                 adminService.listLogs(page, pageSize),
                 adminService.countLogs(), page, pageSize));
+    }
+
+    @PostMapping("/notify")
+    public ApiResponse<?> sendNotification(HttpServletRequest request,
+                                            @RequestBody NotificationRequest req) {
+        // 权限校验
+        String role = (String) request.getAttribute("role");
+        if (!"ADMIN".equals(role)) {
+            return ApiResponse.error(403, "需要管理员权限");
+        }
+        if (req.getSubject() == null || req.getSubject().trim().isEmpty()) {
+            return ApiResponse.error(400, "请输入通知标题");
+        }
+        if (req.getContent() == null || req.getContent().trim().isEmpty()) {
+            return ApiResponse.error(400, "请输入通知内容");
+        }
+        try {
+            if ("all".equals(req.getType())) {
+                List<String> emails = userService.getAllUserEmails();
+                if (emails.isEmpty()) {
+                    return ApiResponse.error(400, "没有可发送的用户邮箱");
+                }
+                // 异步批量发送，避免阻塞 HTTP 线程
+                List<String> copy = new java.util.ArrayList<>(emails);
+                CompletableFuture.runAsync(() -> {
+                    int sent = 0;
+                    for (String email : copy) {
+                        try {
+                            emailService.send(email, req.getSubject(), req.getContent());
+                            sent++;
+                        } catch (Exception e) {
+                            log.warn("通知发送失败: email={}, {}", email, e.getMessage());
+                        }
+                    }
+                    log.info("批量通知完成: 成功{}/{}封", sent, copy.size());
+                });
+                return ApiResponse.success("通知发送任务已提交，共 " + emails.size() + " 封");
+            } else {
+                if (req.getEmail() == null || req.getEmail().trim().isEmpty()) {
+                    return ApiResponse.error(400, "请输入接收邮箱");
+                }
+                emailService.send(req.getEmail().trim(), req.getSubject(), req.getContent());
+                return ApiResponse.success("通知已发送");
+            }
+        } catch (Exception e) {
+            return ApiResponse.error(500, "发送失败：" + e.getMessage());
+        }
+    }
+
+    @GetMapping("/users/emails")
+    public ApiResponse<?> getUserEmails(HttpServletRequest request) {
+        String role = (String) request.getAttribute("role");
+        if (!"ADMIN".equals(role)) {
+            return ApiResponse.error(403, "需要管理员权限");
+        }
+        return ApiResponse.success(userService.getAllUserEmails());
     }
 }

@@ -39,13 +39,15 @@ public class QaController {
     }
 
     /**
-     * 获取问题列表
+     * 获取当前用户的问题列表（仅自己的历史记录）
      */
     @GetMapping("/list")
-    public ApiResponse<?> list(@RequestParam(defaultValue = "1") int page,
+    public ApiResponse<?> list(HttpServletRequest request,
+                                @RequestParam(defaultValue = "1") int page,
                                 @RequestParam(defaultValue = "10") int pageSize) {
-        List<QaQuestionVO> list = qaService.listQuestions(page, pageSize);
-        long total = qaService.countAllQuestions();
+        Long userId = (Long) request.getAttribute("userId");
+        List<QaQuestionVO> list = qaService.listUserQuestions(userId, page, pageSize);
+        long total = qaService.countUserQuestions(userId);
         return ApiResponse.success(ApiResponse.page(list, total, page, pageSize));
     }
 

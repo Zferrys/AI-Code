@@ -49,6 +49,10 @@ public class UserService {
             return count >= LOGIN_MAX_ATTEMPTS
                     && System.currentTimeMillis() - firstFailTime < LOGIN_BLOCK_DURATION;
         }
+        /** 是否已过期（超时窗口的两倍时间后清理） */
+        boolean isExpired(long window) {
+            return System.currentTimeMillis() - firstFailTime > window * 2;
+        }
         void fail() {
             if (count == 0) firstFailTime = System.currentTimeMillis();
             count++;
@@ -71,6 +75,9 @@ public class UserService {
     @Autowired
     private CaptchaService captchaService;
 
+    @Autowired
+    private EmailVerificationService emailVerificationService;
+
     /**
      * 用户注册
      */
@@ -86,21 +93,11 @@ public class UserService {
             }
         }
 
-        // 验证码校验（注册必须验证）
-        String regCid = request.getCaptchaId();
-        Integer regAns = request.getCaptchaAnswer();
-        if (regCid == null || regCid.isEmpty() || regAns == null) {
-            throw new BusinessException(400, "请完成验证码");
-        }
-        if (!captchaService.validate(regCid, regAns)) {
-            throw new BusinessException(400, "验证码错误或已过期，请重新获取");
-        }
-
         String username = request.getUsername();
         String password = request.getPassword();
         String email = request.getEmail();
 
-        // 参数校验
+        // 先校验参数（不消耗验证码），参数不通过直接抛错
         if (username == null || username.length() < 4 || username.length() > 20) {
             throw new BusinessException(400, "用户名长度需在4-20位之间");
         }
@@ -108,7 +105,7 @@ public class UserService {
             throw new BusinessException(400, "用户名仅支持字母、数字和下划线");
         }
         if (password == null || password.length() < 12) {
-            throw new BusinessException(400, "密码长度至少12位");
+            throw new BusinessException(400, "密码长度至少12位，需包含大小写字母、数字和特殊字符");
         }
         if (!password.matches(".*[a-z].*")) {
             throw new BusinessException(400, "密码必须包含小写字母");
@@ -134,6 +131,25 @@ public class UserService {
         // 检查邮箱唯一性
         if (userMapper.selectByEmail(email) != null) {
             throw new BusinessException(400, "邮箱已被注册");
+        }
+
+        // 校验邮箱验证码
+        String emailCode = request.getEmailCode();
+        if (emailCode == null || emailCode.trim().isEmpty()) {
+            throw new BusinessException(400, "请先获取邮箱验证码");
+        }
+        if (!emailVerificationService.verifyCode(email, emailCode.trim())) {
+            throw new BusinessException(400, "邮箱验证码错误或已过期，请重新获取");
+        }
+
+        // 最后校验图形验证码（消耗验证码，前面的校验不通过则验证码不会被消耗）
+        String regCid = request.getCaptchaId();
+        Integer regAns = request.getCaptchaAnswer();
+        if (regCid == null || regCid.isEmpty() || regAns == null) {
+            throw new BusinessException(400, "请完成验证码");
+        }
+        if (!captchaService.validate(regCid, regAns)) {
+            throw new BusinessException(400, "验证码错误或已过期，请重新获取");
         }
 
         // 创建用户
@@ -183,6 +199,13 @@ public class UserService {
                 long remainMin = (LOGIN_BLOCK_DURATION - (System.currentTimeMillis() - attempt.firstFailTime)) / 60000;
                 throw new BusinessException(429, "登录尝试过于频繁，请 " + (remainMin + 1) + " 分钟后再试");
             }
+        }
+        // 清理过期限流记录（每 10 次登录触发一次）
+        if (loginAttempts.size() > 100) {
+            loginAttempts.entrySet().removeIf(e -> e.getValue().isExpired(LOGIN_BLOCK_DURATION));
+        }
+        if (registerAttempts.size() > 100) {
+            registerAttempts.entrySet().removeIf(e -> e.getValue().isExpired(REGISTER_WINDOW));
         }
 
         // 验证码校验（仅在提供了验证码ID和答案时校验）
@@ -378,6 +401,18 @@ public class UserService {
 
     public long countUsers() {
         return userMapper.countAll();
+    }
+
+    /** 获取所有用户邮箱列表（用于管理员通知） */
+    public List<String> getAllUserEmails() {
+        List<User> users = userMapper.selectAllPaged(0, Integer.MAX_VALUE);
+        List<String> emails = new ArrayList<>();
+        for (User u : users) {
+            if (u.getEmail() != null && !u.getEmail().isEmpty()) {
+                emails.add(u.getEmail());
+            }
+        }
+        return emails;
     }
 
     /**

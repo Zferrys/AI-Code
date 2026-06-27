@@ -17,15 +17,22 @@
           <el-tag size="mini" type="info">{{ contentTypeText }}</el-tag>
           <span class="course-time">{{ course.estimatedMinutes }} 分钟</span>
           <span class="meta-spacer"></span>
-          <el-button v-if="!isCompleted" type="primary" size="small"
+          <!-- 未开始 → 开始学习 -->
+          <el-button v-if="isNotStarted" type="primary" size="small"
+            :loading="starting" @click="handleStart" class="start-btn">
+            <i class="el-icon-video-play"></i> 开始学习
+          </el-button>
+          <!-- 学习中 → 标记完成 -->
+          <el-button v-else-if="isInProgress" type="warning" size="small"
             :loading="completing" @click="handleComplete" class="complete-btn">
             <i class="el-icon-check"></i> 标记完成
           </el-button>
+          <!-- 已完成 -->
           <span v-else class="completed-group">
             <el-tag type="success" size="medium">✓ 已完成</el-tag>
             <el-button type="default" size="small" :loading="resetting"
               @click="handleReset" class="reset-btn">
-              取消完成
+              重新学习
             </el-button>
           </span>
         </div>
@@ -40,7 +47,8 @@
           <h3 class="resources-title">📚 参考资料</h3>
           <div v-for="group in resourceGroups" :key="group.type" class="resource-group">
             <h4 class="resource-group-title">{{ group.label }}</h4>
-            <div v-for="r in group.items" :key="r.id" class="resource-item">
+            <div v-for="(r, i) in group.items" :key="r.id" class="resource-item">
+              <span class="resource-index">{{ i + 1 }}.</span>
               <a v-if="r.type !== 'DOWNLOAD'" :href="r.url" target="_blank" class="resource-link">
                 <i :class="resourceIcon(r.type)"></i>
                 <span>{{ r.title }}</span>
@@ -72,9 +80,9 @@ export default {
       course: null,
       loading: true,
       error: '',
+      starting: false,
       completing: false,
       resetting: false,
-      justCompleted: false,
       resources: []
     };
   },
@@ -106,6 +114,28 @@ export default {
       if (window.history.length > 1) this.$router.back();
       else this.$router.push('/learning-paths');
     },
+    async handleStart() {
+      this.starting = true;
+      try {
+        const pathId = this.course.pathId || (
+          this.$route.query.pathId ? Number(this.$route.query.pathId) : 0
+        );
+        const res = await learningPathApi.startCourse({
+          courseId: Number(this.$route.params.courseId),
+          pathId: pathId
+        });
+        if (res.code === 200) {
+          this.course.userStatus = 'IN_PROGRESS';
+          this.$message.success('开始学习！完成课程后记得点"标记完成"');
+        } else {
+          this.$message.error(res.message || '操作失败');
+        }
+      } catch (e) {
+        this.$message.error('网络错误，请稍后重试');
+      } finally {
+        this.starting = false;
+      }
+    },
     async handleComplete() {
       this.completing = true;
       try {
@@ -117,7 +147,6 @@ export default {
           pathId: pathId
         });
         if (res.code === 200) {
-          this.justCompleted = true;
           this.course.userStatus = 'COMPLETED';
           this.$message.success('🎉 恭喜完成本课程！');
         } else {
@@ -136,9 +165,8 @@ export default {
           courseId: Number(this.$route.params.courseId)
         });
         if (res.code === 200) {
-          this.justCompleted = false;
           this.course.userStatus = 'NOT_STARTED';
-          this.$message.info('已取消完成标记');
+          this.$message.info('已重置为未开始');
         } else {
           this.$message.error(res.message || '重置失败');
         }
@@ -158,9 +186,14 @@ export default {
     }
   },
   computed: {
-    /** 已完成：本地刚标完 或 后端已有完成记录 */
+    isNotStarted() {
+      return !this.course?.userStatus || this.course?.userStatus === 'NOT_STARTED';
+    },
+    isInProgress() {
+      return this.course?.userStatus === 'IN_PROGRESS';
+    },
     isCompleted() {
-      return this.justCompleted || this.course?.userStatus === 'COMPLETED';
+      return this.course?.userStatus === 'COMPLETED';
     },
     contentTypeText() {
       return CONTENT_TYPE_LABEL[this.course?.contentType] || this.course?.contentType || '';

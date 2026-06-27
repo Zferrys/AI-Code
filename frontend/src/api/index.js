@@ -181,4 +181,10 @@ export const rankingApi = {
   refreshRankings: () => http.post('/rankings/refresh')
 };
 
+// 邮箱验证
+export const emailApi = {
+  sendCode: email => http.post('/email/send-code', { email }),
+  verifyCode: (email, code) => http.post('/email/verify-code', { email, code })
+};
+
 export default http;

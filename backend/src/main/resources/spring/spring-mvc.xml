@@ -25,6 +25,11 @@
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
                 <property name="objectMapper">
                     <bean class="com.fasterxml.jackson.databind.ObjectMapper">
                         <property name="dateFormat">
@@ -56,6 +61,7 @@
             <mvc:mapping path="/api/**"/>
             <mvc:exclude-mapping path="/api/health"/>
             <mvc:exclude-mapping path="/api/captcha"/>
+            <mvc:exclude-mapping path="/api/email/**"/>
             <mvc:exclude-mapping path="/api/user/register"/>
             <mvc:exclude-mapping path="/api/user/login"/>
             <mvc:exclude-mapping path="/api/tags/**"/>

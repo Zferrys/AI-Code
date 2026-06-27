@@ -7,6 +7,7 @@
       </transition>
     </main>
     <app-footer />
+    <back-to-top />
     <onboarding-tour ref="onboarding" />
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
   components: {
     AppHeader,
     AppFooter,
+    BackToTop,
     OnboardingTour
   },
   data() {

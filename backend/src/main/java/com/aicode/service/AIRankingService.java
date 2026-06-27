@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.*;
+import javax.annotation.PreDestroy;
 import javax.net.ssl.*;
 
 /**
@@ -30,7 +32,27 @@ public class AIRankingService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String CACHE_KEY = "ai:rankings";
-    private static final int CACHE_TTL_SECONDS = 3600; // 1 小时缓存
+    private static final int CACHE_TTL_SECONDS = 7200; // 2 小时缓存，减少外部 API 调用
+
+    /** 并发的 AI 排行榜 API 线程池（有界队列，防止 OOM） */
+    private static final ExecutorService API_POOL = new ThreadPoolExecutor(
+            3, 3, 0L, TimeUnit.MILLISECONDS,
+            new ArrayBlockingQueue<>(100),
+            new ThreadPoolExecutor.CallerRunsPolicy());
+
+    @PreDestroy
+    public void shutdown() {
+        API_POOL.shutdown();
+        try {
+            if (!API_POOL.awaitTermination(5, TimeUnit.SECONDS)) {
+                API_POOL.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            API_POOL.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        log.info("AI 排名线程池已关闭");
+    }
 
     /**
      * 获取 AI 排名列表
@@ -47,8 +69,10 @@ public class AIRankingService {
             }
         }
 
-        // 2. 尝试从外部 API 获取
+        // 2. 尝试从外部 API 获取（并行调用 3 个排行榜）
+        long start = System.currentTimeMillis();
         List<AIRankingEntry> rankings = fetchFromApi();
+        log.info("AI 排名外部 API 请求耗时: {}ms", System.currentTimeMillis() - start);
         if (rankings != null && !rankings.isEmpty()) {
             cacheRankings(rankings);
             return rankings;
@@ -69,44 +93,60 @@ public class AIRankingService {
     }
 
     /**
-     * 从外部 API 获取排名
+     * 从外部 API 获取排名（3 个排行榜并行拉取，大幅减少等待时间）
      * 数据源: arena-ai-leaderboards (GitHub daily snapshots + REST API)
      * JSON 格式, 免费无需认证, 每日自动更新
-     * API: https://github.com/oolong-tea-2026/arena-ai-leaderboards
      */
     private List<AIRankingEntry> fetchFromApi() {
         try {
+            // 并行拉取三个排行榜
+            CompletableFuture<List<AIRankingEntry>> textFuture =
+                CompletableFuture.supplyAsync(() -> {
+                    List<AIRankingEntry> list = fetchLeaderboard("text");
+                    if (list != null) {
+                        for (AIRankingEntry e : list) {
+                            e.setCategory(isReasoningModel(e.getModelName()) ? "reasoning" : "chat");
+                        }
+                    }
+                    return list;
+                }, API_POOL);
+
+            CompletableFuture<List<AIRankingEntry>> codeFuture =
+                CompletableFuture.supplyAsync(() -> fetchLeaderboard("code"), API_POOL)
+                    .thenApply(list -> {
+                        if (list != null) {
+                            for (AIRankingEntry e : list) e.setCategory("coding");
+                        }
+                        return list;
+                    });
+
+            CompletableFuture<List<AIRankingEntry>> visionFuture =
+                CompletableFuture.supplyAsync(() -> fetchLeaderboard("vision"), API_POOL)
+                    .thenApply(list -> {
+                        if (list != null) {
+                            for (AIRankingEntry e : list) e.setCategory("chat");
+                        }
+                        return list;
+                    });
+
+            // 等待全部完成（最长等 25 秒），超时时取消未完成的 Future
+            try {
+                CompletableFuture.allOf(textFuture, codeFuture, visionFuture).get(25, TimeUnit.SECONDS);
+            } catch (TimeoutException e) {
+                log.warn("AI 排名 API 超时（25s），取消未完成的请求");
+                textFuture.cancel(true);
+                codeFuture.cancel(true);
+                visionFuture.cancel(true);
+                throw e;
+            }
+
             List<AIRankingEntry> result = new ArrayList<>();
-
-            // 1. 拉取 text 排行榜 → 对话 + 推理模型
-            List<AIRankingEntry> textModels = fetchLeaderboard("text");
-            if (textModels != null) {
-                for (AIRankingEntry e : textModels) {
-                    e.setCategory(isReasoningModel(e.getModelName()) ? "reasoning" : "chat");
-                }
-                result.addAll(textModels);
-            }
-
-            // 2. 拉取 code 排行榜 → 编程模型
-            List<AIRankingEntry> codeModels = fetchLeaderboard("code");
-            if (codeModels != null) {
-                for (AIRankingEntry e : codeModels) {
-                    e.setCategory("coding");
-                }
-                result.addAll(codeModels);
-            }
-
-            // 3. 拉取 vision 排行榜 → 视觉模型也归入 chat（增强多样性）
-            List<AIRankingEntry> visionModels = fetchLeaderboard("vision");
-            if (visionModels != null) {
-                for (AIRankingEntry e : visionModels) {
-                    e.setCategory("chat");
-                }
-                result.addAll(visionModels);
-            }
+            addIfNotNull(result, textFuture.get());
+            addIfNotNull(result, codeFuture.get());
+            addIfNotNull(result, visionFuture.get());
 
             if (result.size() >= 15) {
-                // 去重（以模型名称为key）
+                // 去重（以模型名称为 key）
                 Set<String> seen = new HashSet<>();
                 List<AIRankingEntry> deduped = new ArrayList<>();
                 for (AIRankingEntry e : result) {
@@ -121,15 +161,20 @@ public class AIRankingService {
                 }
                 log.info("Arena AI API 获取成功: {} 条排名数据（去重后 {} 条）",
                         result.size(), deduped.size());
-                // 限制最多 80 条展示
                 return deduped.size() > 80 ? deduped.subList(0, 80) : deduped;
             } else {
                 log.warn("Arena AI API 数据不足: 仅 {} 条", result.size());
             }
+        } catch (TimeoutException e) {
+            log.warn("Arena AI API 超时（25s），部分排行榜可能未返回");
         } catch (Exception e) {
             log.warn("Arena AI API 全部获取失败", e);
         }
         return null;
+    }
+
+    private void addIfNotNull(List<AIRankingEntry> target, List<AIRankingEntry> source) {
+        if (source != null) target.addAll(source);
     }
 
     /**

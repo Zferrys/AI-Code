@@ -76,11 +76,23 @@
                 <i slot="prefix" class="el-icon-message auth-input-icon"></i>
               </el-input>
             </el-form-item>
+            <!-- 邮箱验证码 -->
+            <el-form-item prop="emailCode">
+              <div class="email-code-row">
+                <el-input v-model="form.emailCode" placeholder="验证码" class="ec-input"
+                  maxlength="6" @keyup.enter="handleRegister" />
+                <el-button type="primary" size="small" class="ec-btn"
+                  :disabled="codeSending || codeCountdown > 0"
+                  @click="handleSendCode">
+                  {{ codeCountdown > 0 ? codeCountdown + 's' : '发送验证码' }}
+                </el-button>
+              </div>
+            </el-form-item>
             <el-form-item prop="password">
               <el-input
                 v-model="form.password"
                 type="password"
-                placeholder="密码（至少6位）"
+                placeholder="密码"
                 class="auth-input"
                 show-password
                 @focus="focusedField = 'password'"
@@ -88,6 +100,9 @@
               >
                 <i slot="prefix" class="el-icon-lock auth-input-icon"></i>
               </el-input>
+              <div class="password-hint">
+                至少12位，需包含大小写字母、数字和特殊字符
+              </div>
             </el-form-item>
             <el-form-item prop="confirmPassword">
               <el-input
@@ -137,7 +152,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { captchaApi } from '../api';
+import { captchaApi, emailApi } from '../api';
 
 export default {
   name: 'Register',
@@ -150,12 +165,15 @@ export default {
       }
     };
     return {
-      form: { username: '', email: '', password: '', confirmPassword: '', captchaId: '', captchaAnswer: '' },
+      form: { username: '', email: '', password: '', confirmPassword: '', captchaId: '', captchaAnswer: '', emailCode: '' },
       loading: false,
       focusedField: '',
       shaking: false,
       captchaId: '',
       captchaImage: '',
+      codeSending: false,
+      codeCountdown: 0,
+      codeTimer: null,
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -166,9 +184,17 @@ export default {
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
         ],
+        emailCode: [
+          { required: true, message: '请先获取邮箱验证码', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '验证码为6位数字', trigger: 'blur' }
+        ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 12, message: '密码至少 12 位', trigger: 'blur' }
+          { min: 12, message: '密码至少 12 位', trigger: 'blur' },
+          { pattern: /[a-z]/, message: '需包含小写字母', trigger: 'blur' },
+          { pattern: /[A-Z]/, message: '需包含大写字母', trigger: 'blur' },
+          { pattern: /\d/, message: '需包含数字', trigger: 'blur' },
+          { pattern: /[!@#$%^&*()_+\-={}\[\]:";,.<>/?~`]/, message: '需包含特殊字符', trigger: 'blur' }
         ],
         confirmPassword: [
           { required: true, message: '请确认密码', trigger: 'blur' },
@@ -181,8 +207,12 @@ export default {
     };
   },
   mounted() { this.refreshCaptcha(); },
+  beforeDestroy() { this.clearCodeTimer(); },
   methods: {
     ...mapActions(['register']),
+    clearCodeTimer() {
+      if (this.codeTimer) { clearInterval(this.codeTimer); this.codeTimer = null; }
+    },
     async refreshCaptcha() {
       try {
         const res = await captchaApi.getCaptcha();
@@ -194,6 +224,32 @@ export default {
         }
       } catch (e) {
         console.warn('获取验证码失败', e);
+      }
+    },
+    async handleSendCode() {
+      if (!this.form.email || !/^[\w.-]+@[\w.-]+\.\w{2,}$/.test(this.form.email)) {
+        this.$message.warning('请先输入正确的邮箱地址');
+        return;
+      }
+      this.codeSending = true;
+      try {
+        const res = await emailApi.sendCode(this.form.email);
+        if (res.code === 200) {
+          this.$message.success('验证码已发送到邮箱，请查收');
+          this.codeCountdown = 60;
+          this.codeTimer = setInterval(() => {
+            this.codeCountdown--;
+            if (this.codeCountdown <= 0) {
+              this.clearCodeTimer();
+            }
+          }, 1000);
+        } else {
+          this.$message.error(res.message || '发送失败');
+        }
+      } catch (e) {
+        this.$message.error('发送失败，请检查邮箱是否正确');
+      } finally {
+        this.codeSending = false;
       }
     },
     async handleRegister() {
@@ -211,14 +267,20 @@ export default {
           password: this.form.password,
           email: this.form.email,
           captchaId: this.form.captchaId,
-          captchaAnswer: this.form.captchaAnswer
+          captchaAnswer: Number(this.form.captchaAnswer),
+          emailCode: this.form.emailCode
         });
         if (res.code === 200) {
           this.$message.success('注册成功 🎉 请登录');
           this.$router.push('/login');
         } else {
+          this.$message.error(res.message || '注册失败');
+          this.refreshCaptcha();
           this.triggerShake();
         }
+      } catch (e) {
+        this.$message.error('网络错误，请重试');
+        this.refreshCaptcha();
       } finally {
         this.loading = false;
       }
@@ -496,6 +558,29 @@ export default {
 }
 .auth-input:focus-within .auth-input-icon {
   color: var(--primary, #1a56db);
+}
+
+/* 邮箱验证码 */
+.email-code-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.ec-input { flex: 1; }
+.ec-input >>> .el-input__inner { padding-left: 12px !important; border-radius: 10px; }
+.ec-btn {
+  flex-shrink: 0;
+  min-width: 100px;
+  border-radius: 10px !important;
+  font-size: 13px;
+}
+
+.password-hint {
+  font-size: 11px;
+  color: var(--text-tertiary, #94a3b8);
+  line-height: 1.4;
+  margin-top: 4px;
+  padding-left: 2px;
 }
 
 /* ===== 按钮 ===== */

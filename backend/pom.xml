@@ -62,6 +62,13 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- ========== JavaMail（邮箱验证 + 通知） ========== -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
         <!-- ========== MyBatis ========== -->
         <dependency>
             <groupId>org.mybatis</groupId>

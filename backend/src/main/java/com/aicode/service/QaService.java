@@ -172,8 +172,15 @@ public class QaService {
         return qaQuestionMapper.countByUserId(userId);
     }
 
+    public List<QaQuestionVO> listUserQuestions(Long userId, int page, int pageSize) {
+        int offset = (page - 1) * pageSize;
+        return qaQuestionMapper.selectByUserId(userId, offset, pageSize).stream()
+                .map(q -> toQaQuestionVO(q, null))
+                .collect(Collectors.toList());
+    }
+
     /**
-     * 公开问题列表
+     * 公开问题列表（管理用）
      */
     public List<QaQuestionVO> listQuestions(int page, int pageSize) {
         int offset = (page - 1) * pageSize;

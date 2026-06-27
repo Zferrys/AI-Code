@@ -67,7 +67,7 @@
           </div>
 
           <div v-else class="review-list">
-            <div v-for="item in displayReviews" :key="item.id" class="review-item" @click="$router.push(`/code-review/${item.id}`)">
+            <div v-for="item in displayReviews" :key="item.id" class="review-item card-glow-hover" @click="$router.push(`/code-review/${item.id}`)">
               <div class="review-top">
                 <span class="review-title">{{ item.title }}</span>
                 <el-tag :type="statusTag(item.status)" size="mini" effect="plain" class="review-status">
@@ -134,7 +134,7 @@ export default {
       submitting: false,
       reviews: [],
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 5,
       totalReviews: 0,
       showPolling: false,
       pollingMessage: '正在提交审查请求...',
@@ -337,7 +337,7 @@ export default {
 }
 
 /* 审查历史 */
-.review-list { display: flex; flex-direction: column; gap: 10px; }
+.review-list { display: flex; flex-direction: column; gap: 10px; max-height: 520px; overflow-y: auto; padding-right: 4px; }
 
 .review-item {
   padding: 14px;

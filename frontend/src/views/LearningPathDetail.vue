@@ -26,8 +26,8 @@
       <!-- 课程列表 -->
       <div class="course-list">
         <h3 class="section-title">课程目录</h3>
-        <div class="stagger-list">
-        <div v-for="(course, i) in path.courses" :key="course.id" class="course-item card-3d">
+        <div class="card-stagger">
+        <div v-for="(course, i) in path.courses" :key="course.id" class="course-item card-3d card-glow-hover">
           <div class="course-number">{{ i + 1 }}</div>
           <div class="course-info">
             <div class="course-title">{{ course.title }}</div>

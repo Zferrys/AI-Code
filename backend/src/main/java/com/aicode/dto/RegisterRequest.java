@@ -10,6 +10,7 @@ public class RegisterRequest {
     private String email;
     private String captchaId;
     private Integer captchaAnswer;
+    private String emailCode;
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
@@ -25,4 +26,7 @@ public class RegisterRequest {
 
     public Integer getCaptchaAnswer() { return captchaAnswer; }
     public void setCaptchaAnswer(Integer captchaAnswer) { this.captchaAnswer = captchaAnswer; }
+
+    public String getEmailCode() { return emailCode; }
+    public void setEmailCode(String emailCode) { this.emailCode = emailCode; }
 }

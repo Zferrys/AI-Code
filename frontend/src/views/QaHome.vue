@@ -68,7 +68,7 @@
           </div>
 
           <div v-else class="question-list">
-            <div v-for="q in displayQuestions" :key="q.id" class="question-item card-3d" @click="$router.push(`/qa/${q.id}`)">
+            <div v-for="q in displayQuestions" :key="q.id" class="question-item card-3d card-glow-hover" @click="$router.push(`/qa/${q.id}`)">
               <div class="q-left">
                 <span class="q-count">{{ q.answerCount || 0 }}</span>
                 <span class="q-count-label">回答</span>
@@ -114,7 +114,7 @@ export default {
       asking: false,
       questions: [],
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 5,
       totalQuestions: 0,
       exampleQuestions: [
         'Java 8 Stream API 中 map 和 flatMap 的区别？',
@@ -286,6 +286,9 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .question-item {

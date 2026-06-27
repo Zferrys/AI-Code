@@ -129,6 +129,12 @@ const router = new Router({
           name: 'AdminLogs',
           component: () => import('../views/admin/Logs.vue'),
           meta: { title: '操作日志' }
+        },
+        {
+          path: 'notify',
+          name: 'AdminNotification',
+          component: () => import('../views/admin/Notification.vue'),
+          meta: { title: '邮件通知' }
         }
       ]
     },
