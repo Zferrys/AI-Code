@@ -140,10 +140,20 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="邮箱">
-                  <el-input :value="editForm.email" class="pi-input" disabled placeholder="注册邮箱不可更改">
-                    <i slot="prefix" class="el-icon-message"></i>
-                  </el-input>
-                  <p class="email-hint">邮箱已通过验证，不可修改</p>
+                  <div v-if="!editForm.email || !editForm.email.includes('@')" class="email-bind-prompt">
+                    <i class="el-icon-warning-outline"></i>
+                    <span>你还未绑定邮箱</span>
+                    <el-button size="mini" type="warning" class="bind-now-btn"
+                               @click="showEmailDialog = true">
+                      立即绑定
+                    </el-button>
+                  </div>
+                  <template v-else>
+                    <el-input :value="editForm.email" class="pi-input" disabled>
+                      <i slot="prefix" class="el-icon-message"></i>
+                    </el-input>
+                    <p class="email-hint">邮箱已注册，如需修改请点击下方按钮</p>
+                  </template>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -1300,7 +1310,27 @@ export default {
   color: #6b21a8;
 }
 
-/* ===== 邮箱只读提示 ===== */
+/* ===== 邮箱绑定提示 ===== */
+.email-bind-prompt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-radius: 10px;
+  border: 1px solid #f59e0b33;
+  font-size: 13px;
+  color: #92400e;
+}
+.email-bind-prompt i {
+  font-size: 18px;
+  color: #d97706;
+}
+.bind-now-btn {
+  margin-left: auto !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
 .email-hint {
   font-size: 11px;
   color: var(--text-tertiary, #94a3b8);
