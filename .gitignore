@@ -27,9 +27,13 @@ Thumbs.db
 # Node
 frontend/node_modules/
 frontend/dist/
+backend/node_modules/
 
 # Environment
 .env
+
+# Local deploy script (contains server IP)
+deploy.bat
 
 # Uploads
 uploads/
